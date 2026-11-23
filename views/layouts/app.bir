@@ -189,6 +189,32 @@
           document.body.innerHTML = doc.body.innerHTML;
 
           if (pushState) window.history.pushState({ turbo: true, url: url }, '', url);
+
+          // Execute newly injected scripts inside body
+          Array.from(document.body.querySelectorAll('script')).forEach(function(oldScript) {
+            if (oldScript.id === 'bir-turbo-script') return;
+            var newScript = document.createElement('script');
+            Array.from(oldScript.attributes).forEach(function(attr) {
+              newScript.setAttribute(attr.name, attr.value);
+            });
+            newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+            if (oldScript.parentNode) {
+              oldScript.parentNode.replaceChild(newScript, oldScript);
+            }
+          });
+
+          // Dispatch lifecycle events
+          var evDetail = { detail: { url: url } };
+          window.dispatchEvent(new CustomEvent('bir:load', evDetail));
+          document.dispatchEvent(new CustomEvent('bir:load', evDetail));
+          window.dispatchEvent(new CustomEvent('turbo:load', evDetail));
+          document.dispatchEvent(new CustomEvent('turbo:load', evDetail));
+
+          // Trigger active doc link update immediately
+          if (typeof window.updateActiveDocLink === 'function') {
+            window.updateActiveDocLink();
+          }
+
           if (targetHash) {
             try {
               var targetEl = document.querySelector(targetHash);

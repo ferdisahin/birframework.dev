@@ -207,6 +207,7 @@
         }
       });
     }
+    window.updateActiveDocLink = updateActiveDocLink;
 
     // 1. Instant optimistic active switch on click
     document.addEventListener('click', function(e) {
