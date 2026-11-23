@@ -117,6 +117,124 @@
     });
   </script>
 
-  {!! bir_scripts() !!}
+  <!-- Instant Turbo Navigation (Clean Production) -->
+  <style id="bir-turbo-styles">
+    #bir-turbo-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      width: 0%;
+      background: linear-gradient(90deg, #38bdf8, #818cf8);
+      z-index: 999999;
+      transition: width 0.2s ease, opacity 0.3s ease;
+      pointer-events: none;
+    }
+  </style>
+  <script id="bir-turbo-script">
+  (function() {
+    if (window.__BIR_TURBO_INITIALIZED__) return;
+    window.__BIR_TURBO_INITIALIZED__ = true;
+
+    var bar = document.createElement('div');
+    bar.id = 'bir-turbo-progress';
+    document.documentElement.appendChild(bar);
+
+    function startProgress() {
+      bar.style.opacity = '1';
+      bar.style.width = '30%';
+      setTimeout(function() { if (bar.style.opacity === '1') bar.style.width = '70%'; }, 150);
+    }
+
+    function finishProgress() {
+      bar.style.width = '100%';
+      setTimeout(function() {
+        bar.style.opacity = '0';
+        setTimeout(function() { bar.style.width = '0%'; }, 300);
+      }, 150);
+    }
+
+    function shouldIntercept(anchor) {
+      if (!anchor || anchor.tagName !== 'A') return false;
+      if (anchor.target && anchor.target !== '_self') return false;
+      if (anchor.hasAttribute('download')) return false;
+      if (anchor.getAttribute('data-no-turbo') !== null) return false;
+      var href = anchor.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('javascript:')) return false;
+      try {
+        var url = new URL(anchor.href, window.location.href);
+        if (url.origin !== window.location.origin) return false;
+        if (url.pathname === window.location.pathname && url.hash) return false;
+        return true;
+      } catch (e) { return false; }
+    }
+
+    function navigate(url, pushState) {
+      startProgress();
+      var parsedUrl;
+      try { parsedUrl = new URL(url, window.location.href); } catch (e) {}
+      var targetHash = parsedUrl && parsedUrl.hash ? parsedUrl.hash : '';
+
+      fetch(url, { headers: { 'X-Bir-Turbo': 'true' } })
+        .then(function(res) {
+          if (!res.ok) { window.location.href = url; return; }
+          return res.text();
+        })
+        .then(function(html) {
+          if (!html) return;
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(html, 'text/html');
+          if (doc.title) document.title = doc.title;
+
+          document.body.innerHTML = doc.body.innerHTML;
+
+          if (pushState) window.history.pushState({ turbo: true, url: url }, '', url);
+          if (targetHash) {
+            try {
+              var targetEl = document.querySelector(targetHash);
+              if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth' });
+              else window.scrollTo(0, 0);
+            } catch(e) { window.scrollTo(0, 0); }
+          } else {
+            window.scrollTo(0, 0);
+          }
+          finishProgress();
+        })
+        .catch(function() {
+          finishProgress();
+          window.location.href = url;
+        });
+    }
+
+    document.addEventListener('click', function(e) {
+      var anchor = e.target.closest('a');
+      if (!anchor) return;
+      var href = anchor.getAttribute('href');
+      if (!href) return;
+
+      if (href.startsWith('#') || (href.startsWith('/#') && (window.location.pathname === '/' || window.location.pathname === ''))) {
+        var hash = href.startsWith('/#') ? href.slice(1) : href;
+        try {
+          var target = document.querySelector(hash);
+          if (target) {
+            e.preventDefault();
+            window.history.pushState(null, '', href);
+            target.scrollIntoView({ behavior: 'smooth' });
+            return;
+          }
+        } catch (err) {}
+      }
+
+      if (shouldIntercept(anchor)) {
+        e.preventDefault();
+        navigate(anchor.href, true);
+      }
+    });
+
+    window.addEventListener('popstate', function() {
+      navigate(window.location.href, false);
+    });
+  })();
+  </script>
 </body>
 </html>

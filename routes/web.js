@@ -55,3 +55,13 @@ Route.get('/docs/:slug', (ctx) => docsController.show(ctx)).name('docs.show');
 Route.get('/api/health', (ctx) => {
   return ctx.json({ status: 'ok', uptime: process.uptime(), version: VERSION });
 }).name('api.health');
+
+// Silent handler for legacy live-reload pings
+Route.get('/__bir_live_reload', (ctx) => {
+  ctx.res.writeHead(200, {
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    'Connection': 'keep-alive',
+  });
+  ctx.res.write('data: connected\n\n');
+}).name('live.reload');
