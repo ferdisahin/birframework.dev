@@ -1,4 +1,4 @@
-import { Route } from 'birframework';
+import { Route, VERSION } from 'birframework';
 import { HomeController } from '../app/controllers/HomeController.js';
 import { DocsController } from '../app/controllers/DocsController.js';
 
@@ -19,5 +19,5 @@ Route.get('/docs/:slug', (ctx) => docsController.show(ctx)).name('docs.show');
 
 // Health API
 Route.get('/api/health', (ctx) => {
-  return ctx.json({ status: 'ok', uptime: process.uptime(), version: '0.1.3' });
+  return ctx.json({ status: 'ok', uptime: process.uptime(), version: VERSION });
 }).name('api.health');
