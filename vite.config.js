@@ -11,7 +11,7 @@ export default defineConfig({
     emptyOutDir: true,
     manifest: 'manifest.json',
     rollupOptions: {
-      input: 'resources/css/app.css',
+      input: ['resources/css/app.css', 'resources/js/app.js'],
     },
   },
   server: {
