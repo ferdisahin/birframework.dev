@@ -331,7 +331,7 @@ describe('Application Feature Tests', () => {
   </section>
 
   <!-- Complete Architecture Capabilities (Deep, informative 6-pillar grid) -->
-  <section class="py-20 border-b border-zinc-200 dark:border-zinc-800">
+  <section id="architecture" class="py-20 border-b border-zinc-200 dark:border-zinc-800">
     <div class="max-w-6xl mx-auto px-6">
       <div class="max-w-2xl mb-14">
         <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 mb-2">Integrated Platform</h2>
@@ -418,7 +418,7 @@ describe('Application Feature Tests', () => {
   </section>
 
   <!-- Side-by-Side Empirical Benchmarks (Clean, factual) -->
-  <section class="py-20 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50/40 dark:bg-zinc-950/40">
+  <section id="benchmarks" class="py-20 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50/40 dark:bg-zinc-950/40">
     <div class="max-w-6xl mx-auto px-6">
       <div class="max-w-2xl mb-8">
         <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 mb-2">Benchmark Performance</h2>
@@ -473,7 +473,7 @@ describe('Application Feature Tests', () => {
   </section>
 
   <!-- Open Source Reference Projects -->
-  <section class="py-20 border-b border-zinc-200 dark:border-zinc-800">
+  <section id="ecosystem" class="py-20 border-b border-zinc-200 dark:border-zinc-800">
     <div class="max-w-6xl mx-auto px-6">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
         <div>
