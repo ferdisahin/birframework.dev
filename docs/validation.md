@@ -26,6 +26,70 @@ Route.post('/register', async (ctx) => {
 
 ---
 
+## Form Request Classes
+
+For complex validation scenarios or to keep controllers thin and focused, use **Form Requests**:
+
+```bash
+npx birframework make:request StoreUserRequest
+```
+
+This generates `app/requests/StoreUserRequest.ts`:
+
+```typescript
+import { FormRequest, type ValidationRules } from 'birframework';
+
+export class StoreUserRequest extends FormRequest<{ name: string; email: string }> {
+  /**
+   * Determine if the user is authorized to perform this action.
+   */
+  public override async authorize(): Promise<boolean> {
+    return this.ctx.session?.has('user_id') === true;
+  }
+
+  /**
+   * Mutate or prepare inputs prior to validation.
+   */
+  public override async prepareForValidation(): Promise<void> {
+    const body = (await this.ctx.body()) || {};
+    if (body.email) {
+      body.email = body.email.trim().toLowerCase();
+    }
+  }
+
+  /**
+   * Get the validation rules.
+   */
+  public override rules(): ValidationRules {
+    return {
+      name: 'required|min:3',
+      email: 'required|email',
+    };
+  }
+}
+```
+
+### Using Form Requests in Controllers
+
+Use `ctx.validateWith(RequestClass)`:
+
+```typescript
+export class UserController {
+  public async store(ctx: RequestContext) {
+    // 1. Checks authorize() -> throws 403 Forbidden if false
+    // 2. Runs prepareForValidation()
+    // 3. Runs rules() -> throws 422 Unprocessable if invalid
+    // 4. Returns strictly typed validated data:
+    const validated = await ctx.validateWith(StoreUserRequest);
+
+    const user = await User.create(validated);
+    return ctx.json({ user }, 201);
+  }
+}
+```
+
+---
+
 ## Error Handling
 
 When validation fails, BirFramework automatically stops request execution:

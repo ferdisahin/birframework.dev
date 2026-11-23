@@ -9,7 +9,7 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "birframework": "^0.2.0"
+    "birframework": "^0.3.0"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.5",

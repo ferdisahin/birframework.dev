@@ -33,6 +33,7 @@ Generate boilerplate code following framework architectural patterns:
 | `bir make:factory <Name>` | Creates a model factory with Faker | `database/factories/<Name>.ts` |
 | `bir make:event <Name>` | Creates an event class | `app/events/<Name>.ts` |
 | `bir make:listener <Name> [--event]` | Creates an event listener class | `app/listeners/<Name>.ts` |
+| `bir make:request <Name>` | Creates a Form Request class | `app/requests/<Name>.ts` |
 | `bir make:auth` | Scaffolds complete Breeze-style auth | Models, Controllers, Views, Migrations |
 
 ---
@@ -58,6 +59,15 @@ bir db:seed
 ## Daemons & Development
 
 ```bash
+# Start development server with hot-reload
+bir serve
+
+# Launch interactive REPL console with auto-loaded models
+bir tinker
+
+# Run automated test suites
+bir test
+
 # Start background queue processing worker
 bir queue:work
 
