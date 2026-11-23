@@ -58,6 +58,32 @@
       </p>
     </div>
 
+    <!-- Native Markdown Directives -->
+    <div class="border-t border-zinc-900 pt-6">
+      <h2 class="text-base font-semibold text-white">Native Markdown Directives (v0.1.3+)</h2>
+      <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+        BirFramework includes a zero-dependency, built-in Markdown compiler. You can write inline Markdown blocks or render Markdown strings from your controller directly in Blade views:
+      </p>
+
+      <div class="bg-zinc-950 border border-zinc-900 rounded-md p-4 font-mono text-xs text-zinc-300 mt-3">
+<pre><code>&lt;!-- Block Markdown --&gt;
+@markdown
+### Documentation Guide
+Use **bold**, *italics*, lists, and syntax blocks:
+
+\`\`\`ts
+import { Application } from 'birframework';
+const app = new Application();
+\`\`\`
+@endmarkdown
+
+&lt;!-- Variable Expression Markdown --&gt;
+&lt;div class="prose"&gt;
+  @markdown(post.content)
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
     <!-- Navigation Footer -->
     <div class="border-t border-zinc-900 pt-8 mt-12 flex items-center justify-between text-xs">
       <a href="/docs/validation" class="text-zinc-500 hover:text-white transition flex items-center gap-1">

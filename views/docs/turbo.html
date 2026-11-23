@@ -42,6 +42,17 @@
       </div>
     </div>
 
+    <!-- Live Reload -->
+    <div class="border-t border-zinc-900 pt-6">
+      <h2 class="text-base font-semibold text-white">Native Live Reload (v0.1.3+)</h2>
+      <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+        In development mode (<code class="font-mono text-xs text-zinc-300">NODE_ENV !== 'production'</code>), BirFramework automatically activates a native Server-Sent Events (SSE) watcher watching your <code class="font-mono text-xs text-zinc-300">views/</code>, <code class="font-mono text-xs text-zinc-300">public/</code>, and <code class="font-mono text-xs text-zinc-300">routes/</code> folders.
+      </p>
+      <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+        When any template or route is saved, the browser refreshes instantly using Turbo DOM morphing without full page reloads, and CSS edits hot-swap immediately without losing scroll position or form inputs.
+      </p>
+    </div>
+
     <!-- Navigation Footer -->
     <div class="border-t border-zinc-900 pt-8 mt-12 flex items-center justify-between text-xs">
       <a href="/docs/views" class="text-zinc-500 hover:text-white transition flex items-center gap-1">
