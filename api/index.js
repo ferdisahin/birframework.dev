@@ -33,6 +33,13 @@ const app = new Application();
 app.use(logger());
 
 export default async function handler(req, res) {
+  // 1. Quick diagnostic endpoint to verify Lambda runtime
+  if (req.url === '/ping' || req.headers['x-matched-path'] === '/ping') {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/plain');
+    return res.end('pong');
+  }
+
   try {
     resolveViewsDir();
 
@@ -44,6 +51,7 @@ export default async function handler(req, res) {
       req.url = '/';
     }
 
+    console.log('[BirFramework] Handling request:', req.method, req.url, 'matchedPath:', matchedPath);
     await app.handle(req, res);
   } catch (err) {
     console.error('Vercel Function Error:', err);
