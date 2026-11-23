@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node --watch app.js",
-    "vite": "vite",
+    "dev": "concurrently -n \"vite,server\" -c \"cyan,green\" \"vite\" \"node --watch app.js\"",
+    "dev:server": "node --watch app.js",
+    "dev:vite": "vite",
     "build": "vite build",
-    "build:css": "vite build",
     "start": "node app.js"
   },
   "dependencies": {
@@ -15,6 +15,7 @@
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.5",
     "@tailwindcss/vite": "^4.3.5",
+    "concurrently": "^10.0.7",
     "tailwindcss": "^4.3.5",
     "vite": "^8.3.8"
   }
