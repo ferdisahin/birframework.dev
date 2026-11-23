@@ -1,11 +1,11 @@
 <x-layouts.app title="BirFramework - The Full-Stack TypeScript Framework">
   <!-- Hero Section -->
-  <section class="max-w-5xl mx-auto px-6 pt-24 pb-20 text-center">
+  <section class="max-w-5xl mx-auto px-6 pt-28 pb-20 text-center relative">
     
     <!-- Version Tag -->
-    <a href="/docs/installation" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-xs text-zinc-300 hover:border-zinc-700 transition mb-8">
+    <a href="/docs/installation" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900/90 border border-zinc-800 text-xs text-zinc-300 hover:border-zinc-700 hover:text-white transition mb-8 shadow-sm">
       <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-      <span>BirFramework v{{ version }} is now available</span>
+      <span class="font-medium tracking-tight">BirFramework v{{ version }} is available</span>
       <span class="text-zinc-600">→</span>
     </a>
 
@@ -15,23 +15,23 @@
     </h1>
 
     <!-- Subtitle -->
-    <p class="text-base sm:text-lg text-zinc-400 mt-6 max-w-2xl mx-auto leading-relaxed">
+    <p class="text-base sm:text-lg text-zinc-400 mt-6 max-w-2xl mx-auto leading-relaxed font-normal">
       Laravel developer experience paired with the persistent-memory speed of modern JavaScript runtimes. Active-record ORM, migrations, background queues, and Blade templates with instant client navigation.
     </p>
 
     <!-- Terminal Command & Actions -->
-    <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
-      <div class="w-full sm:w-auto flex-1 flex items-center justify-between bg-zinc-950 border border-zinc-800 px-4 py-2.5 rounded-md font-mono text-xs text-zinc-300">
+    <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
+      <div class="w-full sm:w-auto flex-1 flex items-center justify-between bg-zinc-950 border border-zinc-800/90 px-4 py-2.5 rounded-lg text-xs text-zinc-300 shadow-sm hover:border-zinc-700 transition">
         <div class="flex items-center gap-2">
-          <span class="text-zinc-600">$</span>
-          <span id="cmd-install">npx birframework new my-app</span>
+          <span class="text-zinc-500 select-none">$</span>
+          <span id="cmd-install" class="select-all tracking-tight font-medium">npx birframework new my-app</span>
         </div>
-        <button data-copy="#cmd-install" class="text-zinc-500 hover:text-zinc-200 transition text-[11px] ml-3 pl-2 border-l border-zinc-800">
+        <button data-copy="#cmd-install" class="text-zinc-500 hover:text-white transition text-[11px] ml-3 pl-3 border-l border-zinc-800 font-medium">
           Copy
         </button>
       </div>
 
-      <a href="/docs/installation" class="w-full sm:w-auto bg-white hover:bg-zinc-200 text-black px-5 py-2.5 rounded-md font-medium text-xs transition flex items-center justify-center gap-1.5">
+      <a href="/docs/installation" class="w-full sm:w-auto bg-white hover:bg-zinc-100 text-black px-5 py-2.5 rounded-lg font-medium text-xs transition flex items-center justify-center gap-1.5 shadow-sm">
         <span>Get Started</span>
         <span>→</span>
       </a>
@@ -40,31 +40,31 @@
 
   <!-- Interactive Code Walkthrough -->
   <section class="max-w-5xl mx-auto px-6 py-12">
-    <div class="bg-zinc-950 border border-zinc-900 rounded-lg overflow-hidden">
+    <div class="bg-zinc-950 border border-zinc-900 rounded-lg overflow-hidden shadow-sm">
       <!-- Tab Header -->
       <div class="flex items-center justify-between px-4 py-2.5 bg-zinc-950 border-b border-zinc-900 text-xs">
-        <div class="flex items-center gap-2" id="code-tabs">
-          <button onclick="switchTab('routes')" id="tab-routes" class="tab-btn px-3 py-1 rounded bg-zinc-900 text-white font-medium transition">
+        <div class="flex items-center gap-1.5" id="code-tabs">
+          <button onclick="switchTab('routes')" id="tab-routes" class="tab-btn px-3 py-1 rounded bg-zinc-900 text-white font-medium transition text-xs">
             routes/web.ts
           </button>
-          <button onclick="switchTab('model')" id="tab-model" class="tab-btn px-3 py-1 rounded text-zinc-400 hover:text-zinc-200 transition">
+          <button onclick="switchTab('model')" id="tab-model" class="tab-btn px-3 py-1 rounded text-zinc-400 hover:text-zinc-200 transition text-xs font-medium">
             app/models/User.ts
           </button>
-          <button onclick="switchTab('view')" id="tab-view" class="tab-btn px-3 py-1 rounded text-zinc-400 hover:text-zinc-200 transition">
+          <button onclick="switchTab('view')" id="tab-view" class="tab-btn px-3 py-1 rounded text-zinc-400 hover:text-zinc-200 transition text-xs font-medium">
             views/welcome.html
           </button>
-          <button onclick="switchTab('queue')" id="tab-queue" class="tab-btn px-3 py-1 rounded text-zinc-400 hover:text-zinc-200 transition">
+          <button onclick="switchTab('queue')" id="tab-queue" class="tab-btn px-3 py-1 rounded text-zinc-400 hover:text-zinc-200 transition text-xs font-medium">
             app/jobs/SendEmailJob.ts
           </button>
         </div>
 
-        <button data-copy="#active-code" class="text-zinc-500 hover:text-zinc-300 transition text-[11px] font-mono">
+        <button data-copy="#active-code" class="text-zinc-500 hover:text-zinc-300 transition text-[11px] font-medium">
           Copy code
         </button>
       </div>
 
       <!-- Code Snippets -->
-      <div class="p-5 font-mono text-xs overflow-x-auto leading-relaxed text-zinc-300">
+      <div class="p-5 text-xs overflow-x-auto leading-relaxed text-zinc-300 bg-black/40">
         <!-- Routes Snippet -->
         <pre id="code-routes" class="code-panel"><code>import { Route, type Context } from 'birframework';
 import { UserController } from '../app/controllers/UserController.js';
@@ -147,7 +147,6 @@ export class SendWelcomeEmailJob extends Job {
   // Asynchronous background execution
   async handle() {
     console.log(`Processing welcome email for user: ${this.userId}`);
-    // Exponential retry backoff built in
   }
 }
 
@@ -162,7 +161,7 @@ await dispatch(new SendWelcomeEmailJob(42));</code></pre>
   <!-- Benchmarks Section -->
   <section id="benchmarks" class="max-w-5xl mx-auto px-6 py-20 border-t border-zinc-900">
     <div class="mb-8">
-      <div class="text-[11px] font-mono uppercase tracking-widest text-zinc-500 mb-2">Empirical Benchmarks</div>
+      <div class="text-xs uppercase tracking-wider font-semibold text-zinc-500 mb-2">Empirical Benchmarks</div>
       <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-white">Measured performance. No marketing bias.</h2>
       <p class="text-xs sm:text-sm text-zinc-400 mt-2 max-w-2xl leading-relaxed">
         Tested on local loopback (Apple Silicon, macOS) against default scaffolds generated straight from official CLI tools. No synthetic warmups, no pre-rendered cache tricks.
@@ -172,66 +171,66 @@ await dispatch(new SendWelcomeEmailJob(42));</code></pre>
     <!-- Benchmark Display Box -->
     <div class="border border-zinc-900 rounded-lg overflow-hidden bg-zinc-950">
       <!-- Tab Control -->
-      <div class="flex items-center justify-between border-b border-zinc-900 px-4 py-2 bg-zinc-950 text-xs">
-        <div class="flex items-center gap-1 font-mono text-[11px]">
-          <button onclick="switchBench('ab')" id="bench-tab-ab" class="px-3 py-1 rounded bg-zinc-900 text-white font-medium transition">
+      <div class="flex items-center justify-between border-b border-zinc-900 px-4 py-2.5 bg-zinc-950 text-xs">
+        <div class="flex items-center gap-1.5">
+          <button onclick="switchBench('ab')" id="bench-tab-ab" class="px-3 py-1 rounded bg-zinc-900 text-white font-medium transition text-xs">
             ApacheBench (c=10)
           </button>
-          <button onclick="switchBench('autocannon')" id="bench-tab-autocannon" class="px-3 py-1 rounded text-zinc-400 hover:text-zinc-200 transition">
+          <button onclick="switchBench('autocannon')" id="bench-tab-autocannon" class="px-3 py-1 rounded text-zinc-400 hover:text-zinc-200 transition text-xs font-medium">
             Autocannon (c=50)
           </button>
-          <button onclick="switchBench('cli')" id="bench-tab-cli" class="px-3 py-1 rounded text-zinc-400 hover:text-zinc-200 transition">
+          <button onclick="switchBench('cli')" id="bench-tab-cli" class="px-3 py-1 rounded text-zinc-400 hover:text-zinc-200 transition text-xs font-medium">
             Terminal Reproduction
           </button>
         </div>
 
-        <a href="/docs/benchmarks" class="hidden sm:inline-flex items-center gap-1 text-[11px] text-zinc-500 hover:text-zinc-300 font-mono transition">
-          <span>docs/benchmarks.md</span>
+        <a href="/docs/benchmarks" class="hidden sm:inline-flex items-center gap-1 text-[11px] text-zinc-500 hover:text-zinc-300 font-medium transition">
+          <span>Documentation</span>
           <span>→</span>
         </a>
       </div>
 
       <!-- View 1: ApacheBench Table -->
       <div id="bench-view-ab" class="bench-panel overflow-x-auto">
-        <table class="w-full text-left font-mono text-xs">
+        <table class="w-full text-left text-xs">
           <thead>
-            <tr class="border-b border-zinc-900 text-zinc-500 text-[11px] bg-zinc-950/60">
-              <th class="py-2.5 px-4 font-normal">Framework</th>
-              <th class="py-2.5 px-4 font-normal">Runtime / Engine</th>
-              <th class="py-2.5 px-4 font-normal text-right">Req / Sec</th>
-              <th class="py-2.5 px-4 font-normal text-right">Latency (avg)</th>
-              <th class="py-2.5 px-4 font-normal text-right">p99</th>
-              <th class="py-2.5 px-4 font-normal text-right">5k Requests</th>
+            <tr class="border-b border-zinc-900 text-zinc-500 text-[11px] bg-zinc-950/60 font-medium">
+              <th class="py-3 px-4 font-normal">Framework</th>
+              <th class="py-3 px-4 font-normal">Runtime / Engine</th>
+              <th class="py-3 px-4 font-normal text-right">Req / Sec</th>
+              <th class="py-3 px-4 font-normal text-right">Latency (avg)</th>
+              <th class="py-3 px-4 font-normal text-right">p99</th>
+              <th class="py-3 px-4 font-normal text-right">5k Requests</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-zinc-900 text-zinc-300">
             <tr class="bg-zinc-900/30">
-              <td class="py-3 px-4 font-semibold text-white flex items-center gap-2">
+              <td class="py-3.5 px-4 font-semibold text-white flex items-center gap-2">
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                 <span>BirFramework</span>
                 <span class="text-[10px] text-zinc-500 font-normal">v0.1.5</span>
               </td>
-              <td class="py-3 px-4 text-zinc-400 text-[11px]">Node.js 22+ / Persistent V8</td>
-              <td class="py-3 px-4 text-right text-emerald-400 font-bold">7,899 RPS</td>
-              <td class="py-3 px-4 text-right text-white">1.26 ms</td>
-              <td class="py-3 px-4 text-right text-zinc-300">4 ms</td>
-              <td class="py-3 px-4 text-right text-emerald-400 font-medium">0.63s</td>
+              <td class="py-3.5 px-4 text-zinc-400 text-xs">Node.js 22+ / Persistent V8</td>
+              <td class="py-3.5 px-4 text-right text-emerald-400 font-semibold tabular-nums">7,899 RPS</td>
+              <td class="py-3.5 px-4 text-right text-white font-medium tabular-nums">1.26 ms</td>
+              <td class="py-3.5 px-4 text-right text-zinc-300 tabular-nums">4 ms</td>
+              <td class="py-3.5 px-4 text-right text-emerald-400 font-medium tabular-nums">0.63s</td>
             </tr>
             <tr>
-              <td class="py-3 px-4 text-zinc-300">Next.js 16 (App Router)</td>
-              <td class="py-3 px-4 text-zinc-500 text-[11px]">Node.js 22+ / React SSR</td>
-              <td class="py-3 px-4 text-right text-zinc-300">7,097 RPS</td>
-              <td class="py-3 px-4 text-right text-zinc-400">1.40 ms</td>
-              <td class="py-3 px-4 text-right text-zinc-400">4 ms</td>
-              <td class="py-3 px-4 text-right text-zinc-400">0.70s</td>
+              <td class="py-3.5 px-4 text-zinc-200 font-medium">Next.js 16 (App Router)</td>
+              <td class="py-3.5 px-4 text-zinc-500 text-xs">Node.js 22+ / React SSR</td>
+              <td class="py-3.5 px-4 text-right text-zinc-300 tabular-nums">7,097 RPS</td>
+              <td class="py-3.5 px-4 text-right text-zinc-400 tabular-nums">1.40 ms</td>
+              <td class="py-3.5 px-4 text-right text-zinc-400 tabular-nums">4 ms</td>
+              <td class="py-3.5 px-4 text-right text-zinc-400 tabular-nums">0.70s</td>
             </tr>
             <tr>
-              <td class="py-3 px-4 text-zinc-400">Laravel 13</td>
-              <td class="py-3 px-4 text-zinc-600 text-[11px]">PHP 8.5 / CLI Process Boot</td>
-              <td class="py-3 px-4 text-right text-zinc-500">300 RPS</td>
-              <td class="py-3 px-4 text-right text-zinc-500">33.38 ms</td>
-              <td class="py-3 px-4 text-right text-zinc-500">71 ms</td>
-              <td class="py-3 px-4 text-right text-zinc-600">~16.7s</td>
+              <td class="py-3.5 px-4 text-zinc-400">Laravel 13</td>
+              <td class="py-3.5 px-4 text-zinc-600 text-xs">PHP 8.5 / CLI Process Boot</td>
+              <td class="py-3.5 px-4 text-right text-zinc-500 tabular-nums">300 RPS</td>
+              <td class="py-3.5 px-4 text-right text-zinc-500 tabular-nums">33.38 ms</td>
+              <td class="py-3.5 px-4 text-right text-zinc-500 tabular-nums">71 ms</td>
+              <td class="py-3.5 px-4 text-right text-zinc-600 tabular-nums">~16.7s</td>
             </tr>
           </tbody>
         </table>
@@ -239,63 +238,63 @@ await dispatch(new SendWelcomeEmailJob(42));</code></pre>
 
       <!-- View 2: Autocannon Table -->
       <div id="bench-view-autocannon" class="bench-panel hidden overflow-x-auto">
-        <table class="w-full text-left font-mono text-xs">
+        <table class="w-full text-left text-xs">
           <thead>
-            <tr class="border-b border-zinc-900 text-zinc-500 text-[11px] bg-zinc-950/60">
-              <th class="py-2.5 px-4 font-normal">Framework</th>
-              <th class="py-2.5 px-4 font-normal text-right">Avg RPS</th>
-              <th class="py-2.5 px-4 font-normal text-right">Latency (avg)</th>
-              <th class="py-2.5 px-4 font-normal text-right">p99</th>
-              <th class="py-2.5 px-4 font-normal text-right">10s Requests</th>
-              <th class="py-2.5 px-4 font-normal text-right">Throughput</th>
+            <tr class="border-b border-zinc-900 text-zinc-500 text-[11px] bg-zinc-950/60 font-medium">
+              <th class="py-3 px-4 font-normal">Framework</th>
+              <th class="py-3 px-4 font-normal text-right">Avg RPS</th>
+              <th class="py-3 px-4 font-normal text-right">Latency (avg)</th>
+              <th class="py-3 px-4 font-normal text-right">p99</th>
+              <th class="py-3 px-4 font-normal text-right">10s Requests</th>
+              <th class="py-3 px-4 font-normal text-right">Throughput</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-zinc-900 text-zinc-300">
             <tr class="bg-zinc-900/30">
-              <td class="py-3 px-4 font-semibold text-white flex items-center gap-2">
+              <td class="py-3.5 px-4 font-semibold text-white flex items-center gap-2">
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                 <span>BirFramework</span>
               </td>
-              <td class="py-3 px-4 text-right text-emerald-400 font-bold">9,258 RPS</td>
-              <td class="py-3 px-4 text-right text-white">4.90 ms</td>
-              <td class="py-3 px-4 text-right text-zinc-300">11 ms</td>
-              <td class="py-3 px-4 text-right text-white font-medium">102,000</td>
-              <td class="py-3 px-4 text-right text-zinc-400">85 MB/s</td>
+              <td class="py-3.5 px-4 text-right text-emerald-400 font-semibold tabular-nums">9,258 RPS</td>
+              <td class="py-3.5 px-4 text-right text-white font-medium tabular-nums">4.90 ms</td>
+              <td class="py-3.5 px-4 text-right text-zinc-300 tabular-nums">11 ms</td>
+              <td class="py-3.5 px-4 text-right text-white font-medium tabular-nums">102,000</td>
+              <td class="py-3.5 px-4 text-right text-zinc-400 tabular-nums">85 MB/s</td>
             </tr>
             <tr>
-              <td class="py-3 px-4 text-zinc-300">Next.js 16 (Static SSR)</td>
-              <td class="py-3 px-4 text-right text-zinc-300">10,696 RPS</td>
-              <td class="py-3 px-4 text-right text-zinc-400">4.17 ms</td>
-              <td class="py-3 px-4 text-right text-zinc-400">9 ms</td>
-              <td class="py-3 px-4 text-right text-zinc-400">118,000</td>
-              <td class="py-3 px-4 text-right text-zinc-400">135 MB/s</td>
+              <td class="py-3.5 px-4 text-zinc-200 font-medium">Next.js 16 (Static SSR)</td>
+              <td class="py-3.5 px-4 text-right text-zinc-300 tabular-nums">10,696 RPS</td>
+              <td class="py-3.5 px-4 text-right text-zinc-400 tabular-nums">4.17 ms</td>
+              <td class="py-3.5 px-4 text-right text-zinc-400 tabular-nums">9 ms</td>
+              <td class="py-3.5 px-4 text-right text-zinc-400 tabular-nums">118,000</td>
+              <td class="py-3.5 px-4 text-right text-zinc-400 tabular-nums">135 MB/s</td>
             </tr>
             <tr>
-              <td class="py-3 px-4 text-zinc-500">Laravel 13 (Dev Server)</td>
-              <td class="py-3 px-4 text-right text-zinc-600" colspan="5">Single-process PHP CLI drops keep-alive sockets at c=50</td>
+              <td class="py-3.5 px-4 text-zinc-500">Laravel 13 (Dev Server)</td>
+              <td class="py-3.5 px-4 text-right text-zinc-600" colspan="5">Single-process PHP CLI drops keep-alive sockets at c=50</td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <!-- View 3: CLI Reproduction -->
-      <div id="bench-view-cli" class="bench-panel hidden p-4 font-mono text-xs text-zinc-300 bg-black/60 leading-relaxed overflow-x-auto">
-        <div class="text-zinc-500 text-[11px] mb-2"># Reproduce with fresh projects on port 4001, 4002, 4003:</div>
-        <div class="text-emerald-400">$ ab -n 5000 -c 10 http://127.0.0.1:4001/</div>
-        <div class="text-zinc-400 pl-4">
-          Concurrency Level: &nbsp;&nbsp;&nbsp;10<br>
-          Complete requests: &nbsp;&nbsp;&nbsp;5000<br>
-          Time taken for tests: 0.633 seconds<br>
-          Requests per second: &nbsp;<span class="text-white font-semibold">7899.19 [#/sec] (mean)</span><br>
-          Time per request: &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-white font-semibold">1.266 [ms] (mean)</span><br>
-          Percentage within 4ms: 99%
+      <div id="bench-view-cli" class="bench-panel hidden p-5 text-xs text-zinc-300 bg-black/60 leading-relaxed overflow-x-auto">
+        <div class="text-zinc-500 text-xs mb-3"># Run with fresh projects on ports 4001, 4002, 4003:</div>
+        <div class="text-emerald-400 font-medium">$ ab -n 5000 -c 10 http://127.0.0.1:4001/</div>
+        <div class="text-zinc-400 pl-4 mt-2 space-y-1">
+          <div>Concurrency Level: &nbsp;&nbsp;&nbsp;10</div>
+          <div>Complete requests: &nbsp;&nbsp;&nbsp;5000</div>
+          <div>Time taken for tests: 0.633 seconds</div>
+          <div>Requests per second: &nbsp;<span class="text-white font-semibold tabular-nums">7899.19 [#/sec] (mean)</span></div>
+          <div>Time per request: &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-white font-semibold tabular-nums">1.266 [ms] (mean)</span></div>
+          <div>Percentage within 4ms: 99%</div>
         </div>
       </div>
 
       <!-- Footer Note -->
-      <div class="px-4 py-2.5 bg-zinc-950 border-t border-zinc-900 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px] text-zinc-500">
+      <div class="px-4 py-3 bg-zinc-950 border-t border-zinc-900 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px] text-zinc-500">
         <div>Why 26x faster than traditional PHP? Laravel boots container and autoloader per request. BirFramework lives warm in V8 memory.</div>
-        <div class="font-mono text-zinc-400">Apple M-series · Localhost loopback</div>
+        <div class="text-zinc-400 font-medium">Apple M-series · Localhost loopback</div>
       </div>
     </div>
   </section>
@@ -303,7 +302,7 @@ await dispatch(new SendWelcomeEmailJob(42));</code></pre>
   <!-- Architecture Pillars -->
   <section id="architecture" class="max-w-5xl mx-auto px-6 py-20 border-t border-zinc-900">
     <div class="mb-12">
-      <div class="text-[11px] font-mono uppercase tracking-widest text-zinc-500 mb-2">System Anatomy</div>
+      <div class="text-xs uppercase tracking-wider font-semibold text-zinc-500 mb-2">System Anatomy</div>
       <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-white">Cohesive runtime. Zero glue code.</h2>
       <p class="text-xs sm:text-sm text-zinc-400 mt-2 max-w-2xl leading-relaxed">
         Rather than stitching together 8 uncoordinated libraries, BirFramework's core systems share the same context, lifecycle, and memory space.
@@ -312,69 +311,69 @@ await dispatch(new SendWelcomeEmailJob(42));</code></pre>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <!-- Pillar 1 -->
-      <div class="p-5 rounded-lg border border-zinc-900 bg-zinc-950 flex flex-col justify-between">
+      <div class="p-5 rounded-lg border border-zinc-900 bg-zinc-950 flex flex-col justify-between hover:border-zinc-800 transition">
         <div>
-          <div class="flex items-center justify-between text-xs font-mono text-zinc-500 mb-2">
+          <div class="flex items-center justify-between text-xs text-zinc-500 mb-2 font-medium">
             <span>01 / HTTP & ROUTING</span>
-            <span class="text-emerald-400">Radix Tree</span>
+            <span class="text-emerald-400 font-medium">Radix Tree</span>
           </div>
           <h3 class="text-sm font-semibold text-white">Sub-Microsecond Dispatch</h3>
           <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
             Routes are indexed in an in-memory radix tree with parameter extraction (<code class="text-zinc-300">:id</code>, <code class="text-zinc-300">{slug}</code>). Includes route prefixing, middleware pipelines, and native Server-Sent Events (SSE) streaming for real-time and LLM workloads.
           </p>
         </div>
-        <div class="mt-4 pt-3 border-t border-zinc-900/80 font-mono text-[11px] text-zinc-500">
+        <div class="mt-4 pt-3 border-t border-zinc-900/80 text-[11px] text-zinc-500 font-medium">
           Route.group({ prefix: '/api', middleware: ['auth'] })
         </div>
       </div>
 
       <!-- Pillar 2 -->
-      <div class="p-5 rounded-lg border border-zinc-900 bg-zinc-950 flex flex-col justify-between">
+      <div class="p-5 rounded-lg border border-zinc-900 bg-zinc-950 flex flex-col justify-between hover:border-zinc-800 transition">
         <div>
-          <div class="flex items-center justify-between text-xs font-mono text-zinc-500 mb-2">
+          <div class="flex items-center justify-between text-xs text-zinc-500 mb-2 font-medium">
             <span>02 / DATABASE & ORM</span>
-            <span class="text-emerald-400">Active Record</span>
+            <span class="text-emerald-400 font-medium">Active Record</span>
           </div>
           <h3 class="text-sm font-semibold text-white">Zero-Config Local SQLite to PostgreSQL</h3>
           <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
             Uses Node's native <code class="text-zinc-300">node:sqlite</code> in local development with zero external C++ bindings. Migrations and Active Record models translate queries seamlessly to PostgreSQL or MySQL in production with ACID transactions.
           </p>
         </div>
-        <div class="mt-4 pt-3 border-t border-zinc-900/80 font-mono text-[11px] text-zinc-500">
+        <div class="mt-4 pt-3 border-t border-zinc-900/80 text-[11px] text-zinc-500 font-medium">
           await User.where('status', 'active').get()
         </div>
       </div>
 
       <!-- Pillar 3 -->
-      <div class="p-5 rounded-lg border border-zinc-900 bg-zinc-950 flex flex-col justify-between">
+      <div class="p-5 rounded-lg border border-zinc-900 bg-zinc-950 flex flex-col justify-between hover:border-zinc-800 transition">
         <div>
-          <div class="flex items-center justify-between text-xs font-mono text-zinc-500 mb-2">
+          <div class="flex items-center justify-between text-xs text-zinc-500 mb-2 font-medium">
             <span>03 / FRONTEND</span>
-            <span class="text-emerald-400">Blade + Turbo</span>
+            <span class="text-emerald-400 font-medium">Blade + Turbo</span>
           </div>
           <h3 class="text-sm font-semibold text-white">Instant DOM Morphing without React Overhead</h3>
           <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
             Server-rendered Blade components (<code class="text-zinc-300">&lt;x-layouts.app&gt;</code>) morph seamlessly into the live DOM via BirTurbo on navigation. No heavy JavaScript hydration bundles, no layout shifts, instant page transitions.
           </p>
         </div>
-        <div class="mt-4 pt-3 border-t border-zinc-900/80 font-mono text-[11px] text-zinc-500">
+        <div class="mt-4 pt-3 border-t border-zinc-900/80 text-[11px] text-zinc-500 font-medium">
           &lt;x-layouts.app title="Dashboard"&gt;
         </div>
       </div>
 
       <!-- Pillar 4 -->
-      <div class="p-5 rounded-lg border border-zinc-900 bg-zinc-950 flex flex-col justify-between">
+      <div class="p-5 rounded-lg border border-zinc-900 bg-zinc-950 flex flex-col justify-between hover:border-zinc-800 transition">
         <div>
-          <div class="flex items-center justify-between text-xs font-mono text-zinc-500 mb-2">
+          <div class="flex items-center justify-between text-xs text-zinc-500 mb-2 font-medium">
             <span>04 / BACKGROUND SERVICES</span>
-            <span class="text-emerald-400">In-Process Daemons</span>
+            <span class="text-emerald-400 font-medium">In-Process Daemons</span>
           </div>
           <h3 class="text-sm font-semibold text-white">Queues, Scheduler & Built-in Security</h3>
           <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
             In-process cron task scheduler, asynchronous queue workers with exponential retry backoff, Scrypt password hashing, signed cookies, and sliding-window rate limiting ready out of the box.
           </p>
         </div>
-        <div class="mt-4 pt-3 border-t border-zinc-900/80 font-mono text-[11px] text-zinc-500">
+        <div class="mt-4 pt-3 border-t border-zinc-900/80 text-[11px] text-zinc-500 font-medium">
           bir queue:work &nbsp;·&nbsp; bir schedule:work
         </div>
       </div>
@@ -384,7 +383,7 @@ await dispatch(new SendWelcomeEmailJob(42));</code></pre>
   <!-- Ecosystem Comparison Table -->
   <section id="ecosystem" class="max-w-5xl mx-auto px-6 py-20 border-t border-zinc-900">
     <div class="mb-10">
-      <div class="text-[11px] font-mono uppercase tracking-widest text-zinc-500 mb-2">Dependency Audit</div>
+      <div class="text-xs uppercase tracking-wider font-semibold text-zinc-500 mb-2">Dependency Audit</div>
       <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-white">The Cost of Fragmentation</h2>
       <p class="text-xs sm:text-sm text-zinc-400 mt-2 max-w-2xl leading-relaxed">
         An ad-hoc Node.js stack requires gluing together 8–10 independent libraries with divergent maintainers, release cadences, and configuration schemas.
@@ -394,11 +393,11 @@ await dispatch(new SendWelcomeEmailJob(42));</code></pre>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <!-- Ad-Hoc Stack -->
       <div class="p-5 rounded-lg border border-zinc-900 bg-zinc-950 text-xs">
-        <div class="flex items-center justify-between font-mono pb-3 border-b border-zinc-900 mb-3">
-          <span class="text-zinc-400 font-medium">Ad-Hoc TypeScript Stack</span>
+        <div class="flex items-center justify-between pb-3 border-b border-zinc-900 mb-3">
+          <span class="text-zinc-400 font-semibold">Ad-Hoc TypeScript Stack</span>
           <span class="text-zinc-500 text-[11px]">8+ Dependencies</span>
         </div>
-        <ul class="space-y-2 font-mono text-[11px] text-zinc-400">
+        <ul class="space-y-2 text-xs text-zinc-400">
           <li class="flex justify-between items-center py-1 border-b border-zinc-900/60">
             <span>Routing</span>
             <span class="text-zinc-500">express / fastify</span>
@@ -428,7 +427,7 @@ await dispatch(new SendWelcomeEmailJob(42));</code></pre>
             <span class="text-zinc-500">ejs / handlebars</span>
           </li>
         </ul>
-        <div class="mt-4 pt-3 border-t border-zinc-900 text-zinc-500 text-[11px] font-mono flex justify-between">
+        <div class="mt-4 pt-3 border-t border-zinc-900 text-zinc-500 text-[11px] flex justify-between">
           <span>Config files: tsconfig, knexfile, prisma, etc.</span>
           <span class="text-zinc-400">~120 MB node_modules</span>
         </div>
@@ -436,43 +435,43 @@ await dispatch(new SendWelcomeEmailJob(42));</code></pre>
 
       <!-- BirFramework Stack -->
       <div class="p-5 rounded-lg border border-zinc-800 bg-zinc-950 text-xs">
-        <div class="flex items-center justify-between font-mono pb-3 border-b border-zinc-900 mb-3">
-          <span class="text-white font-medium">BirFramework</span>
-          <span class="text-emerald-400 text-[11px]">Single Dependency</span>
+        <div class="flex items-center justify-between pb-3 border-b border-zinc-900 mb-3">
+          <span class="text-white font-semibold">BirFramework</span>
+          <span class="text-emerald-400 text-[11px] font-medium">Single Dependency</span>
         </div>
-        <ul class="space-y-2 font-mono text-[11px] text-zinc-300">
+        <ul class="space-y-2 text-xs text-zinc-300">
           <li class="flex justify-between items-center py-1 border-b border-zinc-900/60">
             <span>Routing</span>
-            <span class="text-emerald-400">Built-in (Radix Tree)</span>
+            <span class="text-emerald-400 font-medium">Built-in (Radix Tree)</span>
           </li>
           <li class="flex justify-between items-center py-1 border-b border-zinc-900/60">
             <span>ORM & Query Builder</span>
-            <span class="text-emerald-400">Built-in (Active Record)</span>
+            <span class="text-emerald-400 font-medium">Built-in (Active Record)</span>
           </li>
           <li class="flex justify-between items-center py-1 border-b border-zinc-900/60">
             <span>Migrations</span>
-            <span class="text-emerald-400">Built-in (Schema & CLI)</span>
+            <span class="text-emerald-400 font-medium">Built-in (Schema & CLI)</span>
           </li>
           <li class="flex justify-between items-center py-1 border-b border-zinc-900/60">
             <span>Validation</span>
-            <span class="text-emerald-400">Built-in (Request Rules)</span>
+            <span class="text-emerald-400 font-medium">Built-in (Request Rules)</span>
           </li>
           <li class="flex justify-between items-center py-1 border-b border-zinc-900/60">
             <span>Background Queues</span>
-            <span class="text-emerald-400">Built-in (Queue Worker)</span>
+            <span class="text-emerald-400 font-medium">Built-in (Queue Worker)</span>
           </li>
           <li class="flex justify-between items-center py-1 border-b border-zinc-900/60">
             <span>Task Scheduling</span>
-            <span class="text-emerald-400">Built-in (Cron Daemon)</span>
+            <span class="text-emerald-400 font-medium">Built-in (Cron Daemon)</span>
           </li>
           <li class="flex justify-between items-center py-1">
             <span>Templating & SPA</span>
-            <span class="text-emerald-400">Built-in (Blade + Turbo)</span>
+            <span class="text-emerald-400 font-medium">Built-in (Blade + Turbo)</span>
           </li>
         </ul>
-        <div class="mt-4 pt-3 border-t border-zinc-900 text-zinc-400 text-[11px] font-mono flex justify-between">
+        <div class="mt-4 pt-3 border-t border-zinc-900 text-zinc-400 text-[11px] flex justify-between">
           <span>Config files: config/* only</span>
-          <span class="text-emerald-400">Zero transitive bloat</span>
+          <span class="text-emerald-400 font-medium">Zero transitive bloat</span>
         </div>
       </div>
     </div>
