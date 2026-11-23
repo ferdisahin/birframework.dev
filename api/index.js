@@ -8,33 +8,40 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Ensure ViewEngine finds views directory in Vercel Serverless environment
-const possibleViewsDirs = [
-  join(process.cwd(), 'views'),
-  resolve(__dirname, '../views'),
-  resolve(__dirname, 'views'),
-  '/var/task/views',
-];
+function resolveViewsDir() {
+  const possibleViewsDirs = [
+    join(process.cwd(), 'views'),
+    resolve(__dirname, '../views'),
+    resolve(__dirname, 'views'),
+    '/var/task/views',
+  ];
 
-for (const dir of possibleViewsDirs) {
-  if (existsSync(dir)) {
-    if (typeof defaultViewEngine.setViewsDir === 'function') {
-      defaultViewEngine.setViewsDir(dir);
-    } else {
-      defaultViewEngine.viewsDir = dir;
+  for (const dir of possibleViewsDirs) {
+    if (existsSync(dir)) {
+      if (typeof defaultViewEngine.setViewsDir === 'function') {
+        defaultViewEngine.setViewsDir(dir);
+      } else {
+        defaultViewEngine.viewsDir = dir;
+      }
+      break;
     }
-    break;
   }
 }
+resolveViewsDir();
 
 const app = new Application();
 app.use(logger());
 
 export default async function handler(req, res) {
   try {
+    resolveViewsDir();
+
     // Vercel rewrites: restore the original visitor URL if rewritten
     const matchedPath = req.headers['x-matched-path'] || req.headers['x-forwarded-url'];
-    if (matchedPath && req.url === '/api/index.js') {
+    if (matchedPath && typeof matchedPath === 'string') {
       req.url = matchedPath;
+    } else if (!req.url || req.url === '/api/index.js' || req.url.startsWith('/api/index')) {
+      req.url = '/';
     }
 
     await app.handle(req, res);

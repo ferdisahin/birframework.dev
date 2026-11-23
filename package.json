@@ -12,6 +12,9 @@
   "dependencies": {
     "birframework": "^0.5.0"
   },
+  "engines": {
+    "node": "22.x"
+  },
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.5",
     "@tailwindcss/vite": "^4.3.5",
