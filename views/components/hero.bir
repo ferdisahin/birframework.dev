@@ -5,7 +5,7 @@
       <!-- Release Badge -->
       <a href="/docs/installation" class="inline-flex items-center gap-2.5 px-3 py-1 rounded-full bg-zinc-100 hover:bg-zinc-200/80 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 text-xs text-zinc-700 dark:text-zinc-300 transition mb-6">
         <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-        <span class="font-medium">BirFramework v0.4.0 is now available</span>
+        <span class="font-medium">BirJS v0.5.1 is now available</span>
         <span class="text-zinc-400 dark:text-zinc-600">&rarr;</span>
       </a>
 
@@ -24,7 +24,7 @@
         <div class="flex items-center justify-between bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-4 py-2.5 rounded-lg text-xs text-zinc-900 dark:text-zinc-200 min-w-[280px]">
           <div class="flex items-center gap-2">
             <span class="text-zinc-400 select-none">$</span>
-            <span id="cmd-install" class="select-all font-medium">npx birframework new my-app</span>
+            <span id="cmd-install" class="select-all font-medium">npx bir new my-app</span>
           </div>
           <button data-copy="#cmd-install" class="text-zinc-500 hover:text-zinc-950 dark:hover:text-white text-[11px] pl-3 border-l border-zinc-300 dark:border-zinc-700 font-medium transition cursor-pointer">
             Copy

@@ -1,6 +1,6 @@
 # Blade Component Engine
 
-BirFramework features a high-performance, zero-dependency template compiler bringing Laravel Blade ergonomics and component slots to Node.js.
+BirJS features a high-performance, zero-dependency template compiler bringing Laravel Blade ergonomics and component slots to Node.js.
 
 ---
 
@@ -62,7 +62,7 @@ Layout template receiving the content and slots:
 
 ### Loops
 
-BirFramework natively supports Laravel-style **`@foreach(products as product)`** loops:
+BirJS natively supports Laravel-style **`@foreach(products as product)`** loops:
 
 ```html
 <!-- 1. Clean Laravel Style (Recommended) -->
@@ -99,7 +99,7 @@ BirFramework natively supports Laravel-style **`@foreach(products as product)`**
 
 ## Native Markdown Directives (v0.1.3+)
 
-BirFramework includes a zero-dependency Markdown compiler built right into the Blade view engine.
+BirJS includes a zero-dependency Markdown compiler built right into the Blade view engine.
 
 ### Block Directive (`@markdown`)
 
@@ -107,7 +107,7 @@ BirFramework includes a zero-dependency Markdown compiler built right into the B
 @markdown
 # Release Notes
 
-We are thrilled to announce **BirFramework 0.1.3**!
+We are thrilled to announce **BirJS 0.1.3**!
 - Native Markdown compiler in Blade
 - Live Reload via Server-Sent Events
 - Automatic port switching

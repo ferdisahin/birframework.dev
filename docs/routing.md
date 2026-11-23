@@ -1,6 +1,6 @@
 # Routing & Parameters
 
-BirFramework features an intuitive, expressive router inspired by Laravel, engineered for sub-millisecond route dispatching.
+BirJS features an intuitive, expressive router inspired by Laravel, engineered for sub-millisecond route dispatching.
 
 ---
 

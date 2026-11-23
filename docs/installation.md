@@ -1,6 +1,6 @@
 # Installation Guide
 
-Get up and running with BirFramework in seconds using the official interactive CLI scaffolder.
+Get up and running with BirJS in seconds using the official interactive CLI scaffolder.
 
 ---
 
@@ -50,7 +50,7 @@ npm run dev
 
 The application will start on `http://localhost:3000`.
 
-> **Port Auto-Increment**: If port `3000` is already in use by another service on your machine, BirFramework automatically detects `EADDRINUSE` and gracefully switches to the next available port (`3001`, `3002`, etc.) without crashing.
+> **Port Auto-Increment**: If port `3000` is already in use by another service on your machine, BirJS automatically detects `EADDRINUSE` and gracefully switches to the next available port (`3001`, `3002`, etc.) without crashing.
 
 ---
 

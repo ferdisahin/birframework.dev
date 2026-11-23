@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ title }} - BirFramework</title>
+  <title>{{ title }} - BirJS</title>
 
   <!-- Theme Script (System & Saved Theme Detection) -->
   <script>
@@ -29,34 +29,34 @@
   </script>
 
   <!-- Primary Meta Tags -->
-  <meta name="description" content="{{ description ? description : 'The full-stack web framework for Node.js and TypeScript. Laravel developer ergonomics paired with sub-millisecond persistent-memory V8 speed.' }}">
-  <meta name="keywords" content="birframework, nodejs, typescript, fullstack, framework, laravel, blade, turbo, active record, orm, web framework">
+  <meta name="description" content="{{ description ? description : 'BirJS: The full-stack web framework for Node.js and TypeScript. Laravel developer ergonomics paired with sub-millisecond persistent-memory V8 speed.' }}">
+  <meta name="keywords" content="birjs, nodejs, typescript, fullstack, framework, laravel, blade, turbo, active record, orm, web framework">
   <meta name="author" content="Ferdi Sahin">
   <meta name="theme-color" content="#000000">
-  <link rel="canonical" href="{{ canonical ? canonical : 'https://birframework.dev' }}">
+  <link rel="canonical" href="{{ canonical ? canonical : 'https://birjs.com' }}">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="{{ canonical ? canonical : 'https://birframework.dev/' }}">
-  <meta property="og:title" content="{{ title }} - BirFramework">
-  <meta property="og:description" content="{{ description ? description : 'The full-stack web framework for Node.js and TypeScript. Laravel ergonomics with persistent-memory speed.' }}">
-  <meta property="og:site_name" content="BirFramework">
+  <meta property="og:url" content="{{ canonical ? canonical : 'https://birjs.com/' }}">
+  <meta property="og:title" content="{{ title }} - BirJS">
+  <meta property="og:description" content="{{ description ? description : 'BirJS: The full-stack web framework for Node.js and TypeScript. Laravel ergonomics with persistent-memory speed.' }}">
+  <meta property="og:site_name" content="BirJS">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{{ title }} - BirFramework">
-  <meta name="twitter:description" content="{{ description ? description : 'The full-stack web framework for Node.js and TypeScript. Laravel ergonomics with persistent-memory speed.' }}">
+  <meta name="twitter:title" content="{{ title }} - BirJS">
+  <meta name="twitter:description" content="{{ description ? description : 'BirJS: The full-stack web framework for Node.js and TypeScript. Laravel ergonomics with persistent-memory speed.' }}">
 
   <!-- Structured Data JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": "BirFramework",
+    "name": "BirJS",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Cross-platform (Node.js 22+, Bun)",
-    "description": "The full-stack web framework for Node.js and TypeScript providing Laravel ergonomics with persistent-memory V8 speed.",
-    "url": "https://birframework.dev",
+    "description": "BirJS: The full-stack web framework for Node.js and TypeScript providing Laravel ergonomics with persistent-memory V8 speed.",
+    "url": "https://birjs.com",
     "author": {
       "@type": "Person",
       "name": "Ferdi Sahin"

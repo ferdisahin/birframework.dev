@@ -1,12 +1,12 @@
 # Cache System
 
-BirFramework provides an expressive, unified API for various caching backends. Because Node.js runs in persistent V8 memory (unlike traditional PHP-FPM), in-memory caching operates at sub-microsecond latency out of the box with zero external infrastructure.
+BirJS provides an expressive, unified API for various caching backends. Because Node.js runs in persistent V8 memory (unlike traditional PHP-FPM), in-memory caching operates at sub-microsecond latency out of the box with zero external infrastructure.
 
 ---
 
 ## Configuration & Drivers
 
-BirFramework supports two built-in cache drivers:
+BirJS supports two built-in cache drivers:
 
 | Driver | Description | Persistence |
 |---|---|---|

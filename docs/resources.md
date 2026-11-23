@@ -2,7 +2,7 @@
 
 When building modern APIs, you often need an abstraction layer that sits between your database models and the JSON responses actually returned to users or frontend applications.
 
-BirFramework's **JsonResource** provides a clean, expressive transformation layer inspired by Eloquent API Resources, enabling precise control over field exposure, relationships, pagination, and conditional attributes.
+BirJS's **JsonResource** provides a clean, expressive transformation layer inspired by Eloquent API Resources, enabling precise control over field exposure, relationships, pagination, and conditional attributes.
 
 ---
 
@@ -84,7 +84,7 @@ Route.get('/api/users', async (ctx) => {
 
 ## 3. Preserving Paginator Metadata
 
-When passing a `LengthAwarePaginator` (returned by `Model.paginate()`) to `collection()`, BirFramework automatically transforms the items while preserving total counts, current page, and pagination links:
+When passing a `LengthAwarePaginator` (returned by `Model.paginate()`) to `collection()`, BirJS automatically transforms the items while preserving total counts, current page, and pagination links:
 
 ```typescript
 Route.get('/api/users', async (ctx) => {
@@ -123,7 +123,7 @@ Response:
 
 ## 4. Conditional Attributes
 
-BirFramework provides `when()` and `whenNotNull()` helpers inside `JsonResource` to include attributes only when specific conditions are met (e.g. admin privileges or non-empty relationships):
+BirJS provides `when()` and `whenNotNull()` helpers inside `JsonResource` to include attributes only when specific conditions are met (e.g. admin privileges or non-empty relationships):
 
 ```typescript
 export class UserResource extends JsonResource<User> {

@@ -1,6 +1,6 @@
 # Instant Turbo Navigation
 
-BirFramework delivers Single-Page Application (SPA) speed and seamless transitions directly over server-rendered Blade templates.
+BirJS delivers Single-Page Application (SPA) speed and seamless transitions directly over server-rendered Blade templates.
 
 ---
 

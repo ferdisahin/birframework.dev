@@ -1,6 +1,6 @@
 # Configuration & Environment
 
-BirFramework provides centralized configuration management and native `.env` parsing out of the box.
+BirJS provides centralized configuration management and native `.env` parsing out of the box.
 
 ---
 
@@ -9,7 +9,7 @@ BirFramework provides centralized configuration management and native `.env` par
 At the root of your application, the `.env` file defines your environment-specific settings:
 
 ```ini
-APP_NAME=BirFramework
+APP_NAME=BirJS
 APP_ENV=development
 APP_KEY=base64:randomGeneratedSecurityKey32Chars
 APP_DEBUG=true
@@ -27,12 +27,12 @@ CACHE_DRIVER=memory
 
 ## Reading Environment Values
 
-BirFramework provides an `env()` helper that reads from `process.env` with type casting and fallback defaults:
+BirJS provides an `env()` helper that reads from `process.env` with type casting and fallback defaults:
 
 ```ts
 import { env } from 'birframework';
 
-const appName = env('APP_NAME', 'BirFramework');
+const appName = env('APP_NAME', 'BirJS');
 const port = env('PORT', 3000);
 const isDebug = env('APP_DEBUG', false);
 ```

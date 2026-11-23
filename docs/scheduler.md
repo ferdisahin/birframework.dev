@@ -1,6 +1,6 @@
 # Task Scheduler
 
-BirFramework includes a built-in fluent task scheduling engine, eliminating the need to configure multiple server-level OS cron entries.
+BirJS includes a built-in fluent task scheduling engine, eliminating the need to configure multiple server-level OS cron entries.
 
 ---
 

@@ -1,6 +1,6 @@
 # CLI Command Reference
 
-BirFramework provides an artisan-style command-line tool `bir` for code generation, migrations, worker daemons, and project management.
+BirJS provides an artisan-style command-line tool `bir` for code generation, migrations, worker daemons, and project management.
 
 ---
 

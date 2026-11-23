@@ -1,7 +1,7 @@
 export class HomeController {
   async index(ctx) {
     return ctx.render('welcome', {
-      title: 'BirFramework',
+      title: 'BirJS',
       nodeVersion: process.version,
     });
   }

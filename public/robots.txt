@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://birframework.dev/sitemap.xml
+Sitemap: https://birjs.com/sitemap.xml

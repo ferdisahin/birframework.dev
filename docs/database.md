@@ -1,6 +1,6 @@
 # Multi-Driver Database Engine
 
-BirFramework includes a unified database connection layer supporting SQLite, PostgreSQL, and MySQL.
+BirJS includes a unified database connection layer supporting SQLite, PostgreSQL, and MySQL.
 
 ---
 
@@ -35,7 +35,7 @@ export default {
 
 ## Zero-Dependency SQLite
 
-BirFramework uses Node's built-in `node:sqlite` engine when running on Node.js 22+. No external binary downloads, C++ node-gyp compilers, or heavy native dependencies are required.
+BirJS uses Node's built-in `node:sqlite` engine when running on Node.js 22+. No external binary downloads, C++ node-gyp compilers, or heavy native dependencies are required.
 
 ---
 

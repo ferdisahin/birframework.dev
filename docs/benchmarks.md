@@ -1,6 +1,6 @@
 # Performance & Benchmarks
 
-Independent and reproducible benchmark comparing fresh default installations of **BirFramework**, **Next.js 16**, and **Laravel 13**.
+Independent and reproducible benchmark comparing fresh default installations of **BirJS**, **Next.js 16**, and **Laravel 13**.
 
 ---
 
@@ -10,9 +10,9 @@ Web frameworks often publish theoretical or cherry-picked benchmarks. To establi
 
 ### Key Takeaways
 
-- **26x Faster Response than Traditional PHP**: BirFramework delivers sub-2ms (`1.26ms`) average latency and over `7,890 RPS`, compared to Laravel's `33.4ms` and `300 RPS` under identical concurrent load.
-- **Outperforms Next.js on Pure Throughput**: In ApacheBench testing (`ab -c 10`), BirFramework served **7,899 RPS** vs Next.js's **7,097 RPS**.
-- **Ultra-Low Latency Overhead**: 99% of requests in BirFramework are resolved within **4ms**.
+- **26x Faster Response than Traditional PHP**: BirJS delivers sub-2ms (`1.26ms`) average latency and over `7,890 RPS`, compared to Laravel's `33.4ms` and `300 RPS` under identical concurrent load.
+- **Outperforms Next.js on Pure Throughput**: In ApacheBench testing (`ab -c 10`), BirJS served **7,899 RPS** vs Next.js's **7,097 RPS**.
+- **Ultra-Low Latency Overhead**: 99% of requests in BirJS are resolved within **4ms**.
 
 ---
 
@@ -22,7 +22,7 @@ Web frameworks often publish theoretical or cherry-picked benchmarks. To establi
 
 *Standard HTTP request model measuring mean latency and throughput with 10 concurrent clients:*
 
-| Metric | BirFramework (v0.1.5) | Next.js 16 (App Router) | Laravel 13 (PHP 8.5) |
+| Metric | BirJS (v0.1.5) | Next.js 16 (App Router) | Laravel 13 (PHP 8.5) |
 | :--- | :---: | :---: | :---: |
 | **Requests Per Second (RPS)** | **7,899.19 RPS** 🚀 | **7,097.38 RPS** | **299.58 RPS** |
 | **Mean Latency** | **1.26 ms** ⚡ | **1.40 ms** | **33.38 ms** |
@@ -37,7 +37,7 @@ Web frameworks often publish theoretical or cherry-picked benchmarks. To establi
 
 *50 concurrent persistent keep-alive connections over 10 continuous seconds:*
 
-| Metric | BirFramework | Next.js 16 (Production) | Laravel 13 (CLI) |
+| Metric | BirJS | Next.js 16 (Production) | Laravel 13 (CLI) |
 | :--- | :---: | :---: | :---: |
 | **Average RPS** | **9,257.82 RPS** | **10,696.37 RPS** | *(Single-threaded CLI drops keep-alive)* |
 | **Average Latency** | **4.90 ms** | **4.17 ms** | — |
@@ -46,22 +46,22 @@ Web frameworks often publish theoretical or cherry-picked benchmarks. To establi
 | **Data Throughput** | **85 MB/s** | **135 MB/s** | — |
 
 > [!NOTE]
-> Next.js achieves high throughput in Autocannon production mode because its default welcome page is statically prerendered (`○ (Static)` HTML). BirFramework achieves comparable throughput while executing its dynamic radix-router request cycle and in-memory Blade view rendering pipeline.
+> Next.js achieves high throughput in Autocannon production mode because its default welcome page is statically prerendered (`○ (Static)` HTML). BirJS achieves comparable throughput while executing its dynamic radix-router request cycle and in-memory Blade view rendering pipeline.
 
 ---
 
-## Architectural Breakdown: Why Is BirFramework So Fast?
+## Architectural Breakdown: Why Is BirJS So Fast?
 
 ### 1. Persistent In-Memory V8 Execution
 Traditional PHP / Laravel architectures follow a **process-per-request** lifecycle. For every single incoming HTTP request, the PHP engine boots, loads composer autoloader files, registers service providers, builds the service container, parses routes, and renders views, before destroying all memory allocations.
 
-In contrast, **BirFramework lives warm in memory**. Your routes, models, database pools, and template caches are already compiled in Node.js V8 heap space. An incoming request only executes the exact handler function needed, returning responses in `1ms`.
+In contrast, **BirJS lives warm in memory**. Your routes, models, database pools, and template caches are already compiled in Node.js V8 heap space. An incoming request only executes the exact handler function needed, returning responses in `1ms`.
 
 ### 2. Zero-Overhead Radix Routing
-BirFramework utilizes a custom radix-tree router rather than iterating sequentially through arrays of regexes. Route lookup is `O(k)` where `k` is URL depth, regardless of whether you have 10 routes or 1,000 routes.
+BirJS utilizes a custom radix-tree router rather than iterating sequentially through arrays of regexes. Route lookup is `O(k)` where `k` is URL depth, regardless of whether you have 10 routes or 1,000 routes.
 
 ### 3. Lightweight Blade Rendering vs Heavy Hydration
-Client-heavy meta-frameworks like Next.js require bundling React, server components, and hydration scripts. BirFramework renders clean HTML on the server and pairs with **BirTurbo** for instant DOM morphing, bypassing client-side JavaScript execution overhead.
+Client-heavy meta-frameworks like Next.js require bundling React, server components, and hydration scripts. BirJS renders clean HTML on the server and pairs with **BirTurbo** for instant DOM morphing, bypassing client-side JavaScript execution overhead.
 
 ---
 
@@ -79,7 +79,7 @@ composer create-project laravel/laravel bench-laravel
 
 ### 2. Start each server on dedicated ports
 ```bash
-# Terminal 1: BirFramework (Port 4001)
+# Terminal 1: BirJS (Port 4001)
 cd bench-bir && PORT=4001 npm start
 
 # Terminal 2: Next.js (Port 4002)

@@ -1,6 +1,6 @@
 # Request Validation
 
-BirFramework includes a zero-dependency schema validation engine featuring Laravel-style pipe validation rules.
+BirJS includes a zero-dependency schema validation engine featuring Laravel-style pipe validation rules.
 
 ---
 
@@ -92,7 +92,7 @@ export class UserController {
 
 ## Error Handling
 
-When validation fails, BirFramework automatically stops request execution:
+When validation fails, BirJS automatically stops request execution:
 - **API / JSON Requests**: Returns a `422 Unprocessable Content` response with structured error messages.
 - **Web Form Requests**: Flashes error messages to the session and redirects back to the previous form URL.
 

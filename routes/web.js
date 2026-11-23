@@ -11,12 +11,12 @@ Route.get('/', (ctx) => homeController.index(ctx)).name('home');
 // Robots.txt for Search Engines
 Route.get('/robots.txt', (ctx) => {
   ctx.res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
-  ctx.res.end("User-agent: *\nAllow: /\n\nSitemap: https://birframework.dev/sitemap.xml\n");
+  ctx.res.end("User-agent: *\nAllow: /\n\nSitemap: https://birjs.com/sitemap.xml\n");
 }).name('robots');
 
 // Dynamic Sitemap XML for SEO
 Route.get('/sitemap.xml', (ctx) => {
-  const baseUrl = 'https://birframework.dev';
+  const baseUrl = 'https://birjs.com';
   const urls = [
     { loc: `${baseUrl}/`, priority: '1.0', changefreq: 'daily' },
     ...DOCS_PAGES.map((p) => ({

@@ -42,7 +42,7 @@
             Authentication out of the box
           </h2>
           <p id="showcase-desc" class="mt-4 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed font-normal">
-            BirFramework gives you session-based cookie authentication, password hashing with Argon2/Bcrypt, CSRF verification, and route protection with zero external setup.
+            BirJS gives you session-based cookie authentication, password hashing with Argon2/Bcrypt, CSRF verification, and route protection with zero external setup.
           </p>
 
           <ul id="showcase-bullets" class="mt-6 space-y-2.5 text-xs text-zinc-700 dark:text-zinc-300">
@@ -268,7 +268,7 @@ describe('Application Feature Tests', () => {
   const showcaseData = {
     auth: {
       title: "Authentication out of the box",
-      desc: "BirFramework gives you session-based cookie authentication, password hashing with Argon2/Bcrypt, CSRF verification, and route protection with zero external setup.",
+      desc: "BirJS gives you session-based cookie authentication, password hashing with Argon2/Bcrypt, CSRF verification, and route protection with zero external setup.",
       bullets: [
         "Complete scaffold with <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>bir make:auth</code>",
         "Encrypted session cookies with tamper protection",

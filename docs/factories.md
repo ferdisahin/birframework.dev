@@ -1,12 +1,12 @@
 # Model Factories & Database Seeding
 
-When developing applications and writing automated tests, generating realistic test data quickly is essential. BirFramework provides a built-in **Factory** system and lightweight **Faker** utility, completely eliminating the need for bulky third-party mock libraries.
+When developing applications and writing automated tests, generating realistic test data quickly is essential. BirJS provides a built-in **Factory** system and lightweight **Faker** utility, completely eliminating the need for bulky third-party mock libraries.
 
 ---
 
 ## 1. Creating a Factory
 
-Scaffold a new factory using the BirFramework CLI:
+Scaffold a new factory using the BirJS CLI:
 
 ```bash
 npx birframework make:factory UserFactory
@@ -118,7 +118,7 @@ const unverifiedUsers = await UserFactory.state('unverified').count(5).create();
 
 ## 5. Database Seeders
 
-BirFramework seeders allow you to populate your database with initial data or realistic mock records:
+BirJS seeders allow you to populate your database with initial data or realistic mock records:
 
 ```bash
 npx birframework make:seeder DatabaseSeeder
@@ -135,7 +135,7 @@ export class DatabaseSeeder extends Seeder {
     // Seed 1 default superadmin
     await UserFactory.create({
       name: 'Super Admin',
-      email: 'admin@birframework.dev',
+      email: 'admin@birjs.com',
       role: 'admin',
     });
 

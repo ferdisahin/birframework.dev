@@ -1,12 +1,12 @@
 # Error Handling & Ignition Debug Screen
 
-BirFramework includes a built-in, zero-config interactive error handling engine inspired by **Laravel Ignition** and **Next.js Error Overlay**.
+BirJS includes a built-in, zero-config interactive error handling engine inspired by **Laravel Ignition** and **Next.js Error Overlay**.
 
 ---
 
 ## Interactive Ignition Debug Screen
 
-In development (`NODE_ENV !== 'production'`), when an unhandled exception occurs during a browser request, BirFramework intercepts the failure and presents a sleek, interactive debug screen:
+In development (`NODE_ENV !== 'production'`), when an unhandled exception occurs during a browser request, BirJS intercepts the failure and presents a sleek, interactive debug screen:
 
 ### Key Features
 1. **Source Code Preview**: Automatically inspects the call stack, locates the exact application file and line number, and renders the code snippet with the faulting line highlighted in red.
@@ -19,7 +19,7 @@ In development (`NODE_ENV !== 'production'`), when an unhandled exception occurs
 
 ```
 ┌────────────────────────────────────────────────────────┐
-│ BirFramework v0.4.0  •  GET /posts/my-slug  •  500 ERR │
+│ BirJS v0.4.0  •  GET /posts/my-slug  •  500 ERR │
 ├────────────────────────────────────────────────────────┤
 │ TypeError: Cannot read properties of undefined         │
 │ app/controllers/PostController.ts:42                   │
@@ -35,7 +35,7 @@ In development (`NODE_ENV !== 'production'`), when an unhandled exception occurs
 
 ## API & JSON Error Responses
 
-If an exception occurs during an API request (`Accept: application/json` or paths starting with `/api`), BirFramework automatically formats the error as structured JSON:
+If an exception occurs during an API request (`Accept: application/json` or paths starting with `/api`), BirJS automatically formats the error as structured JSON:
 
 ```json
 {
@@ -53,7 +53,7 @@ If an exception occurs during an API request (`Accept: application/json` or path
 
 In production environments, detailed stack traces, file paths, and code snippets are **strictly masked** to protect sensitive infrastructure data:
 
-- **Browser Requests**: Renders `views/errors/500.html` if present in your project, or falls back to BirFramework's minimal, production-safe 500 error page.
+- **Browser Requests**: Renders `views/errors/500.html` if present in your project, or falls back to BirJS's minimal, production-safe 500 error page.
 - **API Requests**: Returns `{ "error": "Internal Server Error", "message": "Server Error" }` with HTTP status `500`.
 
 ---
@@ -64,7 +64,7 @@ When an incoming request matches no registered route:
 
 1. **Browser Requests (`text/html`)**:
    - Automatically searches for `views/errors/404.html`.
-   - If not found, renders BirFramework's built-in dark-themed 404 page displaying the requested path and a link back to the homepage.
+   - If not found, renders BirJS's built-in dark-themed 404 page displaying the requested path and a link back to the homepage.
 2. **API Requests (`application/json` or `/api/*`)**:
    - Responds with standard 404 JSON:
    ```json

@@ -1,6 +1,6 @@
 # Localization & i18n Translation
 
-BirFramework provides an intuitive internationalization (i18n) and translation system inspired by Laravel, supporting parameter interpolation, fallback locales, and direct Blade template directives.
+BirJS provides an intuitive internationalization (i18n) and translation system inspired by Laravel, supporting parameter interpolation, fallback locales, and direct Blade template directives.
 
 ---
 

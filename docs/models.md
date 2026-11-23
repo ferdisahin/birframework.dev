@@ -1,6 +1,6 @@
 # Active Record ORM
 
-BirFramework provides an intuitive Active Record ORM inspired by Eloquent, allowing you to interact with database tables as expressive TypeScript classes.
+BirJS provides an intuitive Active Record ORM inspired by Eloquent, allowing you to interact with database tables as expressive TypeScript classes.
 
 ---
 
@@ -36,7 +36,7 @@ export class User extends Model {
 ```ts
 const user = await User.create({
   name: 'Ferdi Sahin',
-  email: 'ferdi@birframework.dev',
+  email: 'ferdi@birjs.com',
   role: 'admin',
 });
 ```
@@ -54,7 +54,7 @@ const admins = await User.where('role', 'admin')
   .get();
 
 // First matching record
-const user = await User.where('email', 'ferdi@birframework.dev').first();
+const user = await User.where('email', 'ferdi@birjs.com').first();
 ```
 
 ### Updating Records
@@ -80,7 +80,7 @@ if (user) {
 
 ## Model Lifecycle Hooks
 
-BirFramework models fire lifecycle hooks allowing you to tap into the model's lifecycle: `creating`, `created`, `saving`, `saved`, `deleting`, and `deleted`.
+BirJS models fire lifecycle hooks allowing you to tap into the model's lifecycle: `creating`, `created`, `saving`, `saved`, `deleting`, and `deleted`.
 
 ### Instance Method Hooks
 
@@ -119,7 +119,7 @@ User.created(async (user) => {
 
 ## Soft Deletes
 
-BirFramework supports non-destructive deletions using the `softDeletes` property:
+BirJS supports non-destructive deletions using the `softDeletes` property:
 
 ```typescript
 export class Post extends Model {

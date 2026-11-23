@@ -1,6 +1,6 @@
 # Directory Structure
 
-BirFramework enforces a clean, modular directory structure that scales effortlessly from tiny microservices to large enterprise monoliths.
+BirJS enforces a clean, modular directory structure that scales effortlessly from tiny microservices to large enterprise monoliths.
 
 ---
 
@@ -50,7 +50,7 @@ Defines your database models extending `Model`. Each model provides active recor
 Version-controlled database schema changes. Migrations let you incrementally alter tables and roll back changes across environments.
 
 ### `views/`
-Holds your Blade-like HTML templates. BirFramework automatically resolves layout components in `views/layouts/` and UI components in `views/components/`.
+Holds your Blade-like HTML templates. BirJS automatically resolves layout components in `views/layouts/` and UI components in `views/components/`.
 
 ### `storage/`
 Stores uploaded files, temporary cache, job locks, and default SQLite databases (`storage/database.sqlite`).

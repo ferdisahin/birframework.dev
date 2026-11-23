@@ -1,6 +1,6 @@
 # Overview & Philosophy
 
-BirFramework was engineered to solve the chronic fragmentation and cognitive fatigue in the modern Node.js and TypeScript ecosystem.
+BirJS was engineered to solve the chronic fragmentation and cognitive fatigue in the modern Node.js and TypeScript ecosystem.
 
 ---
 
@@ -19,13 +19,13 @@ This "Frankenstein" approach produces significant maintenance overhead, version 
 
 ---
 
-## The BirFramework Solution
+## The BirJS Solution
 
-BirFramework adopts the time-tested architectural principles and developer experience of **Laravel**, and adapts them natively for high-performance, persistent-memory TypeScript runtimes.
+BirJS adopts the time-tested architectural principles and developer experience of **Laravel**, and adapts them natively for high-performance, persistent-memory TypeScript runtimes.
 
 ### Key Pillars
 
-- **Persistent Memory Runtime**: Unlike PHP-FPM which boots from scratch on every request, BirFramework remains warm in memory. Incoming requests are routed and handled in sub-millisecond dispatch cycles (0ms – 2ms).
+- **Persistent Memory Runtime**: Unlike PHP-FPM which boots from scratch on every request, BirJS remains warm in memory. Incoming requests are routed and handled in sub-millisecond dispatch cycles (0ms – 2ms).
 - **Batteries-Included Architecture**: Out-of-the-box routing, controllers, dependency injection, validation, database migrations, active record models, queues, scheduler, mail, and storage.
 - **Zero-Dependency Philosophy**: Leverages modern Node.js built-ins (`node:sqlite`, `node:crypto`, `node:http`, `node:fs`) whenever possible, eliminating hundreds of transitive `node_modules` vulnerabilities.
 - **Instant Turbo SPA**: Server-rendered Blade HTML morphs seamlessly into the browser DOM with zero page reloads, zero full flushes, and zero heavy client framework bundles.
@@ -34,7 +34,7 @@ BirFramework adopts the time-tested architectural principles and developer exper
 
 ## Framework Comparison
 
-| Capability | BirFramework | Express.js | Next.js / Nuxt |
+| Capability | BirJS | Express.js | Next.js / Nuxt |
 | --- | --- | --- | --- |
 | **Architecture** | Full-Stack MVC | Minimal Router | React/Vue Hybrid |
 | **ORM & Migrations** | Built-in Active Record | Manual Setup | External (Prisma) |

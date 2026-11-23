@@ -26,7 +26,7 @@ export class SendWelcomeEmailJob extends Job {
 
   public async handle() {
     await Mail.to(this.user.email).send({
-      subject: `Welcome to BirFramework, ${this.user.name}!`,
+      subject: `Welcome to BirJS, ${this.user.name}!`,
       view: 'emails/welcome',
       data: { user: this.user },
     });

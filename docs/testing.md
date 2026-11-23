@@ -1,6 +1,6 @@
 # HTTP Testing & Test Runner
 
-BirFramework includes a built-in HTTP testing assistant inspired by Laravel and Pest. You can write expressive, fluid integration and feature tests with zero third-party testing bloat.
+BirJS includes a built-in HTTP testing assistant inspired by Laravel and Pest. You can write expressive, fluid integration and feature tests with zero third-party testing bloat.
 
 ---
 
@@ -51,7 +51,7 @@ describe('Authentication Feature Tests', () => {
     client = createTestClient(app);
 
     const res = await client.post('/login', {
-      email: 'user@birframework.dev',
+      email: 'user@birjs.com',
       password: 'password123',
     });
 

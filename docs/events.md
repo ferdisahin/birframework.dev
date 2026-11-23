@@ -1,6 +1,6 @@
 # Events & Listeners
 
-BirFramework provides an asynchronous, type-safe **Event** and **Listener** system. Events serve as a great way to decouple various aspects of your application, since a single event can have multiple listeners that don't depend on each other.
+BirJS provides an asynchronous, type-safe **Event** and **Listener** system. Events serve as a great way to decouple various aspects of your application, since a single event can have multiple listeners that don't depend on each other.
 
 ---
 
@@ -34,7 +34,7 @@ import { Mail } from 'birframework';
 export class SendWelcomeEmail {
   public async handle(event: UserRegistered): Promise<void> {
     await Mail.to(event.user.email).send({
-      subject: 'Welcome to BirFramework!',
+      subject: 'Welcome to BirJS!',
       html: `<h1>Hello, ${event.user.name}!</h1><p>Thanks for joining us.</p>`,
     });
   }
@@ -101,7 +101,7 @@ if (result?.approved) {
 
 ## 4. Testing with `Event.fake()`
 
-When writing automated tests, you often want to verify that an event was fired without actually triggering heavy listeners (like sending emails or external webhooks). BirFramework includes testing utilities inspired by Laravel:
+When writing automated tests, you often want to verify that an event was fired without actually triggering heavy listeners (like sending emails or external webhooks). BirJS includes testing utilities inspired by Laravel:
 
 ```typescript
 import { test } from 'node:test';

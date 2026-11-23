@@ -1,6 +1,6 @@
 # Authentication & Sessions
 
-BirFramework provides built-in authentication services, secure cryptographically signed cookies, session handling, and a full-stack starter kit inspired by Laravel Breeze.
+BirJS provides built-in authentication services, secure cryptographically signed cookies, session handling, and a full-stack starter kit inspired by Laravel Breeze.
 
 ---
 
@@ -81,7 +81,7 @@ export class AuthController {
 
 ## Signed Cookies & Sessions
 
-BirFramework cryptographically signs cookies using `APP_KEY` from your `.env` file to prevent client-side tampering:
+BirJS cryptographically signs cookies using `APP_KEY` from your `.env` file to prevent client-side tampering:
 
 ```ts
 // Set a session value

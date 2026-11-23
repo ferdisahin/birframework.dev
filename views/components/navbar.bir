@@ -6,7 +6,7 @@
         <svg class="w-5 h-5 text-zinc-900 dark:text-white" viewBox="0 0 24 24" fill="currentColor">
           <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
         </svg>
-        <span class="text-base tracking-tight font-semibold">BirFramework</span>
+        <span class="text-base tracking-tight font-semibold">BirJS</span>
         <span class="text-[11px] text-zinc-600 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-2 py-0.5 rounded-full ml-1 font-medium tabular-nums">v{{ version }}</span>
       </a>
 
@@ -32,7 +32,7 @@
       </button>
 
       <a href="/docs/installation" class="hidden sm:inline-flex text-xs text-zinc-700 dark:text-zinc-300 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 px-3 py-1.5 rounded-md transition items-center gap-2 font-medium">
-        <span>npx birframework new</span>
+        <span>npx bir new</span>
         <span class="text-zinc-400 dark:text-zinc-500">→</span>
       </a>
 

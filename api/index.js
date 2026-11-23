@@ -51,7 +51,7 @@ export default async function handler(req, res) {
       req.url = '/';
     }
 
-    console.log('[BirFramework] Handling request:', req.method, req.url, 'matchedPath:', matchedPath);
+    console.log('[BirJS] Handling request:', req.method, req.url, 'matchedPath:', matchedPath);
     await app.handle(req, res);
   } catch (err) {
     console.error('Vercel Function Error:', err);
@@ -60,7 +60,7 @@ export default async function handler(req, res) {
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       res.end(`
         <div style="font-family:system-ui,-apple-system,sans-serif; padding:2rem; max-width:800px; margin:auto;">
-          <h1 style="color:#e11d48; font-size:1.5rem; font-weight:700;">BirFramework Function Error</h1>
+          <h1 style="color:#e11d48; font-size:1.5rem; font-weight:700;">BirJS Function Error</h1>
           <p style="color:#52525b; font-size:0.875rem;">${err.message}</p>
           <pre style="background:#18181b; color:#f4f4f5; padding:1rem; border-radius:8px; font-size:0.75rem; overflow:auto;">${err.stack}</pre>
         </div>

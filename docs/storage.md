@@ -1,6 +1,6 @@
 # File Storage
 
-BirFramework provides an expressive file storage abstraction layer for local disks and cloud drivers.
+BirJS provides an expressive file storage abstraction layer for local disks and cloud drivers.
 
 ---
 
@@ -28,7 +28,7 @@ await Storage.delete('avatars/user-1.jpg');
 
 ## Multipart File Uploads
 
-BirFramework natively parses `multipart/form-data` uploads with zero external dependencies. In your controllers, access uploaded files via `ctx.file('field_name')`:
+BirJS natively parses `multipart/form-data` uploads with zero external dependencies. In your controllers, access uploaded files via `ctx.file('field_name')`:
 
 ```html
 <!-- views/profile.html -->
