@@ -6,22 +6,23 @@
   <title>{{ title }} - BirFramework</title>
 
   <!-- Primary Meta Tags -->
-  <meta name="description" content="The full-stack web framework for Node.js and TypeScript. Laravel developer ergonomics paired with sub-millisecond persistent-memory V8 speed.">
+  <meta name="description" content="{{ description ? description : 'The full-stack web framework for Node.js and TypeScript. Laravel developer ergonomics paired with sub-millisecond persistent-memory V8 speed.' }}">
   <meta name="keywords" content="birframework, nodejs, typescript, fullstack, framework, laravel, blade, turbo, active record, orm, web framework">
   <meta name="author" content="Ferdi Sahin">
   <meta name="theme-color" content="#000000">
+  <link rel="canonical" href="{{ canonical ? canonical : 'https://birframework.dev' }}">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://birframework.dev/">
+  <meta property="og:url" content="{{ canonical ? canonical : 'https://birframework.dev/' }}">
   <meta property="og:title" content="{{ title }} - BirFramework">
-  <meta property="og:description" content="The full-stack web framework for Node.js and TypeScript. Laravel ergonomics with persistent-memory speed.">
+  <meta property="og:description" content="{{ description ? description : 'The full-stack web framework for Node.js and TypeScript. Laravel ergonomics with persistent-memory speed.' }}">
   <meta property="og:site_name" content="BirFramework">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ title }} - BirFramework">
-  <meta name="twitter:description" content="The full-stack web framework for Node.js and TypeScript. Laravel ergonomics with persistent-memory speed.">
+  <meta name="twitter:description" content="{{ description ? description : 'The full-stack web framework for Node.js and TypeScript. Laravel ergonomics with persistent-memory speed.' }}">
 
   <!-- Structured Data JSON-LD -->
   <script type="application/ld+json">
