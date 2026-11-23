@@ -1,7 +1,7 @@
 <x-layouts.app title="BirFramework - Full-Stack Web Framework for Node.js & TypeScript">
   <!-- Hero Section -->
   <section class="relative pt-20 sm:pt-32 pb-20 border-b border-zinc-200 dark:border-zinc-800">
-    <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-7xl mx-auto px-6">
       <div class="max-w-3xl">
         <!-- Release Badge -->
         <a href="/docs/installation" class="inline-flex items-center gap-2.5 px-3 py-1 rounded-full bg-zinc-100 hover:bg-zinc-200/80 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 text-xs text-zinc-700 dark:text-zinc-300 transition mb-6">
@@ -17,17 +17,17 @@
 
         <!-- Subtitle -->
         <p class="mt-6 text-lg sm:text-xl text-zinc-600 dark:text-zinc-400 leading-relaxed font-normal">
-          Laravel developer ergonomics paired with sub-millisecond persistent-memory V8 speed. ActiveRecord ORM, migrations, background queues, real-time WebSockets, and server-rendered <code class="font-mono text-sm px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200">.bir</code> templates.
+          Laravel developer ergonomics paired with sub-millisecond persistent-memory V8 speed. ActiveRecord ORM, migrations, background queues, real-time WebSockets, and server-rendered <code class="text-sm px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 font-medium">.bir</code> templates.
         </p>
 
         <!-- Command & CTA Actions -->
         <div class="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-          <div class="flex items-center justify-between bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-4 py-2.5 rounded-lg text-xs font-mono text-zinc-900 dark:text-zinc-200 min-w-[280px]">
+          <div class="flex items-center justify-between bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-4 py-2.5 rounded-lg text-xs text-zinc-900 dark:text-zinc-200 min-w-[280px]">
             <div class="flex items-center gap-2">
               <span class="text-zinc-400 select-none">$</span>
               <span id="cmd-install" class="select-all font-medium">npx birframework new my-app</span>
             </div>
-            <button data-copy="#cmd-install" class="text-zinc-500 hover:text-zinc-950 dark:hover:text-white text-[11px] pl-3 border-l border-zinc-300 dark:border-zinc-700 font-sans font-medium transition">
+            <button data-copy="#cmd-install" class="text-zinc-500 hover:text-zinc-950 dark:hover:text-white text-[11px] pl-3 border-l border-zinc-300 dark:border-zinc-700 font-medium transition cursor-pointer">
               Copy
             </button>
           </div>
@@ -46,20 +46,20 @@
       <!-- Live Metrics Strip -->
       <div class="mt-14 pt-8 border-t border-zinc-200 dark:border-zinc-800/80 grid grid-cols-2 sm:grid-cols-4 gap-6 text-xs">
         <div>
-          <div class="text-2xl font-bold tracking-tight text-zinc-950 dark:text-white font-mono">7,899</div>
-          <div class="text-zinc-500 mt-0.5">Requests per second</div>
+          <div class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950 dark:text-white">7,899</div>
+          <div class="text-zinc-500 mt-1">Requests per second</div>
         </div>
         <div>
-          <div class="text-2xl font-bold tracking-tight text-zinc-950 dark:text-white font-mono">1.26ms</div>
-          <div class="text-zinc-500 mt-0.5">Average loopback latency</div>
+          <div class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950 dark:text-white">1.26ms</div>
+          <div class="text-zinc-500 mt-1">Average loopback latency</div>
         </div>
         <div>
-          <div class="text-2xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400 font-mono">99 / 99</div>
-          <div class="text-zinc-500 mt-0.5">Automated test suites pass</div>
+          <div class="text-2xl sm:text-3xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400">111 / 111</div>
+          <div class="text-zinc-500 mt-1">Automated test suites pass</div>
         </div>
         <div>
-          <div class="text-2xl font-bold tracking-tight text-zinc-950 dark:text-white font-mono">3 Databases</div>
-          <div class="text-zinc-500 mt-0.5">SQLite, PostgreSQL, MySQL</div>
+          <div class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950 dark:text-white">3 Databases</div>
+          <div class="text-zinc-500 mt-1">SQLite, PostgreSQL, MySQL</div>
         </div>
       </div>
     </div>
@@ -67,7 +67,7 @@
 
   <!-- Interactive Framework Feature Showcase (The Laravel-style interactive panel) -->
   <section class="py-20 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50/40 dark:bg-zinc-950/40">
-    <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-7xl mx-auto px-6">
       
       <!-- Top Pills Nav -->
       <div class="flex items-center justify-center mb-10 overflow-x-auto pb-2">
@@ -115,7 +115,7 @@
             <ul id="showcase-bullets" class="mt-6 space-y-2.5 text-xs text-zinc-700 dark:text-zinc-300">
               <li class="flex items-center gap-2">
                 <span class="text-emerald-500 font-bold">&check;</span>
-                <span>Complete scaffold with <code class="font-mono text-zinc-900 dark:text-zinc-200">bir make:auth</code></span>
+                <span>Complete scaffold with <code class="font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">bir make:auth</code></span>
               </li>
               <li class="flex items-center gap-2">
                 <span class="text-emerald-500 font-bold">&check;</span>
@@ -123,7 +123,7 @@
               </li>
               <li class="flex items-center gap-2">
                 <span class="text-emerald-500 font-bold">&check;</span>
-                <span>Automatic <code class="font-mono text-zinc-900 dark:text-zinc-200">Auth.attempt()</code> and <code class="font-mono text-zinc-900 dark:text-zinc-200">Auth.user()</code></span>
+                <span>Automatic <code class="font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">Auth.attempt()</code> and <code class="font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">Auth.user()</code></span>
               </li>
               <li class="flex items-center gap-2">
                 <span class="text-emerald-500 font-bold">&check;</span>
@@ -143,7 +143,7 @@
           <div class="lg:col-span-7">
             <div class="border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden bg-zinc-950 shadow-md">
               <!-- Window Tabs Header -->
-              <div class="flex items-center justify-between px-4 py-2 bg-zinc-900 border-b border-zinc-800 text-xs font-mono">
+              <div class="flex items-center justify-between px-4 py-2 bg-zinc-900 border-b border-zinc-800 text-xs font-medium">
                 <div class="flex items-center gap-2">
                   <span id="tab-label-1" class="px-2.5 py-1 rounded bg-zinc-800 text-zinc-200 text-[11px]">
                     routes/web.ts
@@ -152,13 +152,13 @@
                     AuthController.ts
                   </span>
                 </div>
-                <button data-copy="#showcase-active-code" class="text-zinc-500 hover:text-zinc-300 text-[11px] font-sans transition">
+                <button data-copy="#showcase-active-code" class="text-zinc-500 hover:text-zinc-300 text-[11px] font-sans transition cursor-pointer">
                   Copy
                 </button>
               </div>
 
               <!-- Code Content Container -->
-              <div class="p-5 text-xs font-mono leading-relaxed text-zinc-300 overflow-x-auto min-h-[300px]">
+              <div class="p-5 text-xs leading-relaxed text-zinc-300 overflow-x-auto min-h-[300px]">
                 <!-- Auth Code -->
                 <pre id="code-content-auth"><code>import { Route, Auth, type Context } from 'birframework';
 import { User } from './app/models/User.js';
@@ -332,9 +332,9 @@ describe('Application Feature Tests', () => {
 
   <!-- Complete Architecture Capabilities (Deep, informative 6-pillar grid) -->
   <section id="architecture" class="py-20 border-b border-zinc-200 dark:border-zinc-800">
-    <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-7xl mx-auto px-6">
       <div class="max-w-2xl mb-14">
-        <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 mb-2">Integrated Platform</h2>
+        <h2 class="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-2">Integrated Platform</h2>
         <h3 class="text-3xl font-bold tracking-tight text-zinc-950 dark:text-white">Built for shipping real applications.</h3>
         <p class="text-sm text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
           Every component is designed to work together seamlessly without configuration conflicts.
@@ -344,7 +344,7 @@ describe('Application Feature Tests', () => {
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <!-- 1. ORM & Query Builder -->
         <div class="border-t border-zinc-200 dark:border-zinc-800 pt-6">
-          <div class="text-xs font-mono font-bold text-zinc-400 mb-2">01 / PERSISTENCE</div>
+          <div class="text-xs font-semibold text-zinc-400 mb-2">01 / PERSISTENCE</div>
           <h4 class="text-base font-bold text-zinc-950 dark:text-white">ActiveRecord ORM</h4>
           <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
             Fluent query building, relationships, model lifecycle hooks, and soft deletes. Connect seamlessly to SQLite, PostgreSQL, or MySQL via dialect translation.
@@ -356,10 +356,10 @@ describe('Application Feature Tests', () => {
 
         <!-- 2. .bir Blade Engine -->
         <div class="border-t border-zinc-200 dark:border-zinc-800 pt-6">
-          <div class="text-xs font-mono font-bold text-zinc-400 mb-2">02 / TEMPLATING</div>
+          <div class="text-xs font-semibold text-zinc-400 mb-2">02 / TEMPLATING</div>
           <h4 class="text-base font-bold text-zinc-950 dark:text-white">.bir Blade Engine</h4>
           <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
-            Components, slots, and directives compiled on the server. Instant Turbo navigation swaps the <code class="font-mono">&lt;body&gt;</code> without full reloads, giving SPA speed with zero client bundle weight.
+            Components, slots, and directives compiled on the server. Instant Turbo navigation swaps the <code class="px-1 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 font-medium">&lt;body&gt;</code> without full reloads, giving SPA speed with zero client bundle weight.
           </p>
           <a href="/docs/views" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
             Learn more &rarr;
@@ -368,7 +368,7 @@ describe('Application Feature Tests', () => {
 
         <!-- 3. Queues & Redis -->
         <div class="border-t border-zinc-200 dark:border-zinc-800 pt-6">
-          <div class="text-xs font-mono font-bold text-zinc-400 mb-2">03 / ASYNC WORK</div>
+          <div class="text-xs font-semibold text-zinc-400 mb-2">03 / ASYNC WORK</div>
           <h4 class="text-base font-bold text-zinc-950 dark:text-white">Background Queues</h4>
           <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
             Offload long operations effortlessly. Built-in SQLite and Redis queue drivers with retry strategies, delay intervals, and dedicated queue worker daemons.
@@ -380,7 +380,7 @@ describe('Application Feature Tests', () => {
 
         <!-- 4. WebSockets & Real-Time -->
         <div class="border-t border-zinc-200 dark:border-zinc-800 pt-6">
-          <div class="text-xs font-mono font-bold text-zinc-400 mb-2">04 / REAL-TIME</div>
+          <div class="text-xs font-semibold text-zinc-400 mb-2">04 / REAL-TIME</div>
           <h4 class="text-base font-bold text-zinc-950 dark:text-white">WebSockets &amp; Broadcast</h4>
           <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
             Built-in RFC 6455 WebSocket server. Broadcast real-time notifications, chat messages, or status updates to channels without external SaaS dependencies.
@@ -392,7 +392,7 @@ describe('Application Feature Tests', () => {
 
         <!-- 5. Interactive Debug Screen -->
         <div class="border-t border-zinc-200 dark:border-zinc-800 pt-6">
-          <div class="text-xs font-mono font-bold text-zinc-400 mb-2">05 / ERROR HANDLING</div>
+          <div class="text-xs font-semibold text-zinc-400 mb-2">05 / ERROR HANDLING</div>
           <h4 class="text-base font-bold text-zinc-950 dark:text-white">Ignition Debug Screen</h4>
           <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
             Interactive in-browser exception inspector. Displays highlighted source code frames, environment variables, request headers, and solution hints in development.
@@ -404,10 +404,10 @@ describe('Application Feature Tests', () => {
 
         <!-- 6. Artisan-Class CLI -->
         <div class="border-t border-zinc-200 dark:border-zinc-800 pt-6">
-          <div class="text-xs font-mono font-bold text-zinc-400 mb-2">06 / COMMAND LINE</div>
+          <div class="text-xs font-semibold text-zinc-400 mb-2">06 / COMMAND LINE</div>
           <h4 class="text-base font-bold text-zinc-950 dark:text-white">Artisan-Style CLI</h4>
           <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
-            Scaffold models, migrations, seeders, controllers, jobs, and mailables with simple <code class="font-mono">bir make:*</code> commands. Inspect routes with <code class="font-mono">bir route:list</code>.
+            Scaffold models, migrations, seeders, controllers, jobs, and mailables with simple <code class="px-1 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 font-medium">bir make:*</code> commands. Inspect routes with <code class="px-1 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 font-medium">bir route:list</code>.
           </p>
           <a href="/docs/cli" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
             Learn more &rarr;
@@ -419,9 +419,9 @@ describe('Application Feature Tests', () => {
 
   <!-- Side-by-Side Empirical Benchmarks (Clean, factual) -->
   <section id="benchmarks" class="py-20 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50/40 dark:bg-zinc-950/40">
-    <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-7xl mx-auto px-6">
       <div class="max-w-2xl mb-8">
-        <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 mb-2">Benchmark Performance</h2>
+        <h2 class="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-2">Benchmark Performance</h2>
         <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950 dark:text-white">Measured performance on local loopback.</h3>
         <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
           Tested on Apple Silicon macOS with 5,000 requests (concurrency = 10). Persistent V8 in-memory execution delivers consistent sub-millisecond response times.
@@ -430,14 +430,14 @@ describe('Application Feature Tests', () => {
 
       <div class="border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden bg-white dark:bg-zinc-950 shadow-xs">
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs font-mono">
+          <table class="w-full text-left text-xs">
             <thead>
-              <tr class="border-b border-zinc-200 dark:border-zinc-800 text-zinc-500 text-[11px] bg-zinc-50 dark:bg-zinc-900/60">
-                <th class="py-3 px-5 font-normal">Framework</th>
-                <th class="py-3 px-5 font-normal">Runtime / Engine</th>
-                <th class="py-3 px-5 font-normal text-right">Throughput</th>
-                <th class="py-3 px-5 font-normal text-right">Average Latency</th>
-                <th class="py-3 px-5 font-normal text-right">p99 Latency</th>
+              <tr class="border-b border-zinc-200 dark:border-zinc-800 text-zinc-500 text-[11px] bg-zinc-50 dark:bg-zinc-900/60 uppercase tracking-wider">
+                <th class="py-3 px-5 font-semibold">Framework</th>
+                <th class="py-3 px-5 font-semibold">Runtime / Engine</th>
+                <th class="py-3 px-5 font-semibold text-right">Throughput</th>
+                <th class="py-3 px-5 font-semibold text-right">Average Latency</th>
+                <th class="py-3 px-5 font-semibold text-right">p99 Latency</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800 text-zinc-700 dark:text-zinc-300">
@@ -446,21 +446,21 @@ describe('Application Feature Tests', () => {
                   <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                   BirFramework v0.4.0
                 </td>
-                <td class="py-3.5 px-5 text-zinc-500 dark:text-zinc-400 font-sans">Node.js 22+ (Persistent V8)</td>
+                <td class="py-3.5 px-5 text-zinc-500 dark:text-zinc-400">Node.js 22+ (Persistent V8)</td>
                 <td class="py-3.5 px-5 text-right text-emerald-600 dark:text-emerald-400 font-bold">7,899 req/s</td>
                 <td class="py-3.5 px-5 text-right font-semibold text-zinc-900 dark:text-white">1.26 ms</td>
                 <td class="py-3.5 px-5 text-right">4.00 ms</td>
               </tr>
               <tr>
                 <td class="py-3.5 px-5 font-medium text-zinc-900 dark:text-zinc-200">Next.js 16 (App Router)</td>
-                <td class="py-3.5 px-5 text-zinc-500 font-sans">Node.js 22+ (React Server Components)</td>
+                <td class="py-3.5 px-5 text-zinc-500">Node.js 22+ (React Server Components)</td>
                 <td class="py-3.5 px-5 text-right text-zinc-600 dark:text-zinc-400">7,097 req/s</td>
                 <td class="py-3.5 px-5 text-right text-zinc-600 dark:text-zinc-400">1.40 ms</td>
                 <td class="py-3.5 px-5 text-right">4.00 ms</td>
               </tr>
               <tr>
                 <td class="py-3.5 px-5 text-zinc-600 dark:text-zinc-400">Laravel 13</td>
-                <td class="py-3.5 px-5 text-zinc-500 font-sans">PHP 8.5 (FPM / CLI Per-Request Boot)</td>
+                <td class="py-3.5 px-5 text-zinc-500">PHP 8.5 (FPM / CLI Per-Request Boot)</td>
                 <td class="py-3.5 px-5 text-right text-zinc-500">300 req/s</td>
                 <td class="py-3.5 px-5 text-right text-zinc-500">33.38 ms</td>
                 <td class="py-3.5 px-5 text-right text-zinc-500">71.00 ms</td>
@@ -474,30 +474,30 @@ describe('Application Feature Tests', () => {
 
   <!-- Open Source Reference Projects -->
   <section id="ecosystem" class="py-20 border-b border-zinc-200 dark:border-zinc-800">
-    <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-7xl mx-auto px-6">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
         <div>
-          <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 mb-2">Real-World Codebases</h2>
+          <h2 class="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-2">Real-World Codebases</h2>
           <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950 dark:text-white">Open-source reference applications</h3>
         </div>
-        <span class="text-xs text-zinc-500 font-mono">100% automated test coverage</span>
+        <span class="text-xs text-zinc-500">100% automated test coverage</span>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- Project 1: BirBlog -->
         <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
           <div class="flex items-center justify-between mb-4">
-            <span class="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
+            <span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
               CMS &amp; Publishing
             </span>
-            <span class="text-xs text-zinc-400 font-mono">bir-blog</span>
+            <span class="text-xs text-zinc-400">bir-blog</span>
           </div>
           <h4 class="text-lg font-bold text-zinc-950 dark:text-white">BirBlog Platform</h4>
           <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
             Full publishing architecture featuring user authentication, FormRequest validation, automated slug generation, nested article comments, and .bir template layouts.
           </p>
           <div class="mt-6 pt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-xs">
-            <span class="text-zinc-500 font-mono">6 / 6 feature tests pass</span>
+            <span class="text-zinc-500 font-medium">6 / 6 feature tests pass</span>
             <a href="https://github.com/ferdisahin/BirFramework" target="_blank" class="font-medium text-zinc-900 dark:text-white hover:underline flex items-center gap-1">
               Source Code &rarr;
             </a>
@@ -507,17 +507,17 @@ describe('Application Feature Tests', () => {
         <!-- Project 2: CloudForge SaaS -->
         <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
           <div class="flex items-center justify-between mb-4">
-            <span class="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
+            <span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
               SaaS &amp; Metered Billing
             </span>
-            <span class="text-xs text-zinc-400 font-mono">bir-saas</span>
+            <span class="text-xs text-zinc-400">bir-saas</span>
           </div>
           <h4 class="text-lg font-bold text-zinc-950 dark:text-white">CloudForge Platform</h4>
           <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
             Multi-tier subscription billing, automated PDF invoice generation, metered developer API keys, usage metrics tracking, and background subscription renewals.
           </p>
           <div class="mt-6 pt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-xs">
-            <span class="text-zinc-500 font-mono">6 / 6 feature tests pass</span>
+            <span class="text-zinc-500 font-medium">6 / 6 feature tests pass</span>
             <a href="https://github.com/ferdisahin/BirFramework" target="_blank" class="font-medium text-zinc-900 dark:text-white hover:underline flex items-center gap-1">
               Source Code &rarr;
             </a>
@@ -554,9 +554,9 @@ describe('Application Feature Tests', () => {
         title: "Authentication out of the box",
         desc: "BirFramework gives you session-based cookie authentication, password hashing with Argon2/Bcrypt, CSRF verification, and route protection with zero external setup.",
         bullets: [
-          "Complete scaffold with <code class='font-mono'>bir make:auth</code>",
+          "Complete scaffold with <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>bir make:auth</code>",
           "Encrypted session cookies with tamper protection",
-          "Automatic <code class='font-mono'>Auth.attempt()</code> and <code class='font-mono'>Auth.user()</code>",
+          "Automatic <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>Auth.attempt()</code> and <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>Auth.user()</code>",
           "Native middleware for protected route groups"
         ],
         link: "/docs/security",
@@ -568,8 +568,8 @@ describe('Application Feature Tests', () => {
         desc: "Fluent ActiveRecord querying, model lifecycle hooks, relationships (hasMany, belongsTo), and soft deletes across SQLite, PostgreSQL, and MySQL.",
         bullets: [
           "Type-inferred queries with TypeScript generics",
-          "Lifecycle hooks (<code class='font-mono'>beforeCreate</code>, <code class='font-mono'>saved</code>)",
-          "Built-in soft deletes (<code class='font-mono'>post.delete()</code>, <code class='font-mono'>Post.withTrashed()</code>)",
+          "Lifecycle hooks (<code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>beforeCreate</code>, <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>saved</code>)",
+          "Built-in soft deletes (<code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>post.delete()</code>, <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>Post.withTrashed()</code>)",
           "ACID transactions with automatic rollback on error"
         ],
         link: "/docs/database",
@@ -580,10 +580,10 @@ describe('Application Feature Tests', () => {
         title: "Declarative Schema Migrations",
         desc: "Design and alter database tables using a fluent, declarative schema builder. Migrations run in batches with full rollback support.",
         bullets: [
-          "Auto-generated timestamps with <code class='font-mono'>bir make:migration</code>",
+          "Auto-generated timestamps with <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>bir make:migration</code>",
           "Fluent column types: string, text, integer, boolean, timestamps",
           "Unique constraints, nullable fields, foreign keys",
-          "Rollback batch management with <code class='font-mono'>bir migrate:rollback</code>"
+          "Rollback batch management with <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>bir migrate:rollback</code>"
         ],
         link: "/docs/database",
         tab1: "migrations/create_articles.ts",
@@ -593,10 +593,10 @@ describe('Application Feature Tests', () => {
         title: "Request Validation & FormRequests",
         desc: "Validate incoming request payloads cleanly. FormRequest classes isolate validation logic, sanitization, and authorization from controllers.",
         bullets: [
-          "Class-based requests with <code class='font-mono'>bir make:request</code>",
-          "Declarative rules (<code class='font-mono'>required|email|min:6</code>)",
+          "Class-based requests with <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>bir make:request</code>",
+          "Declarative rules (<code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>required|email|min:6</code>)",
           "Automatic 422 Unprocessable Entity responses with structured errors",
-          "Integrated authorization checks with <code class='font-mono'>authorize()</code>"
+          "Integrated authorization checks with <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>authorize()</code>"
         ],
         link: "/docs/validation",
         tab1: "app/requests/StorePostRequest.ts",
@@ -606,9 +606,9 @@ describe('Application Feature Tests', () => {
         title: ".bir Blade Template Engine",
         desc: "Modern Blade components, slots, and directives compiled natively on the server. Instant Turbo navigation gives SPA speed without JavaScript bundle bloat.",
         bullets: [
-          "Native <code class='font-mono'>.bir</code> template files in <code class='font-mono'>views/</code>",
-          "Blade directives (<code class='font-mono'>@if</code>, <code class='font-mono'>@foreach</code>, <code class='font-mono'>@verbatim</code>)",
-          "Component tags (<code class='font-mono'>&lt;x-layouts.app&gt;</code>, <code class='font-mono'>&lt;x-slot&gt;</code>)",
+          "Native <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>.bir</code> template files in views",
+          "Blade directives (<code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>@if</code>, <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>@foreach</code>, <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>@verbatim</code>)",
+          "Component tags (<code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>&lt;x-layouts.app&gt;</code>, <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>&lt;x-slot&gt;</code>)",
           "Instant Turbo page transitions without full-page reloads"
         ],
         link: "/docs/views",
@@ -619,10 +619,10 @@ describe('Application Feature Tests', () => {
         title: "Background Queues & Jobs",
         desc: "Offload long-running tasks, transactional emails, and external webhooks effortlessly with SQLite and Redis queue drivers.",
         bullets: [
-          "Generate jobs with <code class='font-mono'>bir make:job</code>",
-          "Delayed job execution (<code class='font-mono'>delaySeconds</code>)",
+          "Generate jobs with <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>bir make:job</code>",
+          "Delayed job execution (<code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>delaySeconds</code>)",
           "SQLite and Redis queue storage backends",
-          "Production queue daemon with <code class='font-mono'>bir queue:work</code>"
+          "Production queue daemon with <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>bir queue:work</code>"
         ],
         link: "/docs/queues",
         tab1: "app/jobs/SendEmailJob.ts",
@@ -634,7 +634,7 @@ describe('Application Feature Tests', () => {
         bullets: [
           "RFC 6455 compliant native WebSocket server",
           "Channel subscriptions and selective room broadcasting",
-          "Broadcast anywhere with <code class='font-mono'>Broadcast.to('channel').emit()</code>",
+          "Broadcast anywhere with <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>Broadcast.to('channel').emit()</code>",
           "Zero external server or SaaS subscription required"
         ],
         link: "/docs/broadcasting",
@@ -645,8 +645,8 @@ describe('Application Feature Tests', () => {
         title: "Built-in HTTP Testing Client",
         desc: "Write clean, fluent integration and end-to-end tests using the native Node.js test runner. No external HTTP server or port conflicts.",
         bullets: [
-          "Native Node.js test runner integration (<code class='font-mono'>node:test</code>)",
-          "Fluent assertions: <code class='font-mono'>assertOk()</code>, <code class='font-mono'>assertSee()</code>, <code class='font-mono'>assertJson()</code>",
+          "Native Node.js test runner integration (<code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>node:test</code>)",
+          "Fluent assertions: <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>assertOk()</code>, <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>assertSee()</code>, <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>assertJson()</code>",
           "Automatic cookie, session, and redirect tracking",
           "Fast in-memory execution in under 2 seconds"
         ],
