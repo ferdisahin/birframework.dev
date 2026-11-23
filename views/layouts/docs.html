@@ -1,84 +1,9 @@
-<!DOCTYPE html>
-<html lang="en" class="dark scroll-smooth">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ title }} - BirFramework Docs</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
-            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
-    ::-webkit-scrollbar-track { background: #000; }
-    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 2px; }
-
-    /* Clean Developer Documentation Typography */
-    .prose-bir h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.025em; color: #fff; margin-top: 0.5rem; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #18181b; }
-    .prose-bir h2 { font-size: 1.125rem; font-weight: 600; letter-spacing: -0.02em; color: #fff; margin-top: 2rem; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid #18181b; }
-    .prose-bir h3 { font-size: 0.9375rem; font-weight: 600; color: #f4f4f5; margin-top: 1.5rem; margin-bottom: 0.5rem; }
-    .prose-bir p { font-size: 0.8125rem; line-height: 1.625; color: #a1a1aa; margin-bottom: 1rem; }
-    .prose-bir strong { color: #fff; font-weight: 600; }
-    .prose-bir em { color: #d4d4d8; font-style: italic; }
-    .prose-bir a { color: #e4e4e7; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: #3f3f46; transition: all 0.15s; }
-    .prose-bir a:hover { color: #fff; text-decoration-color: #a1a1aa; }
-    .prose-bir ul { list-style-type: disc; padding-left: 1.25rem; margin-bottom: 1rem; font-size: 0.8125rem; color: #a1a1aa; }
-    .prose-bir ol { list-style-type: decimal; padding-left: 1.25rem; margin-bottom: 1rem; font-size: 0.8125rem; color: #a1a1aa; }
-    .prose-bir li { margin-bottom: 0.375rem; line-height: 1.5; }
-    .prose-bir li strong { color: #e4e4e7; }
-    .prose-bir blockquote { border-left: 2px solid #3f3f46; padding-left: 1rem; padding-top: 0.25rem; padding-bottom: 0.25rem; margin: 1rem 0; font-size: 0.8125rem; color: #a1a1aa; font-style: italic; background: rgba(9, 9, 11, 0.4); border-radius: 0 4px 4px 0; }
-    .prose-bir hr { border-color: #18181b; margin: 2rem 0; }
-    .prose-bir pre { background: #09090b; border: 1px solid #18181b; border-radius: 0.5rem; padding: 1rem; margin: 1rem 0; overflow-x: auto; font-size: 0.75rem; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; line-height: 1.6; color: #e4e4e7; }
-    .prose-bir code { background: #18181b; border: 1px solid #27272a; color: #e4e4e7; padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-size: 0.75rem; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
-    .prose-bir pre code { background: transparent; border: none; padding: 0; color: inherit; font-size: inherit; }
-    .prose-bir table { width: 100%; font-size: 0.75rem; text-align: left; border-collapse: collapse; margin: 1.5rem 0; border: 1px solid #18181b; border-radius: 0.375rem; overflow: hidden; }
-    .prose-bir th { background: #18181b; border-bottom: 1px solid #27272a; padding: 0.625rem 0.75rem; font-weight: 600; color: #fff; }
-    .prose-bir td { border-bottom: 1px solid #18181b; padding: 0.625rem 0.75rem; color: #a1a1aa; }
-    .prose-bir tr:last-child td { border-bottom: none; }
-  </style>
-</head>
-<body class="bg-black text-zinc-100 min-h-screen flex flex-col font-sans antialiased selection:bg-zinc-800 selection:text-white">
-
-  <!-- Top Navigation Bar -->
-  <header class="sticky top-0 z-50 bg-black/85 backdrop-blur border-b border-zinc-900">
-    <div class="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
-      <div class="flex items-center gap-8">
-        <a href="/" class="flex items-center gap-2 font-semibold tracking-tight text-white hover:opacity-90 transition">
-          <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-          </svg>
-          <span class="text-sm tracking-tight">BirFramework</span>
-          <span class="text-[10px] font-mono text-zinc-400 bg-zinc-900 border border-zinc-800 px-1.5 py-0.2 rounded font-normal">v0.1.3</span>
-        </a>
-
-        <div class="hidden sm:flex items-center gap-2 text-xs text-zinc-500">
-          <span>/</span>
-          <span class="text-zinc-300">Documentation</span>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-4 text-xs">
-        <a href="/" class="text-zinc-400 hover:text-white transition">Home</a>
-        <a href="https://github.com/ferdisahin/BirFramework" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-white transition">GitHub</a>
-      </div>
-    </div>
-  </header>
-
+<x-layouts.app title="{{ title }} - Docs">
   <!-- Docs Layout Container -->
   <div class="max-w-7xl mx-auto px-6 w-full flex-1 flex flex-col md:flex-row gap-10">
 
     <!-- Sticky Sidebar -->
-    <aside class="w-full md:w-64 shrink-0 md:sticky md:top-14 md:h-[calc(100vh-3.5rem)] overflow-y-auto py-8 pr-4 border-b md:border-b-0 md:border-r border-zinc-900">
+    <aside class="w-full md:w-64 shrink-0 md:sticky md:top-16 md:h-[calc(100vh-4rem)] overflow-y-auto py-8 pr-4 border-b md:border-b-0 md:border-r border-zinc-900">
       
       <!-- Quick Filter Input -->
       <div class="mb-6">
@@ -102,7 +27,7 @@
             </li>
             <li>
               <a href="/docs/installation" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'installation' ? 'bg-zinc-900 text-white font-medium' : '' }}">
-                Installation
+                Installation Guide
               </a>
             </li>
             <li>
@@ -129,12 +54,12 @@
             </li>
             <li>
               <a href="/docs/controllers" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'controllers' ? 'bg-zinc-900 text-white font-medium' : '' }}">
-                Controllers & Resources
+                Controllers & Actions
               </a>
             </li>
             <li>
               <a href="/docs/middleware" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'middleware' ? 'bg-zinc-900 text-white font-medium' : '' }}">
-                Middleware Pipeline
+                HTTP Middleware
               </a>
             </li>
             <li>
@@ -145,7 +70,7 @@
           </ul>
         </div>
 
-        <!-- 3. Views & Turbo -->
+        <!-- 3. Frontend & Views -->
         <div>
           <h2 class="font-medium text-zinc-400 mb-2 uppercase tracking-wider text-[11px]">Frontend & Views</h2>
           <ul class="space-y-1">
@@ -173,20 +98,20 @@
             </li>
             <li>
               <a href="/docs/models" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'models' ? 'bg-zinc-900 text-white font-medium' : '' }}">
-                Active Record Models
+                Active Record ORM
               </a>
             </li>
             <li>
               <a href="/docs/migrations" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'migrations' ? 'bg-zinc-900 text-white font-medium' : '' }}">
-                Migrations & Seeders
+                Schema & Migrations
               </a>
             </li>
           </ul>
         </div>
 
-        <!-- 5. Services & Workers -->
+        <!-- 5. Security & Background -->
         <div>
-          <h2 class="font-medium text-zinc-400 mb-2 uppercase tracking-wider text-[11px]">Services & Workers</h2>
+          <h2 class="font-medium text-zinc-400 mb-2 uppercase tracking-wider text-[11px]">Security & Daemons</h2>
           <ul class="space-y-1">
             <li>
               <a href="/docs/auth" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'auth' ? 'bg-zinc-900 text-white font-medium' : '' }}">
@@ -195,7 +120,7 @@
             </li>
             <li>
               <a href="/docs/queues" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'queues' ? 'bg-zinc-900 text-white font-medium' : '' }}">
-                Queues & Background Jobs
+                Background Queues
               </a>
             </li>
             <li>
@@ -231,7 +156,7 @@
     </article>
   </div>
 
-  <!-- Client Filter Script & Code Copy -->
+  <!-- Client Filter Script -->
   <script>
     document.addEventListener('input', (e) => {
       if (e.target.id !== 'docs-filter') return;
@@ -242,20 +167,5 @@
         li.style.display = text.includes(q) ? '' : 'none';
       });
     });
-
-    document.addEventListener('click', (e) => {
-      const btn = e.target.closest('[data-copy]');
-      if (!btn) return;
-      const selector = btn.getAttribute('data-copy');
-      const target = document.querySelector(selector);
-      if (!target) return;
-      navigator.clipboard.writeText(target.innerText.trim());
-      const original = btn.innerHTML;
-      btn.innerHTML = '<span class="text-emerald-400 font-mono text-[11px]">Copied</span>';
-      setTimeout(() => { btn.innerHTML = original; }, 2000);
-    });
   </script>
-
-  {!! bir_scripts() !!}
-</body>
-</html>
+</x-layouts.app>
