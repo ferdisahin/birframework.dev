@@ -1,177 +1,236 @@
-<x-layouts.app title="BirFramework - The TypeScript Web Framework for Artisans">
-  <!-- Hero Section -->
-  <section class="relative pt-24 sm:pt-36 pb-20 overflow-hidden">
-    <!-- Subtle Background Grid & Vignette -->
-    <div class="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+<x-layouts.app title="BirFramework - Full-Stack TypeScript Architecture for Web Artisans">
+  <!-- BirFramework Signature Canvas Hero -->
+  <section class="relative pt-20 sm:pt-28 pb-20 border-b border-zinc-200/80 dark:border-zinc-900 overflow-hidden">
+    <!-- Ambient Blueprint Dots Pattern -->
+    <div class="absolute inset-0 -z-10 bg-[radial-gradient(#a1a1aa_1px,transparent_1px)] dark:bg-[radial-gradient(#27272a_1px,transparent_1px)] [background-size:20px_20px] opacity-40"></div>
 
-    <div class="max-w-6xl mx-auto px-6 text-center">
-      <!-- Announcement Pill -->
-      <a href="/docs/installation" class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-zinc-100 hover:bg-zinc-200/80 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs text-zinc-700 dark:text-zinc-300 hover:border-zinc-300 dark:hover:border-zinc-700 transition mb-8 shadow-xs">
-        <span class="flex h-2 w-2 relative">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-        </span>
-        <span class="font-medium">BirFramework v0.4.0 Released</span>
-        <span class="text-zinc-400 dark:text-zinc-600">&bull;</span>
-        <span class="text-zinc-500 dark:text-zinc-400 font-mono">.bir templates, WebSockets &amp; Redis</span>
-        <span class="text-zinc-400 dark:text-zinc-600">&rarr;</span>
-      </a>
-
-      <!-- Headline -->
-      <h1 class="text-5xl sm:text-7xl font-bold tracking-tight text-zinc-950 dark:text-white max-w-4xl mx-auto leading-[1.08] sm:leading-[1.06]">
-        The TypeScript framework for <span class="underline decoration-zinc-300 dark:decoration-zinc-700 decoration-2 underline-offset-8">artisans</span>.
-      </h1>
-
-      <!-- Subtitle -->
-      <p class="text-lg sm:text-xl text-zinc-600 dark:text-zinc-400 mt-8 max-w-2xl mx-auto leading-relaxed font-normal">
-        Laravel developer ergonomics with the sub-millisecond persistent-memory speed of modern V8 runtimes. Zero configuration bloat.
-      </p>
-
-      <!-- Terminal Command & CTA -->
-      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 max-w-lg mx-auto">
-        <div class="w-full sm:w-auto flex-1 flex items-center justify-between bg-zinc-100 dark:bg-zinc-900/90 border border-zinc-200 dark:border-zinc-800 px-4 py-3 rounded-xl text-xs text-zinc-900 dark:text-zinc-200 shadow-xs">
-          <div class="flex items-center gap-2.5 font-mono">
-            <span class="text-zinc-400 dark:text-zinc-500 select-none">$</span>
-            <span id="cmd-install" class="select-all font-medium">npx birframework new my-app</span>
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        
+        <!-- Left Column: Core Value Proposition & Typography -->
+        <div class="lg:col-span-7 text-left">
+          <!-- Monospace Ecosystem Flag -->
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-[11px] font-mono text-zinc-700 dark:text-zinc-300 mb-6 tracking-tight">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>BirFramework v0.4.0</span>
+            <span class="text-zinc-400 dark:text-zinc-600">|</span>
+            <span class="text-zinc-500 dark:text-zinc-400">Node.js 22+ &bull; Native ESM &bull; .bir</span>
           </div>
-          <button data-copy="#cmd-install" class="text-zinc-500 hover:text-zinc-950 dark:hover:text-white transition text-xs ml-3 pl-3 border-l border-zinc-200 dark:border-zinc-800 font-medium">
-            Copy
-          </button>
+
+          <!-- Bold, Distinctive Headline -->
+          <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-zinc-950 dark:text-white leading-[1.08]">
+            One coherent runtime.<br>
+            <span class="text-zinc-400 dark:text-zinc-500 font-normal">Zero patchwork.</span>
+          </h1>
+
+          <!-- Crisp Descriptive Prose -->
+          <p class="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 mt-6 leading-relaxed max-w-xl font-normal">
+            BirFramework unites active-record models, transactional migrations, background queue workers, and native <code class="font-mono text-xs px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200">.bir</code> server templates into a single high-throughput TypeScript engine.
+          </p>
+
+          <!-- Interactive CLI & CTAs -->
+          <div class="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 max-w-md">
+            <div class="flex-1 flex items-center justify-between bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-3.5 py-2.5 rounded-lg text-xs font-mono text-zinc-800 dark:text-zinc-200 shadow-xs">
+              <div class="flex items-center gap-2">
+                <span class="text-zinc-400 select-none">$</span>
+                <span id="cmd-install" class="select-all font-medium">npx birframework new app</span>
+              </div>
+              <button data-copy="#cmd-install" class="text-zinc-500 hover:text-zinc-900 dark:hover:text-white text-[11px] pl-3 border-l border-zinc-200 dark:border-zinc-800 font-sans font-medium transition">
+                Copy
+              </button>
+            </div>
+
+            <a href="/docs/installation" class="bg-zinc-950 hover:bg-zinc-800 text-white dark:bg-white dark:hover:bg-zinc-100 dark:text-zinc-950 px-5 py-2.5 rounded-lg font-semibold text-xs transition flex items-center justify-center gap-1.5 shadow-xs whitespace-nowrap">
+              <span>Documentation</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+
+          <!-- Key Metrics Line -->
+          <div class="mt-8 flex items-center gap-6 text-xs text-zinc-500 dark:text-zinc-400 font-mono">
+            <div>
+              <span class="font-bold text-zinc-900 dark:text-white">7,899</span> req/s
+            </div>
+            <span class="text-zinc-300 dark:text-zinc-700">&bull;</span>
+            <div>
+              <span class="font-bold text-zinc-900 dark:text-white">1.26ms</span> avg latency
+            </div>
+            <span class="text-zinc-300 dark:text-zinc-700">&bull;</span>
+            <div>
+              <span class="font-bold text-emerald-600 dark:text-emerald-400">99 / 99</span> tests passing
+            </div>
+          </div>
         </div>
 
-        <a href="/docs/installation" class="w-full sm:w-auto bg-zinc-950 hover:bg-zinc-800 text-white dark:bg-white dark:hover:bg-zinc-100 dark:text-zinc-950 px-6 py-3 rounded-xl font-semibold text-xs transition flex items-center justify-center gap-2 shadow-xs">
-          <span>Get Started</span>
-          <span>&rarr;</span>
-        </a>
-      </div>
+        <!-- Right Column: Interactive Architecture Stack Showcase -->
+        <div class="lg:col-span-5">
+          <div class="border border-zinc-200 dark:border-zinc-800 rounded-xl bg-white dark:bg-zinc-950 p-5 shadow-xl">
+            <div class="flex items-center justify-between pb-3 border-b border-zinc-100 dark:border-zinc-800/80 text-xs text-zinc-500 font-mono">
+              <span class="font-semibold text-zinc-900 dark:text-white">BirFramework Core Stack</span>
+              <span>v0.4.0</span>
+            </div>
 
-      <!-- Quick Trust Indicators -->
-      <div class="mt-14 pt-10 border-t border-zinc-200/80 dark:border-zinc-900 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs text-zinc-500 dark:text-zinc-400 font-medium">
-        <span class="flex items-center gap-1.5"><span class="text-emerald-500">&check;</span> 99 / 99 Automated Unit Tests</span>
-        <span class="flex items-center gap-1.5"><span class="text-emerald-500">&check;</span> Native TypeScript &amp; ESM</span>
-        <span class="flex items-center gap-1.5"><span class="text-emerald-500">&check;</span> SQLite &bull; Postgres &bull; MySQL</span>
-        <span class="flex items-center gap-1.5"><span class="text-emerald-500">&check;</span> Redis Caching &amp; Queues</span>
+            <div class="space-y-2 mt-4 text-xs font-mono">
+              <!-- Layer 1: HTTP & Routing -->
+              <div class="p-3 rounded-lg border border-zinc-200/80 dark:border-zinc-800 bg-zinc-50/70 dark:bg-zinc-900/60 flex items-center justify-between">
+                <div>
+                  <div class="font-semibold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                    <span>HTTP &amp; Router Layer</span>
+                  </div>
+                  <span class="text-[11px] text-zinc-500">Radix tree &bull; FormRequest validation &bull; Session</span>
+                </div>
+                <span class="text-[10px] uppercase font-bold text-zinc-400 dark:text-zinc-500">Radix</span>
+              </div>
+
+              <!-- Layer 2: Views & Templates -->
+              <div class="p-3 rounded-lg border border-zinc-200/80 dark:border-zinc-800 bg-zinc-50/70 dark:bg-zinc-900/60 flex items-center justify-between">
+                <div>
+                  <div class="font-semibold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                    <span>.bir Blade Template Engine</span>
+                  </div>
+                  <span class="text-[11px] text-zinc-500">Components &bull; Slots &bull; Instant Turbo SPA</span>
+                </div>
+                <span class="text-[10px] uppercase font-bold text-amber-500/80 font-mono">.bir</span>
+              </div>
+
+              <!-- Layer 3: ORM & Database -->
+              <div class="p-3 rounded-lg border border-zinc-200/80 dark:border-zinc-800 bg-zinc-50/70 dark:bg-zinc-900/60 flex items-center justify-between">
+                <div>
+                  <div class="font-semibold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    <span>ActiveRecord ORM &amp; Migrations</span>
+                  </div>
+                  <span class="text-[11px] text-zinc-500">SQLite &bull; PostgreSQL &bull; MySQL &bull; Soft Deletes</span>
+                </div>
+                <span class="text-[10px] uppercase font-bold text-emerald-500/80">ActiveRecord</span>
+              </div>
+
+              <!-- Layer 4: Async Infrastructure -->
+              <div class="p-3 rounded-lg border border-zinc-200/80 dark:border-zinc-800 bg-zinc-50/70 dark:bg-zinc-900/60 flex items-center justify-between">
+                <div>
+                  <div class="font-semibold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>
+                    <span>Queues, Redis &amp; WebSockets</span>
+                  </div>
+                  <span class="text-[11px] text-zinc-500">Background workers &bull; Real-time Broadcast &bull; Cache</span>
+                </div>
+                <span class="text-[10px] uppercase font-bold text-violet-500/80">Async</span>
+              </div>
+            </div>
+
+            <!-- Terminal Scaffold Demonstration -->
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 text-[11px] font-mono text-zinc-500 flex items-center justify-between">
+              <span>Ready in 1 CLI call</span>
+              <span class="text-zinc-900 dark:text-zinc-200 font-semibold">$ bir serve</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <!-- Interactive Code Tour (The Next.js / Laravel Hero Showcase) -->
-  <section class="py-12">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="border border-zinc-200 dark:border-zinc-800 bg-zinc-950 rounded-2xl overflow-hidden shadow-2xl">
-        <!-- Window Chrome Header -->
-        <div class="flex flex-wrap items-center justify-between px-5 py-3.5 bg-zinc-900/90 border-b border-zinc-800 text-xs">
-          <div class="flex items-center gap-4">
-            <!-- Window dots -->
-            <div class="flex items-center gap-1.5">
-              <span class="w-3 h-3 rounded-full bg-zinc-700/80"></span>
-              <span class="w-3 h-3 rounded-full bg-zinc-700/80"></span>
-              <span class="w-3 h-3 rounded-full bg-zinc-700/80"></span>
-            </div>
-
-            <!-- Tabs -->
-            <div class="flex items-center gap-1 overflow-x-auto" id="code-tabs">
-              <button onclick="switchTab('routes')" id="tab-routes" class="tab-btn px-3 py-1.5 rounded-lg bg-zinc-800 text-white font-medium text-xs transition flex items-center gap-1.5">
-                <span class="text-blue-400 font-mono text-[11px]">TS</span>
-                routes/web.ts
-              </button>
-              <button onclick="switchTab('model')" id="tab-model" class="tab-btn px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white font-medium text-xs transition flex items-center gap-1.5">
-                <span class="text-blue-400 font-mono text-[11px]">TS</span>
-                app/models/User.ts
-              </button>
-              <button onclick="switchTab('view')" id="tab-view" class="tab-btn px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white font-medium text-xs transition flex items-center gap-1.5">
-                <span class="text-amber-400 font-mono text-[11px]">BIR</span>
-                views/welcome.bir
-              </button>
-              <button onclick="switchTab('queue')" id="tab-queue" class="tab-btn px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white font-medium text-xs transition flex items-center gap-1.5">
-                <span class="text-blue-400 font-mono text-[11px]">TS</span>
-                app/jobs/SendInvoiceJob.ts
-              </button>
-              <button onclick="switchTab('broadcast')" id="tab-broadcast" class="tab-btn px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white font-medium text-xs transition flex items-center gap-1.5">
-                <span class="text-emerald-400 font-mono text-[11px]">WS</span>
-                app/events/OrderPlaced.ts
-              </button>
-            </div>
-          </div>
-
-          <div class="flex items-center gap-3">
-            <span class="text-[11px] text-zinc-500 font-mono hidden md:inline">TypeScript 5.8 &bull; Node 22+</span>
-            <button data-copy="#active-code" class="text-zinc-400 hover:text-white text-xs font-medium transition flex items-center gap-1">
-              <span>Copy</span>
+  <!-- Interactive Dual-Pane Code & Console Showcase -->
+  <section class="py-20 border-b border-zinc-200/80 dark:border-zinc-900">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        <div>
+          <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 mb-2">Architectural Blueprint</h2>
+          <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950 dark:text-white">Built for developers who value clarity.</h3>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-zinc-500 font-mono">Select layer:</span>
+          <div class="inline-flex rounded-lg border border-zinc-200 dark:border-zinc-800 p-0.5 bg-zinc-100 dark:bg-zinc-900 text-xs font-medium">
+            <button onclick="switchCodeTour('routing')" id="tour-btn-routing" class="px-3 py-1 rounded-md bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white shadow-xs font-mono transition">
+              Routing
+            </button>
+            <button onclick="switchCodeTour('orm')" id="tour-btn-orm" class="px-3 py-1 rounded-md text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white font-mono transition">
+              Model
+            </button>
+            <button onclick="switchCodeTour('view')" id="tour-btn-view" class="px-3 py-1 rounded-md text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white font-mono transition">
+              .bir Template
+            </button>
+            <button onclick="switchCodeTour('broadcast')" id="tour-btn-broadcast" class="px-3 py-1 rounded-md text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white font-mono transition">
+              Broadcast
             </button>
           </div>
         </div>
+      </div>
 
-        <!-- Code Panels -->
-        <div class="p-6 text-xs sm:text-[13px] font-mono overflow-x-auto leading-relaxed text-zinc-300 bg-zinc-950 min-h-[340px]">
-          <!-- Routes -->
-          <pre id="code-routes" class="code-panel"><code>import { Route, type Context } from 'birframework';
+      <!-- Code Box -->
+      <div class="border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden bg-zinc-950 shadow-lg">
+        <div class="flex items-center justify-between px-4 py-2.5 bg-zinc-900/90 border-b border-zinc-800 text-xs font-mono text-zinc-400">
+          <span id="tour-filename">routes/web.ts</span>
+          <button data-copy="#tour-active-code" class="text-zinc-400 hover:text-white text-xs font-sans transition">
+            Copy Code
+          </button>
+        </div>
+
+        <div class="p-6 text-xs sm:text-[13px] font-mono leading-relaxed text-zinc-300 overflow-x-auto">
+          <!-- Tour 1: Routing -->
+          <pre id="tour-code-routing" class="tour-panel"><code>import { Route, type Context } from 'birframework';
 import { PostController } from '../app/controllers/PostController.js';
 
 const posts = new PostController();
 
-// Resource controller routing
+// Resourceful routing
 Route.get('/posts', (ctx: Context) => posts.index(ctx));
 Route.get('/posts/:slug', (ctx: Context) => posts.show(ctx));
 
-// Grouped routes with validation and authentication
+// Validated form requests with automatic middleware resolution
 Route.group({ prefix: '/api/v1', middleware: ['auth'] }, () => {
   Route.post('/posts', async (ctx: Context) => {
     const data = await ctx.validate({
       title: 'required|string|min:3',
-      content: 'required|string',
+      content: 'required|string'
     });
     return ctx.json({ status: 'created', data }, 201);
   });
 });
 
-// Blade template view rendering with Instant Turbo navigation
+// Render server views with Instant Turbo client navigation
 Route.get('/', (ctx: Context) => {
   return ctx.render('welcome', { title: 'BirFramework' });
 });</code></pre>
 
-          <!-- Model -->
-          <pre id="code-model" class="code-panel hidden"><code>import { Model, DB } from 'birframework';
+          <!-- Tour 2: Model -->
+          <pre id="tour-code-orm" class="tour-panel hidden"><code>import { Model, DB } from 'birframework';
 
-export class User extends Model {
-  public static override table = 'users';
+export class Post extends Model {
+  public static override table = 'posts';
   public static override softDeletes = true;
 
-  // Fluent ActiveRecord Relationships
-  public posts() {
-    return this.hasMany('posts', 'user_id');
+  // Fluent relationship queries
+  public comments() {
+    return this.hasMany('comments', 'post_id');
   }
 
-  // Automatic Lifecycle Hook
-  public static override boot() {
-    this.creating((user) => {
-      user.verification_token = crypto.randomUUID();
-    });
+  // Automatic Lifecycle Hooks
+  public override beforeCreate() {
+    if (!this.attributes['slug']) {
+      this.attributes['slug'] = String(this.attributes['title']).toLowerCase().replace(/\s+/g, '-');
+    }
   }
 }
 
-// Fluent querying with full TypeScript inference
-const activeUsers = await User.where('status', '=', 'active')
+// Type-inferred queries across SQLite, PostgreSQL, and MySQL
+const publishedPosts = await Post.where('status', '=', 'published')
   .orderBy('created_at', 'desc')
-  .get();
+  .paginate({ perPage: 10 });</code></pre>
 
-// Multi-Dialect ACID Transactions (SQLite, PostgreSQL, MySQL)
-await DB.transaction(async () => {
-  await User.where('id', 1).decrement('balance', 50);
-  await User.where('id', 2).increment('balance', 50);
-});</code></pre>
-
-          <!-- View -->
-          <pre id="code-view" class="code-panel hidden"><code>@verbatim&lt;x-layouts.app title="{{ title }}"&gt;
+          <!-- Tour 3: .bir Template -->
+          <pre id="tour-code-view" class="tour-panel hidden"><code>@verbatim&lt;x-layouts.app title="{{ title }}"&gt;
   &lt;div class="max-w-4xl mx-auto py-12"&gt;
     &lt;h1 class="text-2xl font-bold"&gt;{{ title }}&lt;/h1&gt;
 
-    &lt;!-- Modern Blade Directives --&gt;
+    &lt;!-- Blade Syntax & Directives --&gt;
     @foreach(posts as post)
-      &lt;div class="border-b border-zinc-200 dark:border-zinc-800 py-3"&gt;
-        &lt;h2 class="text-sm font-semibold"&gt;{{ post.title }}&lt;/h2&gt;
-        &lt;span class="text-xs text-zinc-500"&gt;#{{ post.id }}&lt;/span&gt;
-      &lt;/div&gt;
+      &lt;article class="border-b border-zinc-200 dark:border-zinc-800 py-4"&gt;
+        &lt;h2 class="text-base font-semibold"&gt;{{ post.title }}&lt;/h2&gt;
+        &lt;p class="text-xs text-zinc-500"&gt;{{ post.created_at }}&lt;/p&gt;
+      &lt;/article&gt;
     @endforeach
 
     &lt;!-- Instant Turbo page navigation --&gt;
@@ -183,244 +242,119 @@ await DB.transaction(async () => {
   &lt;/x-slot&gt;
 &lt;/x-layouts.app&gt;@endverbatim</code></pre>
 
-          <!-- Queue -->
-          <pre id="code-queue" class="code-panel hidden"><code>import { Job, dispatch } from 'birframework';
+          <!-- Tour 4: Broadcast -->
+          <pre id="tour-code-broadcast" class="tour-panel hidden"><code>import { Broadcast, Route, type Context } from 'birframework';
 
-export class SendInvoiceJob extends Job {
-  constructor(public invoiceId: number, public userEmail: string) {
-    super();
-    this.queue = 'billing';
-    this.delaySeconds = 60; // Delayed execution
-  }
-
-  // Asynchronous background execution via SQLite / Redis queue worker
-  public async handle(): Promise&lt;void&gt; {
-    console.log(`Sending automated invoice #${this.invoiceId} to ${this.userEmail}`);
-  }
-}
-
-// Dispatch anywhere from controllers, requests, or CLI
-await dispatch(new SendInvoiceJob(1042, 'billing@acme.com'));</code></pre>
-
-          <!-- Broadcast -->
-          <pre id="code-broadcast" class="code-panel hidden"><code>import { Broadcast, Route, type Context } from 'birframework';
-
-// Real-Time Event Broadcasting with zero external WebSocket dependencies
+// Zero-dependency native WebSocket server
 Route.post('/orders', async (ctx: Context) => {
   const order = await ctx.body();
 
-  // Instant broadcast to all connected WebSocket clients on channel 'orders'
-  Broadcast.to('orders').emit('OrderPlaced', {
+  // Instant real-time broadcast to all connected WebSocket clients on channel 'orders'
+  Broadcast.to('orders').emit('OrderCreated', {
     orderId: order.id,
-    amount: order.total,
     customer: order.customerName,
+    amount: order.total
   });
 
   return ctx.json({ status: 'dispatched' });
 });</code></pre>
 
-          <div id="active-code" class="hidden"></div>
+          <div id="tour-active-code" class="hidden"></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Feature Grid: "Everything Included" (Laravel / Rails Tier Battery Included) -->
-  <section class="py-24 border-t border-zinc-200 dark:border-zinc-900 bg-zinc-50/50 dark:bg-zinc-950/40">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="max-w-2xl">
-        <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 mb-3">Batteries Included</h2>
-        <h3 class="text-3xl font-bold tracking-tight text-zinc-950 dark:text-white">Everything you need to ship. Zero boilerplate.</h3>
-        <p class="text-sm text-zinc-600 dark:text-zinc-400 mt-3 leading-relaxed">
-          Stop assembling 20 disconnected npm packages every time you start a project. BirFramework integrates the entire web application surface into a single, cohesive developer experience.
+  <!-- Architectural Contrast: Why BirFramework Exists -->
+  <section class="py-20 border-b border-zinc-200/80 dark:border-zinc-900 bg-zinc-50/50 dark:bg-zinc-950/40">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="max-w-2xl mb-12">
+        <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 mb-2">Philosophical Difference</h2>
+        <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950 dark:text-white">Why not another micro-framework?</h3>
+        <p class="text-sm text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+          Micro-frameworks leave routing, database, sessions, queues, and templating to fragmented third-party libraries that break on every major Node.js upgrade. BirFramework delivers a cohesive standard.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
-        <!-- Feature 1: ActiveRecord ORM -->
-        <div class="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-xs">
-          <div class="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-white mb-4 font-mono text-sm font-bold">
-            01
-          </div>
-          <h4 class="text-base font-semibold text-zinc-950 dark:text-white">ActiveRecord ORM &amp; Migrations</h4>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Pillar 1 -->
+        <div class="p-6 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
+          <div class="text-xs font-mono font-bold text-zinc-400 mb-3">01 / PERSISTENCE</div>
+          <h4 class="text-base font-bold text-zinc-950 dark:text-white">Persistent V8 Memory</h4>
           <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
-            Fluent schema migrations, model lifecycle hooks, relationships (<code class="font-mono text-zinc-900 dark:text-zinc-300">hasMany</code>, <code class="font-mono text-zinc-900 dark:text-zinc-300">belongsTo</code>), and soft deletes across SQLite, PostgreSQL, and MySQL.
+            Unlike PHP-FPM or serverless functions that boot the runtime on every single request, BirFramework stays warm in V8 memory, serving responses in under 2ms.
           </p>
         </div>
 
-        <!-- Feature 2: .bir Template Engine -->
-        <div class="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-xs">
-          <div class="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-white mb-4 font-mono text-sm font-bold">
-            02
-          </div>
-          <h4 class="text-base font-semibold text-zinc-950 dark:text-white">.bir Blade Templates</h4>
+        <!-- Pillar 2 -->
+        <div class="p-6 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
+          <div class="text-xs font-mono font-bold text-zinc-400 mb-3">02 / ERGONOMICS</div>
+          <h4 class="text-base font-bold text-zinc-950 dark:text-white">Artisan Elegance</h4>
           <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
-            Laravel Blade syntax (<code class="font-mono text-zinc-900 dark:text-zinc-300">@if</code>, <code class="font-mono text-zinc-900 dark:text-zinc-300">@foreach</code>, <code class="font-mono text-zinc-900 dark:text-zinc-300">&lt;x-layouts.app&gt;</code>) paired with Instant Turbo client navigation. SPA speed without client bundle weight.
+            Laravel's beloved ergonomics (<code class="font-mono text-zinc-800 dark:text-zinc-300">Route::group</code>, <code class="font-mono text-zinc-800 dark:text-zinc-300">Model.where</code>, Blade syntax) ported natively to modern TypeScript without PHP dependencies.
           </p>
         </div>
 
-        <!-- Feature 3: Background Queues -->
-        <div class="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-xs">
-          <div class="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-white mb-4 font-mono text-sm font-bold">
-            03
-          </div>
-          <h4 class="text-base font-semibold text-zinc-950 dark:text-white">Background Queues &amp; Jobs</h4>
+        <!-- Pillar 3 -->
+        <div class="p-6 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
+          <div class="text-xs font-mono font-bold text-zinc-400 mb-3">03 / TOOLING</div>
+          <h4 class="text-base font-bold text-zinc-950 dark:text-white">Command-Line Autonomy</h4>
           <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
-            Offload long-running tasks effortlessly. Built-in SQLite and Redis queue drivers with retry strategies, delay seconds, and <code class="font-mono text-zinc-900 dark:text-zinc-300">bir queue:work</code> daemon.
-          </p>
-        </div>
-
-        <!-- Feature 4: Real-Time WebSockets -->
-        <div class="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-xs">
-          <div class="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-white mb-4 font-mono text-sm font-bold">
-            04
-          </div>
-          <h4 class="text-base font-semibold text-zinc-950 dark:text-white">WebSockets &amp; Broadcast</h4>
-          <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
-            Zero-dependency native WebSocket server. Broadcast events directly from your server actions to subscribed client channels with <code class="font-mono text-zinc-900 dark:text-zinc-300">Broadcast.to().emit()</code>.
-          </p>
-        </div>
-
-        <!-- Feature 5: Ignition Debug Screen -->
-        <div class="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-xs">
-          <div class="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-white mb-4 font-mono text-sm font-bold">
-            05
-          </div>
-          <h4 class="text-base font-semibold text-zinc-950 dark:text-white">Ignition Debug Screen</h4>
-          <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
-            Interactive in-browser exception inspector. Displays highlighted source code frames, environment variables, request headers, and solution hints in development.
-          </p>
-        </div>
-
-        <!-- Feature 6: Artisan CLI Tooling -->
-        <div class="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-xs">
-          <div class="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-white mb-4 font-mono text-sm font-bold">
-            06
-          </div>
-          <h4 class="text-base font-semibold text-zinc-950 dark:text-white">Artisan-Class CLI Tooling</h4>
-          <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
-            Scaffold models, migrations, controllers, jobs, mailables, and form requests in seconds with <code class="font-mono text-zinc-900 dark:text-zinc-300">bir make:*</code>. Inspect routes with <code class="font-mono text-zinc-900 dark:text-zinc-300">bir route:list</code>.
+            Everything can be generated and managed directly from the CLI. Scaffolding models, migrations, seeders, queues, mailables, and route listings with <code class="font-mono text-zinc-800 dark:text-zinc-300">bir</code>.
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Empirical Benchmarks Section -->
-  <section id="benchmarks" class="py-24 border-t border-zinc-200 dark:border-zinc-900">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="mb-10">
-        <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 mb-2">Empirical Performance</h2>
-        <h3 class="text-3xl font-bold tracking-tight text-zinc-950 dark:text-white">Built for raw speed. Tested side-by-side.</h3>
-        <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-2 max-w-2xl leading-relaxed">
-          Tested on local loopback (Apple Silicon, macOS) against default scaffolds generated straight from official CLI tools. No synthetic warmups, no pre-rendered cache tricks.
-        </p>
-      </div>
-
-      <!-- Benchmark Table Box -->
-      <div class="border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden bg-white dark:bg-zinc-950 shadow-xs">
-        <div class="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 px-5 py-3.5 bg-zinc-50 dark:bg-zinc-900/60 text-xs">
-          <div class="flex items-center gap-1.5 font-medium">
-            <span class="text-zinc-900 dark:text-white">ApacheBench (c=10, n=5000)</span>
-          </div>
-          <span class="text-[11px] text-zinc-500 font-mono">Real-world full-framework stack</span>
+  <!-- Showcase Reference Applications -->
+  <section class="py-20 border-b border-zinc-200/80 dark:border-zinc-900">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+        <div>
+          <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 mb-2">Real-World Codebases</h2>
+          <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950 dark:text-white">Reference applications built with BirFramework</h3>
         </div>
-
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs font-mono">
-            <thead>
-              <tr class="border-b border-zinc-200 dark:border-zinc-800 text-zinc-500 text-[11px] bg-zinc-50/50 dark:bg-zinc-950">
-                <th class="py-3 px-5 font-normal">Framework</th>
-                <th class="py-3 px-5 font-normal">Runtime / Architecture</th>
-                <th class="py-3 px-5 font-normal text-right">Throughput</th>
-                <th class="py-3 px-5 font-normal text-right">Latency (avg)</th>
-                <th class="py-3 px-5 font-normal text-right">p99</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800 text-zinc-700 dark:text-zinc-300">
-              <tr class="bg-emerald-500/[0.04] dark:bg-emerald-500/[0.08]">
-                <td class="py-4 px-5 font-bold text-zinc-950 dark:text-white flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                  BirFramework v0.4.0
-                </td>
-                <td class="py-4 px-5 text-zinc-500 dark:text-zinc-400">Node.js 22+ (Persistent V8 Memory)</td>
-                <td class="py-4 px-5 text-right text-emerald-600 dark:text-emerald-400 font-bold">7,899 req/s</td>
-                <td class="py-4 px-5 text-right font-semibold text-zinc-900 dark:text-white">1.26 ms</td>
-                <td class="py-4 px-5 text-right font-medium">4.00 ms</td>
-              </tr>
-              <tr>
-                <td class="py-4 px-5 font-medium text-zinc-900 dark:text-zinc-200">Next.js 16 (App Router)</td>
-                <td class="py-4 px-5 text-zinc-500">Node.js 22+ (React Server Components)</td>
-                <td class="py-4 px-5 text-right text-zinc-600 dark:text-zinc-400 font-medium">7,097 req/s</td>
-                <td class="py-4 px-5 text-right text-zinc-600 dark:text-zinc-400 font-medium">1.40 ms</td>
-                <td class="py-4 px-5 text-right text-zinc-600 dark:text-zinc-400 font-medium">4.00 ms</td>
-              </tr>
-              <tr>
-                <td class="py-4 px-5 text-zinc-600 dark:text-zinc-400">Laravel 13</td>
-                <td class="py-4 px-5 text-zinc-500">PHP 8.5 (FPM / CLI Per-Request Boot)</td>
-                <td class="py-4 px-5 text-right text-zinc-500 font-medium">300 req/s</td>
-                <td class="py-4 px-5 text-right text-zinc-500 font-medium">33.38 ms</td>
-                <td class="py-4 px-5 text-right text-zinc-500 font-medium">71.00 ms</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Showcase Applications -->
-  <section class="py-24 border-t border-zinc-200 dark:border-zinc-900 bg-zinc-50/50 dark:bg-zinc-950/40">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center max-w-2xl mx-auto mb-16">
-        <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 mb-2">Built With BirFramework</h2>
-        <h3 class="text-3xl font-bold tracking-tight text-zinc-950 dark:text-white">Real-world reference applications</h3>
-        <p class="text-sm text-zinc-600 dark:text-zinc-400 mt-3 leading-relaxed">
-          Open-source, production architectures showing how to build authentic applications with BirFramework.
-        </p>
+        <span class="text-xs text-zinc-500 font-mono">100% test coverage</span>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <!-- Sample App 1: BirBlog -->
-        <div class="p-8 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 flex flex-col justify-between shadow-xs">
-          <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="text-xs font-mono font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
-                Editorial &amp; CMS
-              </span>
-              <span class="text-xs text-zinc-500 font-mono">bir-blog</span>
-            </div>
-            <h4 class="text-xl font-bold text-zinc-950 dark:text-white">BirBlog Platform</h4>
-            <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
-              Full publishing platform featuring user authentication, FormRequest validation, automated slug generation, nested comments, and .bir template layouts.
-            </p>
+        <!-- Project 1: BirBlog -->
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
+              CMS &amp; Publishing
+            </span>
+            <span class="text-xs text-zinc-400 font-mono">bir-blog</span>
           </div>
-          <div class="mt-8 pt-6 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-xs">
-            <span class="text-zinc-500">Includes complete test suite</span>
+          <h4 class="text-lg font-bold text-zinc-950 dark:text-white">BirBlog Platform</h4>
+          <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+            A complete publishing platform featuring user authentication, FormRequest validation, automatic slug generation, nested article comments, and .bir template layouts.
+          </p>
+          <div class="mt-6 pt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-xs">
+            <span class="text-zinc-500 font-mono">6 / 6 feature tests passing</span>
             <a href="https://github.com/ferdisahin/BirFramework" target="_blank" class="font-medium text-zinc-900 dark:text-white hover:underline flex items-center gap-1">
-              Explore Code &rarr;
+              Source Code &rarr;
             </a>
           </div>
         </div>
 
-        <!-- Sample App 2: CloudForge SaaS -->
-        <div class="p-8 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 flex flex-col justify-between shadow-xs">
-          <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="text-xs font-mono font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
-                SaaS &amp; Metered APIs
-              </span>
-              <span class="text-xs text-zinc-500 font-mono">bir-saas</span>
-            </div>
-            <h4 class="text-xl font-bold text-zinc-950 dark:text-white">CloudForge Platform</h4>
-            <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
-              Subscription billing, automated PDF invoice generation, metered developer API keys, usage metrics tracking, and background subscription renewals.
-            </p>
+        <!-- Project 2: CloudForge SaaS -->
+        <div class="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
+              SaaS &amp; Metered Billing
+            </span>
+            <span class="text-xs text-zinc-400 font-mono">bir-saas</span>
           </div>
-          <div class="mt-8 pt-6 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-xs">
-            <span class="text-zinc-500">Includes multi-tier billing logic</span>
+          <h4 class="text-lg font-bold text-zinc-950 dark:text-white">CloudForge SaaS Platform</h4>
+          <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+            Multi-tier subscription billing, automated PDF invoice generation, metered developer API keys, usage metrics tracking, and background subscription renewal jobs.
+          </p>
+          <div class="mt-6 pt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-xs">
+            <span class="text-zinc-500 font-mono">6 / 6 feature tests passing</span>
             <a href="https://github.com/ferdisahin/BirFramework" target="_blank" class="font-medium text-zinc-900 dark:text-white hover:underline flex items-center gap-1">
-              Explore Code &rarr;
+              Source Code &rarr;
             </a>
           </div>
         </div>
@@ -428,49 +362,62 @@ Route.post('/orders', async (ctx: Context) => {
     </div>
   </section>
 
-  <!-- Final Call to Action -->
-  <section class="py-24 border-t border-zinc-200 dark:border-zinc-900 text-center">
-    <div class="max-w-4xl mx-auto px-6">
-      <h3 class="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-950 dark:text-white">
-        Ready to build modern TypeScript applications?
+  <!-- Final Clean Action -->
+  <section class="py-20 text-center">
+    <div class="max-w-3xl mx-auto px-6">
+      <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950 dark:text-white">
+        Start building your next application today.
       </h3>
-      <p class="text-sm text-zinc-600 dark:text-zinc-400 mt-4 max-w-xl mx-auto leading-relaxed">
-        Get started with a single command. Scaffold your database, models, routes, and views in under 30 seconds.
+      <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-3 max-w-lg mx-auto leading-relaxed">
+        No setup ceremonies. Scaffold a full-stack project in seconds with SQLite, ActiveRecord, and .bir templates.
       </p>
-      <div class="mt-8 flex items-center justify-center gap-4">
-        <a href="/docs/installation" class="bg-zinc-950 hover:bg-zinc-800 text-white dark:bg-white dark:hover:bg-zinc-100 dark:text-zinc-950 px-6 py-3 rounded-xl font-semibold text-xs transition shadow-xs">
-          Read Documentation &rarr;
+      <div class="mt-6 flex items-center justify-center gap-3">
+        <a href="/docs/installation" class="bg-zinc-950 hover:bg-zinc-800 text-white dark:bg-white dark:hover:bg-zinc-100 dark:text-zinc-950 px-5 py-2.5 rounded-lg font-semibold text-xs transition shadow-xs">
+          Get Started &rarr;
         </a>
-        <a href="https://github.com/ferdisahin/BirFramework" target="_blank" class="bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 px-6 py-3 rounded-xl font-medium text-xs border border-zinc-200 dark:border-zinc-800 transition">
-          GitHub Repository
+        <a href="https://github.com/ferdisahin/BirFramework" target="_blank" class="bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 px-5 py-2.5 rounded-lg font-medium text-xs border border-zinc-200 dark:border-zinc-800 transition">
+          View on GitHub
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Interactive Tab Switch Script -->
+  <!-- Tour Tab Controller -->
   <script>
-    function switchTab(name) {
-      document.querySelectorAll('.code-panel').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('bg-zinc-800', 'text-white');
-        btn.classList.add('text-zinc-400');
+    function switchCodeTour(tab) {
+      document.querySelectorAll('.tour-panel').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('[id^="tour-btn-"]').forEach(btn => {
+        btn.classList.remove('bg-white', 'dark:bg-zinc-800', 'text-zinc-900', 'dark:text-white', 'shadow-xs');
+        btn.classList.add('text-zinc-600', 'dark:text-zinc-400');
       });
 
-      const activePre = document.getElementById('code-' + name);
-      const activeBtn = document.getElementById('tab-' + name);
+      const activePre = document.getElementById('tour-code-' + tab);
+      const activeBtn = document.getElementById('tour-btn-' + tab);
+      const fileLabel = document.getElementById('tour-filename');
+
+      const filenames = {
+        routing: 'routes/web.ts',
+        orm: 'app/models/Post.ts',
+        view: 'views/welcome.bir',
+        broadcast: 'app/events/OrderCreated.ts'
+      };
+
       if (activePre) activePre.classList.remove('hidden');
       if (activeBtn) {
-        activeBtn.classList.remove('text-zinc-400');
-        activeBtn.classList.add('bg-zinc-800', 'text-white');
+        activeBtn.classList.remove('text-zinc-600', 'dark:text-zinc-400');
+        activeBtn.classList.add('bg-white', 'dark:bg-zinc-800', 'text-zinc-900', 'dark:text-white', 'shadow-xs');
+      }
+      if (fileLabel && filenames[tab]) {
+        fileLabel.innerText = filenames[tab];
       }
 
-      const activeContainer = document.getElementById('active-code');
+      const activeContainer = document.getElementById('tour-active-code');
       if (activeContainer && activePre) {
         activeContainer.innerText = activePre.innerText;
       }
     }
+
     // Initialize default tab
-    switchTab('routes');
+    switchCodeTour('routing');
   </script>
 </x-layouts.app>
