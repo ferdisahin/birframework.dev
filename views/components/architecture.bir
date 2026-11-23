@@ -1,0 +1,86 @@
+<!-- Complete Architecture Capabilities Component -->
+<section id="architecture" class="py-20 border-b border-zinc-200 dark:border-zinc-800">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="max-w-2xl mb-14">
+      <h2 class="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-2">Integrated Platform</h2>
+      <h3 class="text-3xl font-bold tracking-tight text-zinc-950 dark:text-white">Built for shipping real applications.</h3>
+      <p class="text-sm text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+        Every component is designed to work together seamlessly without configuration conflicts.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- 1. ORM & Query Builder -->
+      <div class="border-t border-zinc-200 dark:border-zinc-800 pt-6">
+        <div class="text-xs font-semibold text-zinc-400 mb-2">01 / PERSISTENCE</div>
+        <h4 class="text-base font-bold text-zinc-950 dark:text-white">ActiveRecord ORM</h4>
+        <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+          Fluent query building, relationships, model lifecycle hooks, and soft deletes. Connect seamlessly to SQLite, PostgreSQL, or MySQL via dialect translation.
+        </p>
+        <a href="/docs/database" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
+          Learn more &rarr;
+        </a>
+      </div>
+
+      <!-- 2. .bir Blade Engine -->
+      <div class="border-t border-zinc-200 dark:border-zinc-800 pt-6">
+        <div class="text-xs font-semibold text-zinc-400 mb-2">02 / TEMPLATING</div>
+        <h4 class="text-base font-bold text-zinc-950 dark:text-white">.bir Blade Engine</h4>
+        <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+          Components, slots, and directives compiled on the server. Instant Turbo navigation swaps the <code class="px-1 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 font-medium">&lt;body&gt;</code> without full reloads, giving SPA speed with zero client bundle weight.
+        </p>
+        <a href="/docs/views" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
+          Learn more &rarr;
+        </a>
+      </div>
+
+      <!-- 3. Queues & Redis -->
+      <div class="border-t border-zinc-200 dark:border-zinc-800 pt-6">
+        <div class="text-xs font-semibold text-zinc-400 mb-2">03 / ASYNC WORK</div>
+        <h4 class="text-base font-bold text-zinc-950 dark:text-white">Background Queues</h4>
+        <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+          Offload long operations effortlessly. Built-in SQLite and Redis queue drivers with retry strategies, delay intervals, and dedicated queue worker daemons.
+        </p>
+        <a href="/docs/queues" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
+          Learn more &rarr;
+        </a>
+      </div>
+
+      <!-- 4. WebSockets & Real-Time -->
+      <div class="border-t border-zinc-200 dark:border-zinc-800 pt-6">
+        <div class="text-xs font-semibold text-zinc-400 mb-2">04 / REAL-TIME</div>
+        <h4 class="text-base font-bold text-zinc-950 dark:text-white">WebSockets &amp; Broadcast</h4>
+        <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+          Built-in RFC 6455 WebSocket server. Broadcast real-time notifications, chat messages, or status updates to channels without external SaaS dependencies.
+        </p>
+        <a href="/docs/broadcasting" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
+          Learn more &rarr;
+        </a>
+      </div>
+
+      <!-- 5. Interactive Debug Screen -->
+      <div class="border-t border-zinc-200 dark:border-zinc-800 pt-6">
+        <div class="text-xs font-semibold text-zinc-400 mb-2">05 / ERROR HANDLING</div>
+        <h4 class="text-base font-bold text-zinc-950 dark:text-white">Ignition Debug Screen</h4>
+        <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+          Interactive in-browser exception inspector. Displays highlighted source code frames, environment variables, request headers, and solution hints in development.
+        </p>
+        <a href="/docs/errors" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
+          Learn more &rarr;
+        </a>
+      </div>
+
+      <!-- 6. Artisan-Class CLI -->
+      <div class="border-t border-zinc-200 dark:border-zinc-800 pt-6">
+        <div class="text-xs font-semibold text-zinc-400 mb-2">06 / COMMAND LINE</div>
+        <h4 class="text-base font-bold text-zinc-950 dark:text-white">Artisan-Style CLI</h4>
+        <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+          Scaffold models, migrations, seeders, controllers, jobs, and mailables with simple <code class="px-1 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 font-medium">bir make:*</code> commands. Inspect routes with <code class="px-1 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 font-medium">bir route:list</code>.
+        </p>
+        <a href="/docs/cli" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
+          Learn more &rarr;
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
