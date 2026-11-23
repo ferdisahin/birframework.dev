@@ -161,117 +161,141 @@ await dispatch(new SendWelcomeEmailJob(42));</code></pre>
 
   <!-- Benchmarks Section -->
   <section id="benchmarks" class="max-w-5xl mx-auto px-6 py-20 border-t border-zinc-900">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
-      <div>
-        <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[11px] font-mono text-emerald-400 mb-3">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>Verified Benchmarks</span>
-        </div>
-        <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-white">Engineered for Sub-Millisecond Speed</h2>
-        <p class="text-sm text-zinc-400 mt-2 max-w-xl">
-          Empirical, side-by-side performance measured with freshly scaffolded CLI projects under identical concurrent load.
-        </p>
-      </div>
-
-      <a href="/docs/benchmarks" class="text-xs text-zinc-400 hover:text-white transition flex items-center gap-1.5 font-mono">
-        <span>Full benchmark methodology</span>
-        <span>→</span>
-      </a>
+    <div class="mb-8">
+      <div class="text-[11px] font-mono uppercase tracking-widest text-zinc-500 mb-2">Empirical Benchmarks</div>
+      <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-white">Measured performance. No marketing bias.</h2>
+      <p class="text-xs sm:text-sm text-zinc-400 mt-2 max-w-2xl leading-relaxed">
+        Tested on local loopback (Apple Silicon, macOS) against default scaffolds generated straight from official CLI tools. No synthetic warmups, no pre-rendered cache tricks.
+      </p>
     </div>
 
-    <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-      <!-- BirFramework -->
-      <div class="p-5 rounded-lg border border-emerald-500/30 bg-emerald-950/10 relative overflow-hidden">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-xs font-semibold text-white">BirFramework</span>
-          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-medium">In-Memory V8</span>
+    <!-- Benchmark Display Box -->
+    <div class="border border-zinc-900 rounded-lg overflow-hidden bg-zinc-950">
+      <!-- Tab Control -->
+      <div class="flex items-center justify-between border-b border-zinc-900 px-4 py-2 bg-zinc-950 text-xs">
+        <div class="flex items-center gap-1 font-mono text-[11px]">
+          <button onclick="switchBench('ab')" id="bench-tab-ab" class="px-3 py-1 rounded bg-zinc-900 text-white font-medium transition">
+            ApacheBench (c=10)
+          </button>
+          <button onclick="switchBench('autocannon')" id="bench-tab-autocannon" class="px-3 py-1 rounded text-zinc-400 hover:text-zinc-200 transition">
+            Autocannon (c=50)
+          </button>
+          <button onclick="switchBench('cli')" id="bench-tab-cli" class="px-3 py-1 rounded text-zinc-400 hover:text-zinc-200 transition">
+            Terminal Reproduction
+          </button>
         </div>
-        <div class="text-3xl font-bold tracking-tight text-emerald-400 font-mono">7,899 <span class="text-xs font-normal text-zinc-400">RPS</span></div>
-        <div class="flex items-center justify-between text-xs text-zinc-400 mt-4 pt-3 border-t border-zinc-900">
-          <span>Mean Latency:</span>
-          <span class="font-mono text-white font-medium">1.26 ms</span>
-        </div>
-        <div class="flex items-center justify-between text-xs text-zinc-400 mt-1">
-          <span>99th Percentile:</span>
-          <span class="font-mono text-emerald-400 font-medium">4 ms</span>
+
+        <a href="/docs/benchmarks" class="hidden sm:inline-flex items-center gap-1 text-[11px] text-zinc-500 hover:text-zinc-300 font-mono transition">
+          <span>docs/benchmarks.md</span>
+          <span>→</span>
+        </a>
+      </div>
+
+      <!-- View 1: ApacheBench Table -->
+      <div id="bench-view-ab" class="bench-panel overflow-x-auto">
+        <table class="w-full text-left font-mono text-xs">
+          <thead>
+            <tr class="border-b border-zinc-900 text-zinc-500 text-[11px] bg-zinc-950/60">
+              <th class="py-2.5 px-4 font-normal">Framework</th>
+              <th class="py-2.5 px-4 font-normal">Runtime / Engine</th>
+              <th class="py-2.5 px-4 font-normal text-right">Req / Sec</th>
+              <th class="py-2.5 px-4 font-normal text-right">Latency (avg)</th>
+              <th class="py-2.5 px-4 font-normal text-right">p99</th>
+              <th class="py-2.5 px-4 font-normal text-right">5k Requests</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-900 text-zinc-300">
+            <tr class="bg-zinc-900/30">
+              <td class="py-3 px-4 font-semibold text-white flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                <span>BirFramework</span>
+                <span class="text-[10px] text-zinc-500 font-normal">v0.1.5</span>
+              </td>
+              <td class="py-3 px-4 text-zinc-400 text-[11px]">Node.js 22+ / Persistent V8</td>
+              <td class="py-3 px-4 text-right text-emerald-400 font-bold">7,899 RPS</td>
+              <td class="py-3 px-4 text-right text-white">1.26 ms</td>
+              <td class="py-3 px-4 text-right text-zinc-300">4 ms</td>
+              <td class="py-3 px-4 text-right text-emerald-400 font-medium">0.63s</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 text-zinc-300">Next.js 16 (App Router)</td>
+              <td class="py-3 px-4 text-zinc-500 text-[11px]">Node.js 22+ / React SSR</td>
+              <td class="py-3 px-4 text-right text-zinc-300">7,097 RPS</td>
+              <td class="py-3 px-4 text-right text-zinc-400">1.40 ms</td>
+              <td class="py-3 px-4 text-right text-zinc-400">4 ms</td>
+              <td class="py-3 px-4 text-right text-zinc-400">0.70s</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 text-zinc-400">Laravel 13</td>
+              <td class="py-3 px-4 text-zinc-600 text-[11px]">PHP 8.5 / CLI Process Boot</td>
+              <td class="py-3 px-4 text-right text-zinc-500">300 RPS</td>
+              <td class="py-3 px-4 text-right text-zinc-500">33.38 ms</td>
+              <td class="py-3 px-4 text-right text-zinc-500">71 ms</td>
+              <td class="py-3 px-4 text-right text-zinc-600">~16.7s</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- View 2: Autocannon Table -->
+      <div id="bench-view-autocannon" class="bench-panel hidden overflow-x-auto">
+        <table class="w-full text-left font-mono text-xs">
+          <thead>
+            <tr class="border-b border-zinc-900 text-zinc-500 text-[11px] bg-zinc-950/60">
+              <th class="py-2.5 px-4 font-normal">Framework</th>
+              <th class="py-2.5 px-4 font-normal text-right">Avg RPS</th>
+              <th class="py-2.5 px-4 font-normal text-right">Latency (avg)</th>
+              <th class="py-2.5 px-4 font-normal text-right">p99</th>
+              <th class="py-2.5 px-4 font-normal text-right">10s Requests</th>
+              <th class="py-2.5 px-4 font-normal text-right">Throughput</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-900 text-zinc-300">
+            <tr class="bg-zinc-900/30">
+              <td class="py-3 px-4 font-semibold text-white flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                <span>BirFramework</span>
+              </td>
+              <td class="py-3 px-4 text-right text-emerald-400 font-bold">9,258 RPS</td>
+              <td class="py-3 px-4 text-right text-white">4.90 ms</td>
+              <td class="py-3 px-4 text-right text-zinc-300">11 ms</td>
+              <td class="py-3 px-4 text-right text-white font-medium">102,000</td>
+              <td class="py-3 px-4 text-right text-zinc-400">85 MB/s</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 text-zinc-300">Next.js 16 (Static SSR)</td>
+              <td class="py-3 px-4 text-right text-zinc-300">10,696 RPS</td>
+              <td class="py-3 px-4 text-right text-zinc-400">4.17 ms</td>
+              <td class="py-3 px-4 text-right text-zinc-400">9 ms</td>
+              <td class="py-3 px-4 text-right text-zinc-400">118,000</td>
+              <td class="py-3 px-4 text-right text-zinc-400">135 MB/s</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 text-zinc-500">Laravel 13 (Dev Server)</td>
+              <td class="py-3 px-4 text-right text-zinc-600" colspan="5">Single-process PHP CLI drops keep-alive sockets at c=50</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- View 3: CLI Reproduction -->
+      <div id="bench-view-cli" class="bench-panel hidden p-4 font-mono text-xs text-zinc-300 bg-black/60 leading-relaxed overflow-x-auto">
+        <div class="text-zinc-500 text-[11px] mb-2"># Reproduce with fresh projects on port 4001, 4002, 4003:</div>
+        <div class="text-emerald-400">$ ab -n 5000 -c 10 http://127.0.0.1:4001/</div>
+        <div class="text-zinc-400 pl-4">
+          Concurrency Level: &nbsp;&nbsp;&nbsp;10<br>
+          Complete requests: &nbsp;&nbsp;&nbsp;5000<br>
+          Time taken for tests: 0.633 seconds<br>
+          Requests per second: &nbsp;<span class="text-white font-semibold">7899.19 [#/sec] (mean)</span><br>
+          Time per request: &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-white font-semibold">1.266 [ms] (mean)</span><br>
+          Percentage within 4ms: 99%
         </div>
       </div>
 
-      <!-- Next.js 16 -->
-      <div class="p-5 rounded-lg border border-zinc-900 bg-zinc-950/40">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-xs font-semibold text-zinc-300">Next.js 16</span>
-          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 text-zinc-400 border border-zinc-800">Node SSR</span>
-        </div>
-        <div class="text-3xl font-bold tracking-tight text-zinc-200 font-mono">7,097 <span class="text-xs font-normal text-zinc-500">RPS</span></div>
-        <div class="flex items-center justify-between text-xs text-zinc-400 mt-4 pt-3 border-t border-zinc-900">
-          <span>Mean Latency:</span>
-          <span class="font-mono text-zinc-300">1.40 ms</span>
-        </div>
-        <div class="flex items-center justify-between text-xs text-zinc-400 mt-1">
-          <span>99th Percentile:</span>
-          <span class="font-mono text-zinc-300">4 ms</span>
-        </div>
-      </div>
-
-      <!-- Laravel 13 -->
-      <div class="p-5 rounded-lg border border-zinc-900 bg-zinc-950/40">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-xs font-semibold text-zinc-300">Laravel 13</span>
-          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 text-zinc-400 border border-zinc-800">PHP 8.5</span>
-        </div>
-        <div class="text-3xl font-bold tracking-tight text-zinc-400 font-mono">300 <span class="text-xs font-normal text-zinc-600">RPS</span></div>
-        <div class="flex items-center justify-between text-xs text-zinc-400 mt-4 pt-3 border-t border-zinc-900">
-          <span>Mean Latency:</span>
-          <span class="font-mono text-zinc-400">33.38 ms</span>
-        </div>
-        <div class="flex items-center justify-between text-xs text-zinc-400 mt-1">
-          <span>99th Percentile:</span>
-          <span class="font-mono text-zinc-400">71 ms</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Comparative Visual Bars -->
-    <div class="p-6 rounded-lg border border-zinc-900 bg-zinc-950/60">
-      <div class="text-xs font-semibold text-white mb-4">Throughput Comparison (Requests per Second - Higher is Better)</div>
-      
-      <div class="space-y-3.5 text-xs">
-        <div>
-          <div class="flex justify-between text-zinc-300 mb-1.5 font-mono text-[11px]">
-            <span class="text-white font-medium">BirFramework</span>
-            <span class="text-emerald-400 font-semibold">7,899 RPS (100%)</span>
-          </div>
-          <div class="h-2 w-full bg-zinc-900 rounded-full overflow-hidden">
-            <div class="h-full bg-emerald-500 rounded-full w-full"></div>
-          </div>
-        </div>
-
-        <div>
-          <div class="flex justify-between text-zinc-400 mb-1.5 font-mono text-[11px]">
-            <span>Next.js 16</span>
-            <span>7,097 RPS (90%)</span>
-          </div>
-          <div class="h-2 w-full bg-zinc-900 rounded-full overflow-hidden">
-            <div class="h-full bg-zinc-400 rounded-full w-[90%]"></div>
-          </div>
-        </div>
-
-        <div>
-          <div class="flex justify-between text-zinc-500 mb-1.5 font-mono text-[11px]">
-            <span>Laravel 13 (Traditional CLI)</span>
-            <span>300 RPS (3.8%)</span>
-          </div>
-          <div class="h-2 w-full bg-zinc-900 rounded-full overflow-hidden">
-            <div class="h-full bg-zinc-600 rounded-full w-[4%]"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-6 pt-4 border-t border-zinc-900 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px] text-zinc-500">
-        <div>Tested with ApacheBench (<code>ab -n 5000 -c 10</code>) on Apple Silicon, local loopback.</div>
-        <div class="font-mono text-emerald-400">BirFramework: ~26x faster than traditional PHP boot</div>
+      <!-- Footer Note -->
+      <div class="px-4 py-2.5 bg-zinc-950 border-t border-zinc-900 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px] text-zinc-500">
+        <div>Why 26x faster than traditional PHP? Laravel boots container and autoloader per request. BirFramework lives warm in V8 memory.</div>
+        <div class="font-mono text-zinc-400">Apple M-series · Localhost loopback</div>
       </div>
     </div>
   </section>
@@ -279,37 +303,80 @@ await dispatch(new SendWelcomeEmailJob(42));</code></pre>
   <!-- Architecture Pillars -->
   <section id="architecture" class="max-w-5xl mx-auto px-6 py-20 border-t border-zinc-900">
     <div class="mb-12">
-      <h2 class="text-xl font-semibold tracking-tight text-white">Built for Full-Stack Applications</h2>
-      <p class="text-sm text-zinc-400 mt-2">Core capabilities engineered into a single unified runtime.</p>
+      <div class="text-[11px] font-mono uppercase tracking-widest text-zinc-500 mb-2">System Anatomy</div>
+      <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-white">Cohesive runtime. Zero glue code.</h2>
+      <p class="text-xs sm:text-sm text-zinc-400 mt-2 max-w-2xl leading-relaxed">
+        Rather than stitching together 8 uncoordinated libraries, BirFramework's core systems share the same context, lifecycle, and memory space.
+      </p>
     </div>
 
-    <div class="grid sm:grid-cols-2 gap-6">
-      <div class="p-6 rounded-lg border border-zinc-900 bg-zinc-950/40">
-        <h3 class="text-sm font-semibold text-white">Radix-Speed HTTP Routing</h3>
-        <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
-          Parameter matching with <code>:id</code> and <code>{id}</code>, route groups with nested prefixing and middleware stacks, and native Server-Sent Events (SSE) streaming for real-time and LLM token outputs.
-        </p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Pillar 1 -->
+      <div class="p-5 rounded-lg border border-zinc-900 bg-zinc-950 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between text-xs font-mono text-zinc-500 mb-2">
+            <span>01 / HTTP & ROUTING</span>
+            <span class="text-emerald-400">Radix Tree</span>
+          </div>
+          <h3 class="text-sm font-semibold text-white">Sub-Microsecond Dispatch</h3>
+          <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+            Routes are indexed in an in-memory radix tree with parameter extraction (<code class="text-zinc-300">:id</code>, <code class="text-zinc-300">{slug}</code>). Includes route prefixing, middleware pipelines, and native Server-Sent Events (SSE) streaming for real-time and LLM workloads.
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-zinc-900/80 font-mono text-[11px] text-zinc-500">
+          Route.group({ prefix: '/api', middleware: ['auth'] })
+        </div>
       </div>
 
-      <div class="p-6 rounded-lg border border-zinc-900 bg-zinc-950/40">
-        <h3 class="text-sm font-semibold text-white">Instant Turbo Navigation</h3>
-        <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
-          Server-rendered Blade templates morph into the live DOM on click. Get the fluid speed of a single-page application without the overhead of client-side React or hydration bundles.
-        </p>
+      <!-- Pillar 2 -->
+      <div class="p-5 rounded-lg border border-zinc-900 bg-zinc-950 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between text-xs font-mono text-zinc-500 mb-2">
+            <span>02 / DATABASE & ORM</span>
+            <span class="text-emerald-400">Active Record</span>
+          </div>
+          <h3 class="text-sm font-semibold text-white">Zero-Config Local SQLite to PostgreSQL</h3>
+          <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+            Uses Node's native <code class="text-zinc-300">node:sqlite</code> in local development with zero external C++ bindings. Migrations and Active Record models translate queries seamlessly to PostgreSQL or MySQL in production with ACID transactions.
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-zinc-900/80 font-mono text-[11px] text-zinc-500">
+          await User.where('status', 'active').get()
+        </div>
       </div>
 
-      <div class="p-6 rounded-lg border border-zinc-900 bg-zinc-950/40">
-        <h3 class="text-sm font-semibold text-white">Multi-Driver Database Layer</h3>
-        <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
-          Active-record models, schema builders, migrations, and seeders. Uses zero-dependency native <code>node:sqlite</code> in local development and translates queries seamlessly to PostgreSQL or MySQL.
-        </p>
+      <!-- Pillar 3 -->
+      <div class="p-5 rounded-lg border border-zinc-900 bg-zinc-950 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between text-xs font-mono text-zinc-500 mb-2">
+            <span>03 / FRONTEND</span>
+            <span class="text-emerald-400">Blade + Turbo</span>
+          </div>
+          <h3 class="text-sm font-semibold text-white">Instant DOM Morphing without React Overhead</h3>
+          <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+            Server-rendered Blade components (<code class="text-zinc-300">&lt;x-layouts.app&gt;</code>) morph seamlessly into the live DOM via BirTurbo on navigation. No heavy JavaScript hydration bundles, no layout shifts, instant page transitions.
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-zinc-900/80 font-mono text-[11px] text-zinc-500">
+          &lt;x-layouts.app title="Dashboard"&gt;
+        </div>
       </div>
 
-      <div class="p-6 rounded-lg border border-zinc-900 bg-zinc-950/40">
-        <h3 class="text-sm font-semibold text-white">Queues, Scheduler & Security</h3>
-        <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
-          In-process cron scheduling daemon, asynchronous queue worker with retry backoff, Scrypt password hashing, signed cookies, CSRF protection, and rate limiting out of the box.
-        </p>
+      <!-- Pillar 4 -->
+      <div class="p-5 rounded-lg border border-zinc-900 bg-zinc-950 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between text-xs font-mono text-zinc-500 mb-2">
+            <span>04 / BACKGROUND SERVICES</span>
+            <span class="text-emerald-400">In-Process Daemons</span>
+          </div>
+          <h3 class="text-sm font-semibold text-white">Queues, Scheduler & Built-in Security</h3>
+          <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+            In-process cron task scheduler, asynchronous queue workers with exponential retry backoff, Scrypt password hashing, signed cookies, and sliding-window rate limiting ready out of the box.
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-zinc-900/80 font-mono text-[11px] text-zinc-500">
+          bir queue:work &nbsp;·&nbsp; bir schedule:work
+        </div>
       </div>
     </div>
   </section>
@@ -317,62 +384,97 @@ await dispatch(new SendWelcomeEmailJob(42));</code></pre>
   <!-- Ecosystem Comparison Table -->
   <section id="ecosystem" class="max-w-5xl mx-auto px-6 py-20 border-t border-zinc-900">
     <div class="mb-10">
-      <h2 class="text-xl font-semibold tracking-tight text-white">Batteries Included</h2>
-      <p class="text-sm text-zinc-400 mt-2">Compare an ad-hoc Node.js stack with BirFramework's integrated architecture.</p>
+      <div class="text-[11px] font-mono uppercase tracking-widest text-zinc-500 mb-2">Dependency Audit</div>
+      <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-white">The Cost of Fragmentation</h2>
+      <p class="text-xs sm:text-sm text-zinc-400 mt-2 max-w-2xl leading-relaxed">
+        An ad-hoc Node.js stack requires gluing together 8–10 independent libraries with divergent maintainers, release cadences, and configuration schemas.
+      </p>
     </div>
 
-    <div class="border border-zinc-900 rounded-lg overflow-hidden text-xs">
-      <table class="w-full text-left">
-        <thead class="bg-zinc-950 border-b border-zinc-900 text-zinc-400 font-medium">
-          <tr>
-            <th class="py-3 px-4">Feature</th>
-            <th class="py-3 px-4">Ad-Hoc Node Stack</th>
-            <th class="py-3 px-4 text-white">BirFramework</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-zinc-900 text-zinc-300">
-          <tr>
-            <td class="py-3 px-4 font-medium text-white">HTTP & Routing</td>
-            <td class="py-3 px-4 text-zinc-500">Express / Fastify</td>
-            <td class="py-3 px-4 font-mono text-emerald-400">Built-in (Radix Router)</td>
-          </tr>
-          <tr>
-            <td class="py-3 px-4 font-medium text-white">ORM & Database</td>
-            <td class="py-3 px-4 text-zinc-500">Prisma / Drizzle / TypeORM</td>
-            <td class="py-3 px-4 font-mono text-emerald-400">Built-in (Active Record)</td>
-          </tr>
-          <tr>
-            <td class="py-3 px-4 font-medium text-white">Migrations & Seeders</td>
-            <td class="py-3 px-4 text-zinc-500">Knex / Umzug</td>
-            <td class="py-3 px-4 font-mono text-emerald-400">Built-in (Schema & Migrator)</td>
-          </tr>
-          <tr>
-            <td class="py-3 px-4 font-medium text-white">Template Engine</td>
-            <td class="py-3 px-4 text-zinc-500">EJS / Handlebars / Pug</td>
-            <td class="py-3 px-4 font-mono text-emerald-400">Built-in (Blade Components)</td>
-          </tr>
-          <tr>
-            <td class="py-3 px-4 font-medium text-white">SPA Navigation</td>
-            <td class="py-3 px-4 text-zinc-500">Turbo / Unpoly / HTMX</td>
-            <td class="py-3 px-4 font-mono text-emerald-400">Built-in (BirTurbo Morphing)</td>
-          </tr>
-          <tr>
-            <td class="py-3 px-4 font-medium text-white">Background Queues</td>
-            <td class="py-3 px-4 text-zinc-500">BullMQ / Celery</td>
-            <td class="py-3 px-4 font-mono text-emerald-400">Built-in (Queue Worker)</td>
-          </tr>
-          <tr>
-            <td class="py-3 px-4 font-medium text-white">Cron Task Scheduler</td>
-            <td class="py-3 px-4 text-zinc-500">node-cron / Bree</td>
-            <td class="py-3 px-4 font-mono text-emerald-400">Built-in (Schedule Daemon)</td>
-          </tr>
-          <tr>
-            <td class="py-3 px-4 font-medium text-white">CLI Tooling</td>
-            <td class="py-3 px-4 text-zinc-500">Commander / Yargs custom glue</td>
-            <td class="py-3 px-4 font-mono text-emerald-400">Built-in (bir CLI)</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Ad-Hoc Stack -->
+      <div class="p-5 rounded-lg border border-zinc-900 bg-zinc-950 text-xs">
+        <div class="flex items-center justify-between font-mono pb-3 border-b border-zinc-900 mb-3">
+          <span class="text-zinc-400 font-medium">Ad-Hoc TypeScript Stack</span>
+          <span class="text-zinc-500 text-[11px]">8+ Dependencies</span>
+        </div>
+        <ul class="space-y-2 font-mono text-[11px] text-zinc-400">
+          <li class="flex justify-between items-center py-1 border-b border-zinc-900/60">
+            <span>Routing</span>
+            <span class="text-zinc-500">express / fastify</span>
+          </li>
+          <li class="flex justify-between items-center py-1 border-b border-zinc-900/60">
+            <span>ORM & Query Builder</span>
+            <span class="text-zinc-500">prisma / drizzle / typeorm</span>
+          </li>
+          <li class="flex justify-between items-center py-1 border-b border-zinc-900/60">
+            <span>Migrations</span>
+            <span class="text-zinc-500">knex / umzug</span>
+          </li>
+          <li class="flex justify-between items-center py-1 border-b border-zinc-900/60">
+            <span>Validation</span>
+            <span class="text-zinc-500">zod / yup</span>
+          </li>
+          <li class="flex justify-between items-center py-1 border-b border-zinc-900/60">
+            <span>Background Queues</span>
+            <span class="text-zinc-500">bullmq + redis</span>
+          </li>
+          <li class="flex justify-between items-center py-1 border-b border-zinc-900/60">
+            <span>Task Scheduling</span>
+            <span class="text-zinc-500">node-cron / bree</span>
+          </li>
+          <li class="flex justify-between items-center py-1">
+            <span>Templating</span>
+            <span class="text-zinc-500">ejs / handlebars</span>
+          </li>
+        </ul>
+        <div class="mt-4 pt-3 border-t border-zinc-900 text-zinc-500 text-[11px] font-mono flex justify-between">
+          <span>Config files: tsconfig, knexfile, prisma, etc.</span>
+          <span class="text-zinc-400">~120 MB node_modules</span>
+        </div>
+      </div>
+
+      <!-- BirFramework Stack -->
+      <div class="p-5 rounded-lg border border-zinc-800 bg-zinc-950 text-xs">
+        <div class="flex items-center justify-between font-mono pb-3 border-b border-zinc-900 mb-3">
+          <span class="text-white font-medium">BirFramework</span>
+          <span class="text-emerald-400 text-[11px]">Single Dependency</span>
+        </div>
+        <ul class="space-y-2 font-mono text-[11px] text-zinc-300">
+          <li class="flex justify-between items-center py-1 border-b border-zinc-900/60">
+            <span>Routing</span>
+            <span class="text-emerald-400">Built-in (Radix Tree)</span>
+          </li>
+          <li class="flex justify-between items-center py-1 border-b border-zinc-900/60">
+            <span>ORM & Query Builder</span>
+            <span class="text-emerald-400">Built-in (Active Record)</span>
+          </li>
+          <li class="flex justify-between items-center py-1 border-b border-zinc-900/60">
+            <span>Migrations</span>
+            <span class="text-emerald-400">Built-in (Schema & CLI)</span>
+          </li>
+          <li class="flex justify-between items-center py-1 border-b border-zinc-900/60">
+            <span>Validation</span>
+            <span class="text-emerald-400">Built-in (Request Rules)</span>
+          </li>
+          <li class="flex justify-between items-center py-1 border-b border-zinc-900/60">
+            <span>Background Queues</span>
+            <span class="text-emerald-400">Built-in (Queue Worker)</span>
+          </li>
+          <li class="flex justify-between items-center py-1 border-b border-zinc-900/60">
+            <span>Task Scheduling</span>
+            <span class="text-emerald-400">Built-in (Cron Daemon)</span>
+          </li>
+          <li class="flex justify-between items-center py-1">
+            <span>Templating & SPA</span>
+            <span class="text-emerald-400">Built-in (Blade + Turbo)</span>
+          </li>
+        </ul>
+        <div class="mt-4 pt-3 border-t border-zinc-900 text-zinc-400 text-[11px] font-mono flex justify-between">
+          <span>Config files: config/* only</span>
+          <span class="text-emerald-400">Zero transitive bloat</span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -400,5 +502,21 @@ await dispatch(new SendWelcomeEmailJob(42));</code></pre>
     }
     // Init active code for copy button
     switchTab('routes');
+
+    function switchBench(name) {
+      document.querySelectorAll('.bench-panel').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('[id^="bench-tab-"]').forEach(btn => {
+        btn.classList.remove('bg-zinc-900', 'text-white');
+        btn.classList.add('text-zinc-400');
+      });
+
+      const activePanel = document.getElementById('bench-view-' + name);
+      const activeBtn = document.getElementById('bench-tab-' + name);
+      if (activePanel) activePanel.classList.remove('hidden');
+      if (activeBtn) {
+        activeBtn.classList.remove('text-zinc-400');
+        activeBtn.classList.add('bg-zinc-900', 'text-white');
+      }
+    }
   </script>
 </x-layouts.app>
