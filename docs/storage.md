@@ -26,22 +26,45 @@ await Storage.delete('avatars/user-1.jpg');
 
 ---
 
-## File Upload Handling
+## Multipart File Uploads
 
-In a controller action, easily store incoming uploaded files:
+BirFramework natively parses `multipart/form-data` uploads with zero external dependencies. In your controllers, access uploaded files via `ctx.file('field_name')`:
 
-```ts
-export class AvatarController {
-  public async upload(ctx) {
-    const file = ctx.file('avatar');
+```html
+<!-- views/profile.html -->
+<form action="/profile/avatar" method="POST" enctype="multipart/form-data">
+  {!! csrfField() !!}
+  <input type="file" name="avatar" accept="image/*" required />
+  <button type="submit">Upload Avatar</button>
+</form>
+```
 
-    if (!file) {
-      return ctx.badRequest('No file uploaded');
+```typescript
+// app/controllers/ProfileController.ts
+import { Route } from 'birframework';
+
+export class ProfileController {
+  public async uploadAvatar(ctx) {
+    const file = await ctx.file('avatar');
+
+    if (!file || !file.isValid()) {
+      return ctx.json({ error: 'Please choose a valid file' }, 422);
     }
 
-    const path = await Storage.put(`avatars/${Date.now()}-${file.name}`, file.data);
+    // Inspect file metadata
+    console.log(file.originalName); // "photo.png"
+    console.log(file.mimeType);     // "image/png"
+    console.log(file.extension());    // "png"
+    console.log(file.size);         // Size in bytes
 
-    return ctx.json({ success: true, path });
+    // 1. Store with auto-generated unique filename:
+    const storedPath = await file.store('avatars'); 
+    // -> "avatars/a7f8b9...png" in storage/app/avatars/
+
+    // 2. Or store on the public web disk with a custom name:
+    const customPath = await file.storeAs('avatars', `user-${ctx.user?.id}.png`, 'public');
+
+    return ctx.json({ success: true, path: storedPath });
   }
 }
 ```

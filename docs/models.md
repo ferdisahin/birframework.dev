@@ -78,6 +78,85 @@ if (user) {
 
 ---
 
+## Model Lifecycle Hooks
+
+BirFramework models fire lifecycle hooks allowing you to tap into the model's lifecycle: `creating`, `created`, `saving`, `saved`, `deleting`, and `deleted`.
+
+### Instance Method Hooks
+
+You can define lifecycle methods directly on your Model class:
+
+```typescript
+export class Article extends Model {
+  // Automatically generate slugs before record creation
+  public beforeCreate() {
+    if (!this.attributes['slug']) {
+      this.attributes['slug'] = String(this.attributes['title'])
+        .toLowerCase()
+        .replace(/\s+/g, '-');
+    }
+  }
+
+  public afterCreate() {
+    console.log(`Article #${this.id} created successfully!`);
+  }
+}
+```
+
+### Static Hook Listeners
+
+```typescript
+User.saving((user) => {
+  // Hash passwords or format data before saving
+});
+
+User.created(async (user) => {
+  // Dispatch welcome email or notifications
+});
+```
+
+---
+
+## Soft Deletes
+
+BirFramework supports non-destructive deletions using the `softDeletes` property:
+
+```typescript
+export class Post extends Model {
+  static override softDeletes = true;
+}
+```
+
+### How Soft Deletes Work
+
+When `softDeletes` is enabled:
+- Calling `post.delete()` sets `deleted_at` to the current timestamp instead of removing the row from the database.
+- Standard queries (`Post.all()`, `Post.find()`, `Post.where()`) automatically exclude soft-deleted records.
+
+```typescript
+const post = await Post.find(1);
+await post.delete(); // Soft-deleted (deleted_at set)
+
+console.log(post.trashed()); // true
+
+// Will return null because record is trashed:
+const normal = await Post.find(1);
+
+// Query including soft-deleted records:
+const allWithDeleted = await Post.withTrashed().where('author_id', 5).get();
+
+// Query only soft-deleted records:
+const trashedOnly = await Post.onlyTrashed().get();
+
+// Restore a soft-deleted record:
+await post.restore();
+
+// Permanently remove from database:
+await post.forceDelete();
+```
+
+---
+
 ## Pagination
 
 Easily paginate results in your controllers:

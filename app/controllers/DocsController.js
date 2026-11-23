@@ -12,6 +12,7 @@ export const DOCS_PAGES = [
   { slug: 'middleware', title: 'HTTP Middleware', category: 'Core Architecture' },
   { slug: 'validation', title: 'Request Validation', category: 'Core Architecture' },
   { slug: 'resources', title: 'API Resources & JSON', category: 'Core Architecture' },
+  { slug: 'localization', title: 'Localization & i18n', category: 'Core Architecture' },
   { slug: 'views', title: 'Blade Component Engine', category: 'Frontend & Views' },
   { slug: 'turbo', title: 'Instant Turbo Navigation', category: 'Frontend & Views' },
   { slug: 'database', title: 'Multi-Driver Connections', category: 'Database & ORM' },
@@ -24,6 +25,7 @@ export const DOCS_PAGES = [
   { slug: 'scheduler', title: 'Task Scheduler', category: 'Architecture & Jobs' },
   { slug: 'storage', title: 'File Storage', category: 'Architecture & Jobs' },
   { slug: 'cache', title: 'Cache System', category: 'Architecture & Jobs' },
+  { slug: 'testing', title: 'HTTP Testing & Runner', category: 'Tooling' },
   { slug: 'cli', title: 'CLI Command Reference', category: 'Tooling' },
 ];
 
