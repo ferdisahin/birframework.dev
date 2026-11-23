@@ -4,9 +4,15 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch app.js",
+    "build:css": "npx @tailwindcss/cli -i ./resources/css/app.css -o ./public/css/app.css --minify",
+    "watch:css": "npx @tailwindcss/cli -i ./resources/css/app.css -o ./public/css/app.css --watch",
     "start": "node app.js"
   },
   "dependencies": {
     "birframework": "^0.1.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.5",
+    "tailwindcss": "^4.3.5"
   }
 }
