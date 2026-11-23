@@ -7,6 +7,6 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "birframework": "file:../BirFramework"
+    "birframework": "^0.1.3"
   }
 }
