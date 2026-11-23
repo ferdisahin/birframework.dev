@@ -3,7 +3,7 @@
   <div class="max-w-7xl mx-auto px-6 w-full flex-1 flex flex-col md:flex-row gap-10">
 
     <!-- Sticky Sidebar -->
-    <aside class="w-full md:w-64 shrink-0 md:sticky md:top-16 md:h-[calc(100vh-4rem)] overflow-y-auto py-8 pr-4 border-b md:border-b-0 md:border-r border-zinc-900">
+    <aside class="w-full md:w-64 shrink-0 md:sticky md:top-16 md:h-[calc(100vh-4rem)] overflow-y-auto py-8 pr-4 border-b md:border-b-0 md:border-r border-zinc-200 dark:border-zinc-900">
       
       <!-- Quick Filter Input -->
       <div class="mb-6">
@@ -11,37 +11,37 @@
           id="docs-filter" 
           type="text" 
           placeholder="Filter documentation..." 
-          class="w-full bg-zinc-950 border border-zinc-800 focus:border-zinc-600 px-3 py-1.5 rounded-md text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none transition"
+          class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 focus:border-zinc-400 dark:focus:border-zinc-600 px-3 py-1.5 rounded-md text-xs text-zinc-900 dark:text-zinc-200 placeholder-zinc-400 dark:placeholder-zinc-600 focus:outline-none transition"
         />
       </div>
 
       <nav class="space-y-6 text-xs" id="docs-nav">
         <!-- 1. Getting Started -->
         <div>
-          <h2 class="font-medium text-zinc-400 mb-2 uppercase tracking-wider text-[11px]">Getting Started</h2>
+          <h2 class="font-semibold text-zinc-500 dark:text-zinc-400 mb-2 uppercase tracking-wider text-[11px]">Getting Started</h2>
           <ul class="space-y-1">
             <li>
-              <a href="/docs/overview" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'overview' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+              <a href="/docs/overview" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Overview & Philosophy
               </a>
             </li>
             <li>
-              <a href="/docs/benchmarks" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'benchmarks' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+              <a href="/docs/benchmarks" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Performance & Benchmarks
               </a>
             </li>
             <li>
-              <a href="/docs/installation" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'installation' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+              <a href="/docs/installation" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Installation Guide
               </a>
             </li>
             <li>
-              <a href="/docs/directory-structure" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'directory-structure' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+              <a href="/docs/directory-structure" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Directory Structure
               </a>
             </li>
             <li>
-              <a href="/docs/configuration" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'configuration' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+              <a href="/docs/configuration" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Configuration & Env
               </a>
             </li>
@@ -50,25 +50,25 @@
 
         <!-- 2. Core Architecture -->
         <div>
-          <h2 class="font-medium text-zinc-400 mb-2 uppercase tracking-wider text-[11px]">Core Architecture</h2>
+          <h2 class="font-semibold text-zinc-500 dark:text-zinc-400 mb-2 uppercase tracking-wider text-[11px]">Core Architecture</h2>
           <ul class="space-y-1">
             <li>
-              <a href="/docs/routing" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'routing' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+              <a href="/docs/routing" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Routing & Parameters
               </a>
             </li>
             <li>
-              <a href="/docs/controllers" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'controllers' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+              <a href="/docs/controllers" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Controllers & Actions
               </a>
             </li>
             <li>
-              <a href="/docs/middleware" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'middleware' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+              <a href="/docs/middleware" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 HTTP Middleware
               </a>
             </li>
             <li>
-              <a href="/docs/validation" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'validation' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+              <a href="/docs/validation" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Request Validation
               </a>
             </li>
@@ -77,15 +77,15 @@
 
         <!-- 3. Frontend & Views -->
         <div>
-          <h2 class="font-medium text-zinc-400 mb-2 uppercase tracking-wider text-[11px]">Frontend & Views</h2>
+          <h2 class="font-semibold text-zinc-500 dark:text-zinc-400 mb-2 uppercase tracking-wider text-[11px]">Frontend & Views</h2>
           <ul class="space-y-1">
             <li>
-              <a href="/docs/views" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'views' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+              <a href="/docs/views" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Blade Component Engine
               </a>
             </li>
             <li>
-              <a href="/docs/turbo" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'turbo' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+              <a href="/docs/turbo" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Instant Turbo Navigation
               </a>
             </li>
@@ -94,20 +94,20 @@
 
         <!-- 4. Database & ORM -->
         <div>
-          <h2 class="font-medium text-zinc-400 mb-2 uppercase tracking-wider text-[11px]">Database & ORM</h2>
+          <h2 class="font-semibold text-zinc-500 dark:text-zinc-400 mb-2 uppercase tracking-wider text-[11px]">Database & ORM</h2>
           <ul class="space-y-1">
             <li>
-              <a href="/docs/database" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'database' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+              <a href="/docs/database" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Multi-Driver Connections
               </a>
             </li>
             <li>
-              <a href="/docs/models" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'models' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+              <a href="/docs/models" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Active Record ORM
               </a>
             </li>
             <li>
-              <a href="/docs/migrations" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'migrations' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+              <a href="/docs/migrations" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Schema & Migrations
               </a>
             </li>
@@ -116,25 +116,25 @@
 
         <!-- 5. Security & Background -->
         <div>
-          <h2 class="font-medium text-zinc-400 mb-2 uppercase tracking-wider text-[11px]">Security & Daemons</h2>
+          <h2 class="font-semibold text-zinc-500 dark:text-zinc-400 mb-2 uppercase tracking-wider text-[11px]">Security & Daemons</h2>
           <ul class="space-y-1">
             <li>
-              <a href="/docs/auth" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'auth' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+              <a href="/docs/auth" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Authentication & Sessions
               </a>
             </li>
             <li>
-              <a href="/docs/queues" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'queues' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+              <a href="/docs/queues" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Background Queues
               </a>
             </li>
             <li>
-              <a href="/docs/scheduler" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'scheduler' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+              <a href="/docs/scheduler" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Task Scheduler (Cron)
               </a>
             </li>
             <li>
-              <a href="/docs/storage" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'storage' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+              <a href="/docs/storage" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 File Storage & Mail
               </a>
             </li>
@@ -143,10 +143,10 @@
 
         <!-- 6. Tooling -->
         <div>
-          <h2 class="font-medium text-zinc-400 mb-2 uppercase tracking-wider text-[11px]">Tooling</h2>
+          <h2 class="font-semibold text-zinc-500 dark:text-zinc-400 mb-2 uppercase tracking-wider text-[11px]">Tooling</h2>
           <ul class="space-y-1">
             <li>
-              <a href="/docs/cli" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'cli' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+              <a href="/docs/cli" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 CLI Command Reference
               </a>
             </li>
@@ -169,11 +169,11 @@
       links.forEach(a => {
         const href = (a.getAttribute('href') || '').replace(/\/$/, '');
         if (href === currentPath || (currentPath === '/docs' && href === '/docs/installation')) {
-          a.classList.add('bg-zinc-900', 'text-white', 'font-medium', 'border-l-2', 'border-emerald-400', 'pl-2.5');
-          a.classList.remove('text-zinc-400');
+          a.classList.add('bg-zinc-100', 'text-zinc-900', 'dark:bg-zinc-900', 'dark:text-white', 'font-medium', 'border-l-2', 'border-emerald-500', 'dark:border-emerald-400', 'pl-2.5');
+          a.classList.remove('text-zinc-600', 'dark:text-zinc-400');
         } else {
-          a.classList.remove('bg-zinc-900', 'text-white', 'font-medium', 'border-l-2', 'border-emerald-400', 'pl-2.5');
-          a.classList.add('text-zinc-400');
+          a.classList.remove('bg-zinc-100', 'text-zinc-900', 'dark:bg-zinc-900', 'dark:text-white', 'font-medium', 'border-l-2', 'border-emerald-500', 'dark:border-emerald-400', 'pl-2.5');
+          a.classList.add('text-zinc-600', 'dark:text-zinc-400');
         }
       });
     }
@@ -183,11 +183,11 @@
       const a = e.target.closest('#docs-nav a');
       if (!a) return;
       document.querySelectorAll('#docs-nav a').forEach(el => {
-        el.classList.remove('bg-zinc-900', 'text-white', 'font-medium', 'border-l-2', 'border-emerald-400', 'pl-2.5');
-        el.classList.add('text-zinc-400');
+        el.classList.remove('bg-zinc-100', 'text-zinc-900', 'dark:bg-zinc-900', 'dark:text-white', 'font-medium', 'border-l-2', 'border-emerald-500', 'dark:border-emerald-400', 'pl-2.5');
+        el.classList.add('text-zinc-600', 'dark:text-zinc-400');
       });
-      a.classList.add('bg-zinc-900', 'text-white', 'font-medium', 'border-l-2', 'border-emerald-400', 'pl-2.5');
-      a.classList.remove('text-zinc-400');
+      a.classList.add('bg-zinc-100', 'text-zinc-900', 'dark:bg-zinc-900', 'dark:text-white', 'font-medium', 'border-l-2', 'border-emerald-500', 'dark:border-emerald-400', 'pl-2.5');
+      a.classList.remove('text-zinc-600', 'dark:text-zinc-400');
     });
 
     // 2. Lifecycle triggers for Turbo morphing and PopState
