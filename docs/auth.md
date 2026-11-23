@@ -1,6 +1,33 @@
 # Authentication & Sessions
 
-BirFramework provides built-in authentication services, secure cryptographically signed cookies, session handling, and password hashing.
+BirFramework provides built-in authentication services, secure cryptographically signed cookies, session handling, and a full-stack starter kit inspired by Laravel Breeze.
+
+---
+
+## Instant Auth Starter Kit (`make:auth`)
+
+To scaffold a complete, production-ready authentication system with login, registration, password hashing, dashboard, and Tailwind CSS views in seconds:
+
+```bash
+npx birframework make:auth
+```
+
+This single command automatically scaffolds:
+- `app/models/User.ts` (Active Record User model)
+- `database/migrations/*_create_users_table.ts` (Schema migration)
+- `app/controllers/AuthController.ts` (Login, Register, and Logout actions)
+- `views/auth/login.html` & `views/auth/register.html` (Modern Tailwind UI forms)
+- `views/dashboard.html` (Protected member dashboard)
+- Automatically wires authentication routes into `routes/web.ts`
+
+Run your migrations and test your new auth system:
+
+```bash
+npx birframework migrate
+npm run dev
+```
+
+Navigate to `http://localhost:3000/login` to see your authentication UI in action.
 
 ---
 

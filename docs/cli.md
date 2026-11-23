@@ -30,6 +30,10 @@ Generate boilerplate code following framework architectural patterns:
 | `bir make:job <Name>` | Creates an asynchronous queue job | `app/jobs/<Name>.ts` |
 | `bir make:mail <Name>` | Creates a mailable email class | `app/mail/<Name>.ts` |
 | `bir make:seeder <Name>` | Creates a database seeder class | `database/seeders/<Name>.ts` |
+| `bir make:factory <Name>` | Creates a model factory with Faker | `database/factories/<Name>.ts` |
+| `bir make:event <Name>` | Creates an event class | `app/events/<Name>.ts` |
+| `bir make:listener <Name> [--event]` | Creates an event listener class | `app/listeners/<Name>.ts` |
+| `bir make:auth` | Scaffolds complete Breeze-style auth | Models, Controllers, Views, Migrations |
 
 ---
 
