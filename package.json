@@ -10,7 +10,7 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "birframework": "^0.5.0"
+    "birframework": "^0.5.2"
   },
   "engines": {
     "node": "22.x"
