@@ -70,8 +70,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Compiled Application CSS (Tailwind v4) -->
-  <link rel="stylesheet" href="/css/app.css">
+  <!-- Modern Vite Assets -->
+  @vite(['resources/css/app.css'])
 </head>
 <body class="bg-white text-zinc-900 dark:bg-black dark:text-zinc-100 min-h-screen flex flex-col font-sans antialiased selection:bg-zinc-200 dark:selection:bg-zinc-800 selection:text-zinc-900 dark:selection:text-white transition-colors duration-150">
 

@@ -4,8 +4,9 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch app.js",
-    "build:css": "npx @tailwindcss/cli -i ./resources/css/app.css -o ./public/css/app.css --minify",
-    "watch:css": "npx @tailwindcss/cli -i ./resources/css/app.css -o ./public/css/app.css --watch",
+    "vite": "vite",
+    "build": "vite build",
+    "build:css": "vite build",
     "start": "node app.js"
   },
   "dependencies": {
@@ -13,6 +14,8 @@
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.5",
-    "tailwindcss": "^4.3.5"
+    "@tailwindcss/vite": "^4.3.5",
+    "tailwindcss": "^4.3.5",
+    "vite": "^8.3.8"
   }
 }
