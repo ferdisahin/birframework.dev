@@ -88,7 +88,7 @@ BirFramework includes a zero-dependency Markdown compiler built right into the B
 
 ### Block Directive (`@markdown`)
 
-```html
+````html
 @markdown
 # Release Notes
 
@@ -102,7 +102,7 @@ import { Application } from 'birframework';
 const app = new Application();
 ```
 @endmarkdown
-```
+````
 
 ### Variable Directive (`@markdown(expression)`)
 
