@@ -20,6 +20,7 @@ export const DOCS_PAGES = [
   { slug: 'queues', title: 'Background Queues', category: 'Architecture & Jobs' },
   { slug: 'scheduler', title: 'Task Scheduler', category: 'Architecture & Jobs' },
   { slug: 'storage', title: 'File Storage', category: 'Architecture & Jobs' },
+  { slug: 'cache', title: 'Cache System', category: 'Architecture & Jobs' },
   { slug: 'cli', title: 'CLI Command Reference', category: 'Tooling' },
 ];
 
