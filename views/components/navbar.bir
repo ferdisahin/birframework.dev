@@ -14,7 +14,6 @@
         <a href="/docs/installation" class="hover:text-zinc-900 dark:hover:text-white transition">Documentation</a>
         <a href="/#benchmarks" class="hover:text-zinc-900 dark:hover:text-white transition">Benchmarks</a>
         <a href="/#architecture" class="hover:text-zinc-900 dark:hover:text-white transition">Architecture</a>
-        <a href="/#ecosystem" class="hover:text-zinc-900 dark:hover:text-white transition">Ecosystem</a>
       </nav>
     </div>
 

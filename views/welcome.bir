@@ -3,6 +3,5 @@
   <x-showcase />
   <x-architecture />
   <x-benchmarks />
-  <x-ecosystem />
   <x-cta />
 </x-layouts.app>
