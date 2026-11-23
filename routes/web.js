@@ -19,5 +19,5 @@ Route.get('/docs/:slug', (ctx) => docsController.show(ctx)).name('docs.show');
 
 // Health API
 Route.get('/api/health', (ctx) => {
-  return ctx.json({ status: 'ok', uptime: process.uptime(), version: '0.1.2' });
+  return ctx.json({ status: 'ok', uptime: process.uptime(), version: '0.1.3' });
 }).name('api.health');
