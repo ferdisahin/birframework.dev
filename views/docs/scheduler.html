@@ -1,0 +1,57 @@
+<x-layouts.docs title="Task Scheduler (Cron)" slug="{{ slug }}">
+  <div class="space-y-6">
+    <div>
+      <span class="text-xs font-mono text-zinc-500 uppercase tracking-wider">Services & Workers</span>
+      <h1 class="text-2xl font-bold text-white mt-1">Task Scheduler (Cron)</h1>
+      <p class="text-sm text-zinc-400 mt-2 leading-relaxed">
+        Define scheduled background tasks fluently in code without configuring operating system crontab entries.
+      </p>
+    </div>
+
+    <!-- Scheduling Tasks -->
+    <div class="border-t border-zinc-900 pt-6">
+      <h2 class="text-base font-semibold text-white">Defining Schedules</h2>
+      <div class="bg-zinc-950 border border-zinc-900 rounded-md p-4 font-mono text-xs text-zinc-300 mt-3">
+<pre><code>import { Schedule } from 'birframework';
+
+// Run every minute
+Schedule.call(async () => {
+  console.log('Running health check ping...');
+}).everyMinute().name('health-ping');
+
+// Run daily at midnight
+Schedule.call(async () => {
+  await cleanupExpiredSessions();
+}).dailyAt('00:00').name('session-cleanup');
+
+// Run hourly
+Schedule.call(async () => {
+  await syncAnalytics();
+}).hourly();</code></pre>
+      </div>
+    </div>
+
+    <!-- Running Scheduler -->
+    <div class="border-t border-zinc-900 pt-6">
+      <h2 class="text-base font-semibold text-white">Running the Scheduler Daemon</h2>
+      <div class="bg-zinc-950 border border-zinc-900 rounded-md p-3 font-mono text-xs text-zinc-300 mt-3 space-y-2">
+        <p><span class="text-zinc-500"># Start background scheduler daemon</span></p>
+        <p>bir schedule:work</p>
+        <p class="pt-2"><span class="text-zinc-500"># Or execute due tasks once (for CI / system crontabs)</span></p>
+        <p>bir schedule:run</p>
+      </div>
+    </div>
+
+    <!-- Navigation Footer -->
+    <div class="border-t border-zinc-900 pt-8 mt-12 flex items-center justify-between text-xs">
+      <a href="/docs/queues" class="text-zinc-500 hover:text-white transition flex items-center gap-1">
+        <span>←</span>
+        <span>Queues & Background Jobs</span>
+      </a>
+      <a href="/docs/storage" class="text-zinc-300 hover:text-white font-medium transition flex items-center gap-1">
+        <span>File Storage & Mail</span>
+        <span>→</span>
+      </a>
+    </div>
+  </div>
+</x-layouts.docs>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }} - BirFramework Docs</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #000; }
+    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 2px; }
+  </style>
+</head>
+<body class="bg-black text-zinc-100 min-h-screen flex flex-col font-sans antialiased selection:bg-zinc-800 selection:text-white">
+
+  <!-- Top Navigation Bar -->
+  <header class="sticky top-0 z-50 bg-black/85 backdrop-blur border-b border-zinc-900">
+    <div class="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
+      <div class="flex items-center gap-8">
+        <a href="/" class="flex items-center gap-2 font-semibold tracking-tight text-white hover:opacity-90 transition">
+          <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+          </svg>
+          <span class="text-sm tracking-tight">BirFramework</span>
+          <span class="text-[10px] font-mono text-zinc-400 bg-zinc-900 border border-zinc-800 px-1.5 py-0.2 rounded font-normal">v0.1.2</span>
+        </a>
+
+        <div class="hidden sm:flex items-center gap-2 text-xs text-zinc-500">
+          <span>/</span>
+          <span class="text-zinc-300">Documentation</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4 text-xs">
+        <a href="/" class="text-zinc-400 hover:text-white transition">Home</a>
+        <a href="https://github.com/ferdisahin/BirFramework" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-white transition">GitHub</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Docs Layout Container -->
+  <div class="max-w-7xl mx-auto px-6 w-full flex-1 flex flex-col md:flex-row gap-10">
+
+    <!-- Sticky Sidebar -->
+    <aside class="w-full md:w-64 shrink-0 md:sticky md:top-14 md:h-[calc(100vh-3.5rem)] overflow-y-auto py-8 pr-4 border-b md:border-b-0 md:border-r border-zinc-900">
+      
+      <!-- Quick Filter Input -->
+      <div class="mb-6">
+        <input 
+          id="docs-filter" 
+          type="text" 
+          placeholder="Filter documentation..." 
+          class="w-full bg-zinc-950 border border-zinc-800 focus:border-zinc-600 px-3 py-1.5 rounded-md text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none transition"
+        />
+      </div>
+
+      <nav class="space-y-6 text-xs" id="docs-nav">
+        <!-- 1. Getting Started -->
+        <div>
+          <h2 class="font-medium text-zinc-400 mb-2 uppercase tracking-wider text-[11px]">Getting Started</h2>
+          <ul class="space-y-1">
+            <li>
+              <a href="/docs/overview" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'overview' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+                Overview & Philosophy
+              </a>
+            </li>
+            <li>
+              <a href="/docs/installation" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'installation' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+                Installation
+              </a>
+            </li>
+            <li>
+              <a href="/docs/directory-structure" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'directory-structure' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+                Directory Structure
+              </a>
+            </li>
+            <li>
+              <a href="/docs/configuration" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'configuration' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+                Configuration & Env
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- 2. Core Architecture -->
+        <div>
+          <h2 class="font-medium text-zinc-400 mb-2 uppercase tracking-wider text-[11px]">Core Architecture</h2>
+          <ul class="space-y-1">
+            <li>
+              <a href="/docs/routing" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'routing' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+                Routing & Parameters
+              </a>
+            </li>
+            <li>
+              <a href="/docs/controllers" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'controllers' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+                Controllers & Resources
+              </a>
+            </li>
+            <li>
+              <a href="/docs/middleware" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'middleware' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+                Middleware Pipeline
+              </a>
+            </li>
+            <li>
+              <a href="/docs/validation" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'validation' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+                Request Validation
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- 3. Views & Turbo -->
+        <div>
+          <h2 class="font-medium text-zinc-400 mb-2 uppercase tracking-wider text-[11px]">Frontend & Views</h2>
+          <ul class="space-y-1">
+            <li>
+              <a href="/docs/views" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'views' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+                Blade Component Engine
+              </a>
+            </li>
+            <li>
+              <a href="/docs/turbo" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'turbo' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+                Instant Turbo Navigation
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- 4. Database & ORM -->
+        <div>
+          <h2 class="font-medium text-zinc-400 mb-2 uppercase tracking-wider text-[11px]">Database & ORM</h2>
+          <ul class="space-y-1">
+            <li>
+              <a href="/docs/database" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'database' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+                Multi-Driver Connections
+              </a>
+            </li>
+            <li>
+              <a href="/docs/models" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'models' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+                Active Record Models
+              </a>
+            </li>
+            <li>
+              <a href="/docs/migrations" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'migrations' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+                Migrations & Seeders
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- 5. Services & Workers -->
+        <div>
+          <h2 class="font-medium text-zinc-400 mb-2 uppercase tracking-wider text-[11px]">Services & Workers</h2>
+          <ul class="space-y-1">
+            <li>
+              <a href="/docs/auth" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'auth' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+                Authentication & Sessions
+              </a>
+            </li>
+            <li>
+              <a href="/docs/queues" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'queues' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+                Queues & Background Jobs
+              </a>
+            </li>
+            <li>
+              <a href="/docs/scheduler" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'scheduler' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+                Task Scheduler (Cron)
+              </a>
+            </li>
+            <li>
+              <a href="/docs/storage" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'storage' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+                File Storage & Mail
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- 6. Tooling -->
+        <div>
+          <h2 class="font-medium text-zinc-400 mb-2 uppercase tracking-wider text-[11px]">Tooling</h2>
+          <ul class="space-y-1">
+            <li>
+              <a href="/docs/cli" class="block py-1 px-2 rounded hover:bg-zinc-900 text-zinc-400 hover:text-white transition {{ slug == 'cli' ? 'bg-zinc-900 text-white font-medium' : '' }}">
+                CLI Command Reference
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Main Content Panel -->
+    <article class="flex-1 py-8 max-w-3xl min-w-0">
+      {!! slot !!}
+    </article>
+  </div>
+
+  <!-- Client Filter Script & Code Copy -->
+  <script>
+    document.addEventListener('input', (e) => {
+      if (e.target.id !== 'docs-filter') return;
+      const q = e.target.value.toLowerCase().trim();
+      const items = document.querySelectorAll('#docs-nav li');
+      items.forEach(li => {
+        const text = li.innerText.toLowerCase();
+        li.style.display = text.includes(q) ? '' : 'none';
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-copy]');
+      if (!btn) return;
+      const selector = btn.getAttribute('data-copy');
+      const target = document.querySelector(selector);
+      if (!target) return;
+      navigator.clipboard.writeText(target.innerText.trim());
+      const original = btn.innerHTML;
+      btn.innerHTML = '<span class="text-emerald-400 font-mono text-[11px]">Copied</span>';
+      setTimeout(() => { btn.innerHTML = original; }, 2000);
+    });
+  </script>
+
+  {!! bir_scripts() !!}
+</body>
+</html>

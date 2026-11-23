@@ -1,0 +1,287 @@
+<x-layouts.app title="BirFramework - The Full-Stack TypeScript Framework">
+  <!-- Hero Section -->
+  <section class="max-w-5xl mx-auto px-6 pt-24 pb-20 text-center">
+    
+    <!-- Version Tag -->
+    <a href="/docs/installation" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-xs text-zinc-300 hover:border-zinc-700 transition mb-8">
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+      <span>BirFramework v0.1.2 is now available</span>
+      <span class="text-zinc-600">→</span>
+    </a>
+
+    <!-- Main Headline -->
+    <h1 class="text-4xl sm:text-6xl font-semibold tracking-tight text-white max-w-3xl mx-auto leading-[1.12]">
+      The full-stack framework for Node.js and TypeScript
+    </h1>
+
+    <!-- Subtitle -->
+    <p class="text-base sm:text-lg text-zinc-400 mt-6 max-w-2xl mx-auto leading-relaxed">
+      Laravel developer experience paired with the persistent-memory speed of modern JavaScript runtimes. Active-record ORM, migrations, background queues, and Blade templates with instant client navigation.
+    </p>
+
+    <!-- Terminal Command & Actions -->
+    <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
+      <div class="w-full sm:w-auto flex-1 flex items-center justify-between bg-zinc-950 border border-zinc-800 px-4 py-2.5 rounded-md font-mono text-xs text-zinc-300">
+        <div class="flex items-center gap-2">
+          <span class="text-zinc-600">$</span>
+          <span id="cmd-install">npx birframework new my-app</span>
+        </div>
+        <button data-copy="#cmd-install" class="text-zinc-500 hover:text-zinc-200 transition text-[11px] ml-3 pl-2 border-l border-zinc-800">
+          Copy
+        </button>
+      </div>
+
+      <a href="/docs/installation" class="w-full sm:w-auto bg-white hover:bg-zinc-200 text-black px-5 py-2.5 rounded-md font-medium text-xs transition flex items-center justify-center gap-1.5">
+        <span>Get Started</span>
+        <span>→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Interactive Code Walkthrough -->
+  <section class="max-w-5xl mx-auto px-6 py-12">
+    <div class="bg-zinc-950 border border-zinc-900 rounded-lg overflow-hidden">
+      <!-- Tab Header -->
+      <div class="flex items-center justify-between px-4 py-2.5 bg-zinc-950 border-b border-zinc-900 text-xs">
+        <div class="flex items-center gap-2" id="code-tabs">
+          <button onclick="switchTab('routes')" id="tab-routes" class="tab-btn px-3 py-1 rounded bg-zinc-900 text-white font-medium transition">
+            routes/web.ts
+          </button>
+          <button onclick="switchTab('model')" id="tab-model" class="tab-btn px-3 py-1 rounded text-zinc-400 hover:text-zinc-200 transition">
+            app/models/User.ts
+          </button>
+          <button onclick="switchTab('view')" id="tab-view" class="tab-btn px-3 py-1 rounded text-zinc-400 hover:text-zinc-200 transition">
+            views/welcome.html
+          </button>
+          <button onclick="switchTab('queue')" id="tab-queue" class="tab-btn px-3 py-1 rounded text-zinc-400 hover:text-zinc-200 transition">
+            app/jobs/SendEmailJob.ts
+          </button>
+        </div>
+
+        <button data-copy="#active-code" class="text-zinc-500 hover:text-zinc-300 transition text-[11px] font-mono">
+          Copy code
+        </button>
+      </div>
+
+      <!-- Code Snippets -->
+      <div class="p-5 font-mono text-xs overflow-x-auto leading-relaxed text-zinc-300">
+        <!-- Routes Snippet -->
+        <pre id="code-routes" class="code-panel"><code>import { Route, type Context } from 'birframework';
+import { UserController } from '../app/controllers/UserController.js';
+
+const users = new UserController();
+
+// Basic route with parameter matching
+Route.get('/users/:id', (ctx: Context) => users.show(ctx));
+
+// Route group with validation and middleware
+Route.group({ prefix: '/api/v1', middleware: ['auth'] }, () => {
+  Route.post('/posts', async (ctx: Context) => {
+    const data = await ctx.validate({
+      title: 'required|string|min:3',
+      content: 'required|string'
+    });
+    return ctx.json({ status: 'created', data }, 201);
+  });
+});
+
+// Blade template view rendering with Instant Turbo
+Route.get('/', (ctx: Context) => {
+  return ctx.render('welcome', { title: 'BirFramework' });
+});</code></pre>
+
+        <!-- Model Snippet -->
+        <pre id="code-model" class="code-panel hidden"><code>import { Model, DB } from 'birframework';
+
+export class User extends Model {
+  static override table = 'users';
+
+  // Fluent Eloquent relationships
+  posts() {
+    return this.hasMany('posts', 'user_id');
+  }
+}
+
+// Active-record query examples
+const user = await User.find(1);
+const activeUsers = await User.where('status', '=', 'active')
+  .orderBy('created_at', 'desc')
+  .get();
+
+// ACID transaction support across SQLite, Postgres, and MySQL
+await DB.transaction(async (trx) => {
+  await trx.table('accounts').where('id', 1).decrement('balance', 50);
+  await trx.table('accounts').where('id', 2).increment('balance', 50);
+});</code></pre>
+
+        <!-- View Snippet -->
+        <pre id="code-view" class="code-panel hidden"><code>&lt;x-layouts.app title="{{ title }}"&gt;
+  &lt;div class="max-w-4xl mx-auto py-12"&gt;
+    &lt;h1 class="text-2xl font-bold text-white"&gt;{{ title }}&lt;/h1&gt;
+
+    &lt;!-- Blade directives --&gt;
+    @foreach(post in posts)
+      &lt;div class="border-b border-zinc-800 py-3"&gt;
+        &lt;h2 class="text-sm font-semibold"&gt;{{ post.title }}&lt;/h2&gt;
+        &lt;span class="text-xs text-zinc-500"&gt;#{{ post.id }}&lt;/span&gt;
+      &lt;/div&gt;
+    @endforeach
+
+    &lt;!-- Instant Turbo page navigation --&gt;
+    {!! paginationHtml !!}
+  &lt;/div&gt;
+
+  &lt;x-slot name="footer"&gt;
+    &lt;span class="text-xs text-zinc-500"&gt;Rendered with BirFramework Blade Engine&lt;/span&gt;
+  &lt;/x-slot&gt;
+&lt;/x-layouts.app&gt;</code></pre>
+
+        <!-- Queue Snippet -->
+        <pre id="code-queue" class="code-panel hidden"><code>import { Job, dispatch } from 'birframework';
+
+export class SendWelcomeEmailJob extends Job {
+  constructor(public userId: number) {
+    super();
+  }
+
+  // Asynchronous background execution
+  async handle() {
+    console.log(`Processing welcome email for user: ${this.userId}`);
+    // Exponential retry backoff built in
+  }
+}
+
+// Dispatch job from any controller or route
+await dispatch(new SendWelcomeEmailJob(42));</code></pre>
+        
+        <div id="active-code" class="hidden"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture Pillars -->
+  <section id="architecture" class="max-w-5xl mx-auto px-6 py-20 border-t border-zinc-900">
+    <div class="mb-12">
+      <h2 class="text-xl font-semibold tracking-tight text-white">Built for Full-Stack Applications</h2>
+      <p class="text-sm text-zinc-400 mt-2">Core capabilities engineered into a single unified runtime.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-6">
+      <div class="p-6 rounded-lg border border-zinc-900 bg-zinc-950/40">
+        <h3 class="text-sm font-semibold text-white">Radix-Speed HTTP Routing</h3>
+        <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+          Parameter matching with <code>:id</code> and <code>{id}</code>, route groups with nested prefixing and middleware stacks, and native Server-Sent Events (SSE) streaming for real-time and LLM token outputs.
+        </p>
+      </div>
+
+      <div class="p-6 rounded-lg border border-zinc-900 bg-zinc-950/40">
+        <h3 class="text-sm font-semibold text-white">Instant Turbo Navigation</h3>
+        <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+          Server-rendered Blade templates morph into the live DOM on click. Get the fluid speed of a single-page application without the overhead of client-side React or hydration bundles.
+        </p>
+      </div>
+
+      <div class="p-6 rounded-lg border border-zinc-900 bg-zinc-950/40">
+        <h3 class="text-sm font-semibold text-white">Multi-Driver Database Layer</h3>
+        <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+          Active-record models, schema builders, migrations, and seeders. Uses zero-dependency native <code>node:sqlite</code> in local development and translates queries seamlessly to PostgreSQL or MySQL.
+        </p>
+      </div>
+
+      <div class="p-6 rounded-lg border border-zinc-900 bg-zinc-950/40">
+        <h3 class="text-sm font-semibold text-white">Queues, Scheduler & Security</h3>
+        <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+          In-process cron scheduling daemon, asynchronous queue worker with retry backoff, Scrypt password hashing, signed cookies, CSRF protection, and rate limiting out of the box.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ecosystem Comparison Table -->
+  <section id="ecosystem" class="max-w-5xl mx-auto px-6 py-20 border-t border-zinc-900">
+    <div class="mb-10">
+      <h2 class="text-xl font-semibold tracking-tight text-white">Batteries Included</h2>
+      <p class="text-sm text-zinc-400 mt-2">Compare an ad-hoc Node.js stack with BirFramework's integrated architecture.</p>
+    </div>
+
+    <div class="border border-zinc-900 rounded-lg overflow-hidden text-xs">
+      <table class="w-full text-left">
+        <thead class="bg-zinc-950 border-b border-zinc-900 text-zinc-400 font-medium">
+          <tr>
+            <th class="py-3 px-4">Feature</th>
+            <th class="py-3 px-4">Ad-Hoc Node Stack</th>
+            <th class="py-3 px-4 text-white">BirFramework</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-zinc-900 text-zinc-300">
+          <tr>
+            <td class="py-3 px-4 font-medium text-white">HTTP & Routing</td>
+            <td class="py-3 px-4 text-zinc-500">Express / Fastify</td>
+            <td class="py-3 px-4 font-mono text-emerald-400">Built-in (Radix Router)</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-4 font-medium text-white">ORM & Database</td>
+            <td class="py-3 px-4 text-zinc-500">Prisma / Drizzle / TypeORM</td>
+            <td class="py-3 px-4 font-mono text-emerald-400">Built-in (Active Record)</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-4 font-medium text-white">Migrations & Seeders</td>
+            <td class="py-3 px-4 text-zinc-500">Knex / Umzug</td>
+            <td class="py-3 px-4 font-mono text-emerald-400">Built-in (Schema & Migrator)</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-4 font-medium text-white">Template Engine</td>
+            <td class="py-3 px-4 text-zinc-500">EJS / Handlebars / Pug</td>
+            <td class="py-3 px-4 font-mono text-emerald-400">Built-in (Blade Components)</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-4 font-medium text-white">SPA Navigation</td>
+            <td class="py-3 px-4 text-zinc-500">Turbo / Unpoly / HTMX</td>
+            <td class="py-3 px-4 font-mono text-emerald-400">Built-in (BirTurbo Morphing)</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-4 font-medium text-white">Background Queues</td>
+            <td class="py-3 px-4 text-zinc-500">BullMQ / Celery</td>
+            <td class="py-3 px-4 font-mono text-emerald-400">Built-in (Queue Worker)</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-4 font-medium text-white">Cron Task Scheduler</td>
+            <td class="py-3 px-4 text-zinc-500">node-cron / Bree</td>
+            <td class="py-3 px-4 font-mono text-emerald-400">Built-in (Schedule Daemon)</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-4 font-medium text-white">CLI Tooling</td>
+            <td class="py-3 px-4 text-zinc-500">Commander / Yargs custom glue</td>
+            <td class="py-3 px-4 font-mono text-emerald-400">Built-in (bir CLI)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Tab Switch Script -->
+  <script>
+    function switchTab(name) {
+      document.querySelectorAll('.code-panel').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-zinc-900', 'text-white');
+        btn.classList.add('text-zinc-400');
+      });
+
+      const activePre = document.getElementById('code-' + name);
+      const activeBtn = document.getElementById('tab-' + name);
+      if (activePre) activePre.classList.remove('hidden');
+      if (activeBtn) {
+        activeBtn.classList.remove('text-zinc-400');
+        activeBtn.classList.add('bg-zinc-900', 'text-white');
+      }
+
+      const activeContainer = document.getElementById('active-code');
+      if (activeContainer && activePre) {
+        activeContainer.innerText = activePre.innerText;
+      }
+    }
+    // Init active code for copy button
+    switchTab('routes');
+  </script>
+</x-layouts.app>

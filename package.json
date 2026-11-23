@@ -1,0 +1,13 @@
+{
+  "name": "birframework.dev",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch app.js",
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "birframework": "^0.1.2"
+  },
+  "devDependencies": {}
+}

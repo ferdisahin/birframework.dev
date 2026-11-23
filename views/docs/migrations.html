@@ -1,0 +1,68 @@
+<x-layouts.docs title="Migrations & Seeders" slug="{{ slug }}">
+  <div class="space-y-6">
+    <div>
+      <span class="text-xs font-mono text-zinc-500 uppercase tracking-wider">Database & ORM</span>
+      <h1 class="text-2xl font-bold text-white mt-1">Migrations & Seeders</h1>
+      <p class="text-sm text-zinc-400 mt-2 leading-relaxed">
+        Version control your database schema across team members with typed migrations.
+      </p>
+    </div>
+
+    <!-- Generating Migration -->
+    <div class="border-t border-zinc-900 pt-6">
+      <h2 class="text-base font-semibold text-white">Creating a Migration</h2>
+      <div class="bg-zinc-950 border border-zinc-900 rounded-md p-3 font-mono text-xs text-zinc-300 mt-3">
+        <code>bir make:migration create_posts_table</code>
+      </div>
+    </div>
+
+    <!-- Migration Code -->
+    <div class="border-t border-zinc-900 pt-6">
+      <h2 class="text-base font-semibold text-white">Migration Structure</h2>
+      <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+        Migrations use the fluent <code class="font-mono text-xs text-zinc-300">Schema</code> blueprint builder:
+      </p>
+
+      <div class="bg-zinc-950 border border-zinc-900 rounded-md p-4 font-mono text-xs text-zinc-300 mt-3">
+<pre><code>import { Schema, type Blueprint } from 'birframework';
+
+export async function up() {
+  await Schema.create('posts', (table: Blueprint) => {
+    table.id();
+    table.string('title');
+    table.text('content');
+    table.integer('user_id');
+    table.timestamps();
+  });
+}
+
+export async function down() {
+  await Schema.dropIfExists('posts');
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- Running Migrations -->
+    <div class="border-t border-zinc-900 pt-6">
+      <h2 class="text-base font-semibold text-white">Executing Migrations</h2>
+      <div class="bg-zinc-950 border border-zinc-900 rounded-md p-3 font-mono text-xs text-zinc-300 mt-3 space-y-2">
+        <p><span class="text-zinc-500"># Run all pending migrations</span></p>
+        <p>bir migrate</p>
+        <p class="pt-2"><span class="text-zinc-500"># Roll back the latest migration batch</span></p>
+        <p>bir migrate:rollback</p>
+      </div>
+    </div>
+
+    <!-- Navigation Footer -->
+    <div class="border-t border-zinc-900 pt-8 mt-12 flex items-center justify-between text-xs">
+      <a href="/docs/models" class="text-zinc-500 hover:text-white transition flex items-center gap-1">
+        <span>←</span>
+        <span>Active Record Models</span>
+      </a>
+      <a href="/docs/auth" class="text-zinc-300 hover:text-white font-medium transition flex items-center gap-1">
+        <span>Authentication & Sessions</span>
+        <span>→</span>
+      </a>
+    </div>
+  </div>
+</x-layouts.docs>

@@ -1,0 +1,58 @@
+<x-layouts.docs title="Authentication & Sessions" slug="{{ slug }}">
+  <div class="space-y-6">
+    <div>
+      <span class="text-xs font-mono text-zinc-500 uppercase tracking-wider">Services & Workers</span>
+      <h1 class="text-2xl font-bold text-white mt-1">Authentication & Sessions</h1>
+      <p class="text-sm text-zinc-400 mt-2 leading-relaxed">
+        BirFramework includes secure Scrypt password hashing, HMAC-SHA256 signed session cookies, CSRF protection, and authentication guards.
+      </p>
+    </div>
+
+    <!-- Auth Scaffolding -->
+    <div class="border-t border-zinc-900 pt-6">
+      <h2 class="text-base font-semibold text-white">One-Command Auth Scaffolding</h2>
+      <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+        Generate complete login and registration views, controllers, models, and migrations in one command:
+      </p>
+
+      <div class="bg-zinc-950 border border-zinc-900 rounded-md p-3 font-mono text-xs text-zinc-300 mt-3">
+        <code>bir auth:scaffold</code>
+      </div>
+    </div>
+
+    <!-- Manual Auth -->
+    <div class="border-t border-zinc-900 pt-6">
+      <h2 class="text-base font-semibold text-white">Using Auth & Hash Services</h2>
+      <div class="bg-zinc-950 border border-zinc-900 rounded-md p-4 font-mono text-xs text-zinc-300 mt-3">
+<pre><code>import { Auth, Hash } from 'birframework';
+
+// Hash a password securely with Scrypt
+const hashed = await Hash.make('secret123');
+
+// Authenticate user credentials
+Route.post('/login', async (ctx) => {
+  const { email, password } = await ctx.body();
+  const authenticated = await Auth.attempt(ctx, { email, password });
+
+  if (!authenticated) {
+    return ctx.json({ error: 'Invalid credentials' }, 401);
+  }
+
+  return ctx.json({ message: 'Login successful' });
+});</code></pre>
+      </div>
+    </div>
+
+    <!-- Navigation Footer -->
+    <div class="border-t border-zinc-900 pt-8 mt-12 flex items-center justify-between text-xs">
+      <a href="/docs/migrations" class="text-zinc-500 hover:text-white transition flex items-center gap-1">
+        <span>←</span>
+        <span>Migrations & Seeders</span>
+      </a>
+      <a href="/docs/queues" class="text-zinc-300 hover:text-white font-medium transition flex items-center gap-1">
+        <span>Queues & Background Jobs</span>
+        <span>→</span>
+      </a>
+    </div>
+  </div>
+</x-layouts.docs>

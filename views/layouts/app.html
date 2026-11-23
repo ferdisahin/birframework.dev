@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }} - BirFramework</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0ea5e9',
+              600: '#0284c7',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #000; }
+    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+  </style>
+</head>
+<body class="bg-black text-zinc-100 min-h-screen flex flex-col font-sans antialiased selection:bg-zinc-800 selection:text-white">
+
+  <!-- Top Navigation Bar -->
+  <header class="sticky top-0 z-50 bg-black/80 backdrop-blur border-b border-zinc-900">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-8">
+        <a href="/" class="flex items-center gap-2.5 font-bold tracking-tight text-white hover:opacity-90 transition">
+          <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+          </svg>
+          <span class="text-base tracking-tight font-semibold">BirFramework</span>
+          <span class="text-[11px] font-mono text-zinc-400 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded-full ml-1 font-normal">v0.1.2</span>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-6 text-sm text-zinc-400 font-normal">
+          <a href="/docs/installation" class="hover:text-white transition">Documentation</a>
+          <a href="/#architecture" class="hover:text-white transition">Architecture</a>
+          <a href="/#ecosystem" class="hover:text-white transition">Ecosystem</a>
+        </nav>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <a href="/docs/installation" class="hidden sm:inline-flex text-xs font-mono text-zinc-400 bg-zinc-950 border border-zinc-800 hover:border-zinc-700 px-3 py-1.5 rounded-md transition items-center gap-2">
+          <span>npx birframework new</span>
+          <span class="text-zinc-600">→</span>
+        </a>
+
+        <a href="https://github.com/ferdisahin/BirFramework" target="_blank" rel="noopener noreferrer" class="text-xs text-zinc-300 hover:text-white bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 px-3 py-1.5 rounded-md transition font-medium flex items-center gap-1.5">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Slot -->
+  <main class="flex-1">
+    {!! slot !!}
+  </main>
+
+  <!-- Clean Footer -->
+  <footer class="border-t border-zinc-900 bg-black text-xs text-zinc-500 py-12 px-6">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <span class="font-semibold text-zinc-300">BirFramework</span>
+        <span>•</span>
+        <span>Open-source software licensed under MIT</span>
+      </div>
+
+      <div class="flex items-center gap-6">
+        <a href="/docs/installation" class="hover:text-zinc-300 transition">Docs</a>
+        <a href="https://github.com/ferdisahin/BirFramework" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-300 transition">Repository</a>
+        <a href="https://www.npmjs.com/package/birframework" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-300 transition">npm</a>
+        <a href="/api/health" class="hover:text-zinc-300 transition">API Status</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Code Copy Script -->
+  <script>
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-copy]');
+      if (!btn) return;
+      const selector = btn.getAttribute('data-copy');
+      const target = document.querySelector(selector);
+      if (!target) return;
+      navigator.clipboard.writeText(target.innerText.trim());
+      const original = btn.innerHTML;
+      btn.innerHTML = '<span class="text-emerald-400 font-mono text-[11px]">Copied</span>';
+      setTimeout(() => { btn.innerHTML = original; }, 2000);
+    });
+  </script>
+
+  {!! bir_scripts() !!}
+</body>
+</html>

@@ -1,0 +1,93 @@
+<x-layouts.docs title="Installation" slug="{{ slug }}">
+  <div class="space-y-6">
+    <div>
+      <span class="text-xs font-mono text-zinc-500 uppercase tracking-wider">Getting Started</span>
+      <h1 class="text-2xl font-bold text-white mt-1">Installation</h1>
+      <p class="text-sm text-zinc-400 mt-2 leading-relaxed">
+        Get up and running with a new BirFramework application in seconds using the interactive project initializer.
+      </p>
+    </div>
+
+    <!-- Requirements -->
+    <div class="border-t border-zinc-900 pt-6">
+      <h2 class="text-base font-semibold text-white">System Requirements</h2>
+      <ul class="list-disc list-inside text-xs text-zinc-400 mt-3 space-y-1.5 leading-relaxed">
+        <li><strong class="text-zinc-200">Node.js</strong>: Version 20.0.0 or higher (Node 22+ recommended for native SQLite).</li>
+        <li><strong class="text-zinc-200">Package Manager</strong>: npm (v9+), pnpm, or yarn.</li>
+        <li><strong class="text-zinc-200">Operating System</strong>: macOS, Linux, or Windows WSL2.</li>
+      </ul>
+    </div>
+
+    <!-- Scaffolding -->
+    <div class="border-t border-zinc-900 pt-6">
+      <h2 class="text-base font-semibold text-white">Creating a Project</h2>
+      <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+        Run the official installer using <code class="font-mono text-zinc-300 bg-zinc-900 px-1 py-0.5 rounded text-xs">npx</code>:
+      </p>
+
+      <div class="bg-zinc-950 border border-zinc-900 rounded-md p-3 font-mono text-xs text-zinc-300 flex items-center justify-between mt-3">
+        <code>npx birframework new my-app</code>
+        <button data-copy="#code-inst1" class="text-zinc-500 hover:text-zinc-300 text-[11px] transition">Copy</button>
+      </div>
+      <div id="code-inst1" class="hidden">npx birframework new my-app</div>
+
+      <p class="text-xs text-zinc-400 mt-4 leading-relaxed">
+        The CLI prompts you interactively for your language and styling preferences:
+      </p>
+
+      <div class="bg-zinc-950 border border-zinc-900 rounded-md p-4 font-mono text-xs text-zinc-400 mt-3 space-y-2">
+        <p><span class="text-zinc-600">?</span> <strong class="text-zinc-200">Select language:</strong></p>
+        <p class="pl-4">1) TypeScript <span class="text-zinc-600">(Default, Recommended - Strict End-to-End Types)</span></p>
+        <p class="pl-4">2) JavaScript <span class="text-zinc-600">(Pure ESM)</span></p>
+        <p class="pt-2"><span class="text-zinc-600">?</span> <strong class="text-zinc-200">Select styling:</strong></p>
+        <p class="pl-4">1) Tailwind CSS <span class="text-zinc-600">(Default, Utility-First)</span></p>
+        <p class="pl-4">2) Pure CSS <span class="text-zinc-600">(Vanilla CSS without build step)</span></p>
+      </div>
+    </div>
+
+    <!-- Non-interactive flags -->
+    <div class="border-t border-zinc-900 pt-6">
+      <h2 class="text-base font-semibold text-white">Automated / CI Setup</h2>
+      <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+        You can pass explicit flags to skip interactive prompts in CI/CD pipelines or scripts:
+      </p>
+
+      <div class="bg-zinc-950 border border-zinc-900 rounded-md p-3 font-mono text-xs text-zinc-300 mt-3 space-y-2">
+        <p><span class="text-zinc-600"># TypeScript with Tailwind CSS (Default)</span></p>
+        <p>npx birframework new my-app --ts --tailwind</p>
+        <p class="pt-2"><span class="text-zinc-600"># Pure JavaScript with Pure CSS</span></p>
+        <p>npx birframework new my-app --js --css</p>
+      </div>
+    </div>
+
+    <!-- Starting Server -->
+    <div class="border-t border-zinc-900 pt-6">
+      <h2 class="text-base font-semibold text-white">Starting the Development Server</h2>
+      <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+        Navigate to your new project directory and start the hot-reload dev server:
+      </p>
+
+      <div class="bg-zinc-950 border border-zinc-900 rounded-md p-3 font-mono text-xs text-zinc-300 mt-3 space-y-2">
+        <p>cd my-app</p>
+        <p>npm install</p>
+        <p>npm run dev</p>
+      </div>
+
+      <p class="text-xs text-zinc-400 mt-3 leading-relaxed">
+        Your server is now running at <a href="http://localhost:3000" target="_blank" class="text-white underline underline-offset-2">http://localhost:3000</a>.
+      </p>
+    </div>
+
+    <!-- Navigation Footer -->
+    <div class="border-t border-zinc-900 pt-8 mt-12 flex items-center justify-between text-xs">
+      <a href="/docs/overview" class="text-zinc-500 hover:text-white transition flex items-center gap-1">
+        <span>←</span>
+        <span>Overview & Philosophy</span>
+      </a>
+      <a href="/docs/directory-structure" class="text-zinc-300 hover:text-white font-medium transition flex items-center gap-1">
+        <span>Directory Structure</span>
+        <span>→</span>
+      </a>
+    </div>
+  </div>
+</x-layouts.docs>
