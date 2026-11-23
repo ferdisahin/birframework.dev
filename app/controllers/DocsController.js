@@ -3,6 +3,7 @@ import { join } from 'node:path';
 
 export const DOCS_PAGES = [
   { slug: 'overview', title: 'Overview & Philosophy', category: 'Getting Started' },
+  { slug: 'benchmarks', title: 'Performance & Benchmarks', category: 'Getting Started' },
   { slug: 'installation', title: 'Installation Guide', category: 'Getting Started' },
   { slug: 'directory-structure', title: 'Directory Structure', category: 'Getting Started' },
   { slug: 'configuration', title: 'Configuration & Env', category: 'Getting Started' },
