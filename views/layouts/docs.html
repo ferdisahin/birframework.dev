@@ -161,8 +161,29 @@
     </article>
   </div>
 
-  <!-- Client Filter Script -->
+  <!-- Client Active Link & Filter Script -->
   <script>
+    function updateActiveDocLink() {
+      const currentPath = window.location.pathname.replace(/\/$/, '') || '/docs/installation';
+      const links = document.querySelectorAll('#docs-nav a');
+      links.forEach(a => {
+        const href = (a.getAttribute('href') || '').replace(/\/$/, '');
+        if (href === currentPath || (currentPath === '/docs' && href === '/docs/installation')) {
+          a.classList.add('bg-zinc-900', 'text-white', 'font-medium', 'border-l-2', 'border-emerald-400', 'pl-2.5');
+          a.classList.remove('text-zinc-400');
+        } else {
+          a.classList.remove('bg-zinc-900', 'text-white', 'font-medium', 'border-l-2', 'border-emerald-400', 'pl-2.5');
+          a.classList.add('text-zinc-400');
+        }
+      });
+    }
+
+    // Execute immediately on load, and on Turbo navigation / history pops
+    updateActiveDocLink();
+    document.addEventListener('turbo:render', updateActiveDocLink);
+    document.addEventListener('turbo:load', updateActiveDocLink);
+    window.addEventListener('popstate', updateActiveDocLink);
+
     document.addEventListener('input', (e) => {
       if (e.target.id !== 'docs-filter') return;
       const q = e.target.value.toLowerCase().trim();
