@@ -1,0 +1,24 @@
+<x-layouts.docs title="{{ title }}" slug="{{ slug }}">
+  <div class="prose-bir">
+    @markdown(content)
+  </div>
+
+  <!-- Navigation Footer -->
+  <div class="border-t border-zinc-900 pt-8 mt-12 flex items-center justify-between text-xs">
+    @if(prevSlug)
+      <a href="/docs/{{ prevSlug }}" class="text-zinc-400 hover:text-white transition flex items-center gap-1.5 group">
+        <span class="text-zinc-600 group-hover:text-zinc-400 transition">←</span>
+        <span>{{ prevTitle }}</span>
+      </a>
+    @else
+      <div></div>
+    @endif
+
+    @if(nextSlug)
+      <a href="/docs/{{ nextSlug }}" class="text-zinc-300 hover:text-white font-medium transition flex items-center gap-1.5 group">
+        <span>{{ nextTitle }}</span>
+        <span class="text-zinc-600 group-hover:text-zinc-400 transition">→</span>
+      </a>
+    @endif
+  </div>
+</x-layouts.docs>
