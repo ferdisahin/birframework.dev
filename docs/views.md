@@ -62,10 +62,25 @@ Layout template receiving the content and slots:
 
 ### Loops
 
+BirFramework supports both traditional **Laravel Blade syntax** (`@foreach($items as $item)`) and **modern JavaScript/Python style** (`@foreach(item in items)`):
+
 ```html
+<!-- 1. Laravel Blade Style (with or without $) -->
+<ul>
+  @foreach($products as $product)
+    <li>{{ product.name }} - ${{ product.price }}</li>
+  @endforeach
+</ul>
+
+<!-- 2. Key-Value Index Pairing -->
+@foreach($products as $index => $product)
+  <div>#{{ index }}: {{ product.name }}</div>
+@endforeach
+
+<!-- 3. JavaScript / Python Style -->
 <ul>
   @foreach(item in products)
-    <li>{{ item.name }} - ${{ item.price }}</li>
+    <li>{{ item.name }}</li>
   @endforeach
 </ul>
 ```
