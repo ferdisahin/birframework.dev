@@ -2,7 +2,11 @@
   "outputDirectory": "public",
   "functions": {
     "api/index.js": {
-      "includeFiles": "{views/**,docs/**}"
+      "includeFiles": [
+        "views/**",
+        "docs/**",
+        "public/build/**"
+      ]
     }
   },
   "rewrites": [

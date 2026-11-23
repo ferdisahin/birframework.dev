@@ -42,12 +42,21 @@ export class DocsController {
     const prev = index > 0 ? DOCS_PAGES[index - 1] : null;
     const next = index < DOCS_PAGES.length - 1 ? DOCS_PAGES[index + 1] : null;
 
-    const docPath = join(process.cwd(), 'docs', `${current.slug}.md`);
-    let content = '';
+    const possiblePaths = [
+      join(process.cwd(), 'docs', `${current.slug}.md`),
+      join(process.cwd(), '..', 'docs', `${current.slug}.md`),
+      join('/var/task/docs', `${current.slug}.md`),
+    ];
 
-    if (existsSync(docPath)) {
-      content = readFileSync(docPath, 'utf-8');
-    } else {
+    let content = '';
+    for (const p of possiblePaths) {
+      if (existsSync(p)) {
+        content = readFileSync(p, 'utf-8');
+        break;
+      }
+    }
+
+    if (!content) {
       content = `# ${current.title}\n\nDocumentation for this section is coming soon.`;
     }
 
