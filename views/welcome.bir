@@ -31,91 +31,268 @@
     </div>
   </section>
 
-  <!-- Real Code Example (Clean, straightforward) -->
-  <section class="py-12 border-t border-zinc-200 dark:border-zinc-800">
-    <div class="max-w-4xl mx-auto px-6">
-      <div class="mb-4 flex items-center justify-between text-xs text-zinc-500">
-        <span class="font-mono">routes/web.ts</span>
-        <button data-copy="#main-code" class="hover:text-zinc-900 dark:hover:text-white transition">
-          Copy
-        </button>
+  <!-- Interactive Framework Feature Showcase (Laravel-Style) -->
+  <section class="py-16 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/40">
+    <div class="max-w-6xl mx-auto px-6">
+      
+      <!-- Top Pill Navigation Bar (Auth, ORM, Migrations, Validation, Storage, Queues, Broadcast, Testing) -->
+      <div class="flex items-center justify-center mb-10 overflow-x-auto pb-2">
+        <div class="inline-flex items-center p-1 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-medium text-zinc-600 dark:text-zinc-400" id="showcase-nav">
+          <button onclick="switchShowcase('auth')" id="nav-btn-auth" class="px-4 py-1.5 rounded-full bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-xs transition">
+            Auth
+          </button>
+          <button onclick="switchShowcase('orm')" id="nav-btn-orm" class="px-4 py-1.5 rounded-full hover:text-zinc-950 dark:hover:text-white transition">
+            ORM
+          </button>
+          <button onclick="switchShowcase('migrations')" id="nav-btn-migrations" class="px-4 py-1.5 rounded-full hover:text-zinc-950 dark:hover:text-white transition">
+            Migrations
+          </button>
+          <button onclick="switchShowcase('validation')" id="nav-btn-validation" class="px-4 py-1.5 rounded-full hover:text-zinc-950 dark:hover:text-white transition">
+            Validation
+          </button>
+          <button onclick="switchShowcase('templates')" id="nav-btn-templates" class="px-4 py-1.5 rounded-full hover:text-zinc-950 dark:hover:text-white transition">
+            .bir Templates
+          </button>
+          <button onclick="switchShowcase('queues')" id="nav-btn-queues" class="px-4 py-1.5 rounded-full hover:text-zinc-950 dark:hover:text-white transition">
+            Queues
+          </button>
+          <button onclick="switchShowcase('broadcast')" id="nav-btn-broadcast" class="px-4 py-1.5 rounded-full hover:text-zinc-950 dark:hover:text-white transition">
+            Broadcast
+          </button>
+          <button onclick="switchShowcase('testing')" id="nav-btn-testing" class="px-4 py-1.5 rounded-full hover:text-zinc-950 dark:hover:text-white transition">
+            Testing
+          </button>
+        </div>
       </div>
 
-      <div class="border border-zinc-200 dark:border-zinc-800 rounded-lg p-5 bg-zinc-950 text-xs font-mono leading-relaxed text-zinc-300 overflow-x-auto">
-        <pre id="main-code"><code>import { Route, type Context } from 'birframework';
-import { Post } from './app/models/Post.js';
+      <!-- Split Card: Left Description & Bullet Points, Right Browser / Code Window -->
+      <div class="border border-zinc-200 dark:border-zinc-800 rounded-2xl bg-white dark:bg-zinc-950 p-6 sm:p-10 shadow-sm">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          
+          <!-- Left Text Details -->
+          <div class="lg:col-span-5 text-left">
+            <h2 id="showcase-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950 dark:text-white">
+              Authentication out of the box
+            </h2>
+            <p id="showcase-desc" class="mt-4 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed font-normal">
+              BirFramework gives you session-based cookie authentication, password hashing with Argon2/Bcrypt, CSRF verification, and route protection with zero external setup.
+            </p>
 
-// Clean route handling
-Route.get('/', async (ctx: Context) => {
-  const posts = await Post.where('published', '=', true)
-    .orderBy('created_at', 'desc')
-    .paginate({ perPage: 10 });
+            <ul id="showcase-bullets" class="mt-6 space-y-2.5 text-xs text-zinc-700 dark:text-zinc-300">
+              <li class="flex items-center gap-2">
+                <span class="text-emerald-500 font-bold">&check;</span>
+                <span>Complete scaffold with <code class="font-mono text-zinc-900 dark:text-zinc-200">bir make:auth</code></span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-emerald-500 font-bold">&check;</span>
+                <span>Encrypted session cookies with tamper protection</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-emerald-500 font-bold">&check;</span>
+                <span>Automatic <code class="font-mono text-zinc-900 dark:text-zinc-200">Auth.attempt()</code> and <code class="font-mono text-zinc-900 dark:text-zinc-200">Auth.user()</code></span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-emerald-500 font-bold">&check;</span>
+                <span>Native middleware for protected route groups</span>
+              </li>
+            </ul>
 
-  return ctx.render('welcome', { posts });
+            <div class="mt-8">
+              <a id="showcase-link" href="/docs/security" class="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-950 dark:text-white hover:underline">
+                <span>Explore the documentation</span>
+                <span>&rarr;</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Code Window (Browser / IDE tabs) -->
+          <div class="lg:col-span-7">
+            <div class="border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden bg-zinc-950 shadow-md">
+              <!-- Window Tabs Header -->
+              <div class="flex items-center justify-between px-4 py-2 bg-zinc-900 border-b border-zinc-800 text-xs font-mono">
+                <div class="flex items-center gap-2">
+                  <span id="tab-label-1" class="px-2.5 py-1 rounded bg-zinc-800 text-zinc-200 text-[11px]">
+                    routes/web.ts
+                  </span>
+                  <span id="tab-label-2" class="px-2.5 py-1 text-zinc-500 text-[11px]">
+                    AuthController.ts
+                  </span>
+                </div>
+                <button data-copy="#showcase-active-code" class="text-zinc-500 hover:text-zinc-300 text-[11px] font-sans transition">
+                  Copy
+                </button>
+              </div>
+
+              <!-- Code Content Container -->
+              <div class="p-5 text-xs font-mono leading-relaxed text-zinc-300 overflow-x-auto min-h-[280px]">
+                <!-- Auth Code -->
+                <pre id="code-content-auth"><code>import { Route, Auth, type Context } from 'birframework';
+import { User } from './app/models/User.js';
+
+// Login verification
+Route.post('/login', async (ctx: Context) => {
+  const { email, password } = await ctx.body();
+
+  const success = await Auth.attempt(ctx, User, email, password);
+  if (!success) {
+    return ctx.back({ error: 'Invalid credentials' });
+  }
+
+  return ctx.redirect('/dashboard');
 });
 
-// JSON API endpoint with built-in validation
-Route.post('/api/posts', async (ctx: Context) => {
-  const data = await ctx.validate({
-    title: 'required|string|min:3',
-    body: 'required|string',
+// Protected dashboard route group
+Route.group({ middleware: ['auth'] }, () => {
+  Route.get('/dashboard', async (ctx: Context) => {
+    const user = await Auth.user(ctx, User);
+    return ctx.render('dashboard', { user });
+  });
+});</code></pre>
+
+                <!-- ORM Code -->
+                <pre id="code-content-orm" class="hidden"><code>import { Model, DB } from 'birframework';
+
+export class User extends Model {
+  public static override table = 'users';
+  public static override softDeletes = true;
+
+  // Fluent relationships
+  public posts() {
+    return this.hasMany('posts', 'user_id');
+  }
+}
+
+// Queries with TypeScript type safety
+const user = await User.find(1);
+const activeUsers = await User.where('status', '=', 'active')
+  .orderBy('created_at', 'desc')
+  .get();
+
+// ACID transaction across SQLite, Postgres, or MySQL
+await DB.transaction(async () => {
+  await User.where('id', 1).decrement('balance', 50);
+  await User.where('id', 2).increment('balance', 50);
+});</code></pre>
+
+                <!-- Migrations Code -->
+                <pre id="code-content-migrations" class="hidden"><code>import { Schema, type Blueprint } from 'birframework';
+
+export default {
+  async up() {
+    await Schema.create('articles', (table: Blueprint) => {
+      table.id();
+      table.string('title');
+      table.string('slug').unique();
+      table.text('content');
+      table.boolean('published').default(false);
+      table.string('deleted_at').nullable();
+      table.timestamps();
+    });
+  },
+
+  async down() {
+    await Schema.dropIfExists('articles');
+  }
+};</code></pre>
+
+                <!-- Validation Code -->
+                <pre id="code-content-validation" class="hidden"><code>import { FormRequest, type ValidationRules } from 'birframework';
+
+export class StorePostRequest extends FormRequest {
+  public override async authorize(): Promise&lt;boolean&gt; {
+    // Check user permissions
+    return this.ctx.session.has('user_id');
+  }
+
+  public override rules(): ValidationRules {
+    return {
+      title: 'required|string|min:3|max:255',
+      content: 'required|string',
+      category_id: 'required|integer',
+      tags: 'nullable|array',
+    };
+  }
+}</code></pre>
+
+                <!-- Templates Code -->
+                <pre id="code-content-templates" class="hidden"><code>@verbatim&lt;x-layouts.app title="{{ title }}"&gt;
+  &lt;div class="max-w-4xl mx-auto py-12"&gt;
+    &lt;h1 class="text-2xl font-bold"&gt;{{ title }}&lt;/h1&gt;
+
+    &lt;!-- Blade Directives --&gt;
+    @foreach(posts as post)
+      &lt;article class="border-b border-zinc-800 py-4"&gt;
+        &lt;h2 class="text-base font-semibold"&gt;{{ post.title }}&lt;/h2&gt;
+        &lt;p class="text-xs text-zinc-500"&gt;{{ post.created_at }}&lt;/p&gt;
+      &lt;/article&gt;
+    @endforeach
+
+    &lt;!-- Instant Turbo page navigation --&gt;
+    {!! paginationHtml !!}
+  &lt;/div&gt;
+&lt;/x-layouts.app&gt;@endverbatim</code></pre>
+
+                <!-- Queues Code -->
+                <pre id="code-content-queues" class="hidden"><code>import { Job, dispatch } from 'birframework';
+
+export class SendWelcomeEmailJob extends Job {
+  constructor(public userId: number) {
+    super();
+    this.queue = 'emails';
+    this.delaySeconds = 30; // Scheduled delay
+  }
+
+  // Background async handler
+  public async handle(): Promise&lt;void&gt; {
+    console.log(`Processing welcome email for user: ${this.userId}`);
+  }
+}
+
+// Dispatch from anywhere in controllers or events
+await dispatch(new SendWelcomeEmailJob(101));</code></pre>
+
+                <!-- Broadcast Code -->
+                <pre id="code-content-broadcast" class="hidden"><code>import { Broadcast, Route, type Context } from 'birframework';
+
+// Zero-dependency native WebSockets
+Route.post('/orders', async (ctx: Context) => {
+  const order = await ctx.body();
+
+  // Instant real-time event broadcast to channel 'orders'
+  Broadcast.to('orders').emit('OrderCreated', {
+    orderId: order.id,
+    customer: order.customerName,
+    total: order.total,
   });
 
-  const post = await Post.create(data);
-  return ctx.json({ status: 'created', post }, 201);
+  return ctx.json({ status: 'dispatched' });
 });</code></pre>
-      </div>
-    </div>
-  </section>
 
-  <!-- Core Architecture Columns (Honest, clean breakdown) -->
-  <section class="py-16 border-t border-zinc-200 dark:border-zinc-800">
-    <div class="max-w-4xl mx-auto px-6">
-      <h2 class="text-xl font-bold tracking-tight text-zinc-950 dark:text-white mb-8">
-        What's included out of the box
-      </h2>
+                <!-- Testing Code -->
+                <pre id="code-content-testing" class="hidden"><code>import { test, describe, before, after } from 'node:test';
+import assert from 'node:assert';
+import { app } from '../app.js';
+import { createTestClient } from 'birframework';
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
-        <div>
-          <h3 class="font-semibold text-zinc-900 dark:text-zinc-100 mb-1">ActiveRecord ORM</h3>
-          <p class="text-zinc-600 dark:text-zinc-400 text-xs leading-relaxed">
-            Fluent schema migrations, relationships, model lifecycle hooks, and soft deletes. Supports SQLite, PostgreSQL, and MySQL without configuration.
-          </p>
-        </div>
+describe('Application Feature Tests', () => {
+  const client = createTestClient(app);
 
-        <div>
-          <h3 class="font-semibold text-zinc-900 dark:text-zinc-100 mb-1">.bir Template Engine</h3>
-          <p class="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            Laravel Blade syntax with instant client-side navigation. Build fast server-rendered HTML applications without client-side bundle weight.
-          </p>
-        </div>
+  test('Guest can view articles and single post', async () => {
+    const res = await client.get('/posts');
+    res.assertOk()
+       .assertSee('Articles');
 
-        <div>
-          <h3 class="font-semibold text-zinc-900 dark:text-zinc-100 mb-1">Background Queues &amp; Jobs</h3>
-          <p class="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            Offload emails and background work asynchronously. Built-in SQLite and Redis drivers with retry strategies and queue worker CLI.
-          </p>
-        </div>
+    const detail = await client.get('/posts/first-post');
+    detail.assertOk()
+          .assertSee('My First Post');
+  });
+});</code></pre>
 
-        <div>
-          <h3 class="font-semibold text-zinc-900 dark:text-zinc-100 mb-1">WebSockets &amp; Broadcast</h3>
-          <p class="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            Native, zero-dependency WebSocket server. Broadcast real-time events to frontend channels with <code class="font-mono">Broadcast.to('channel').emit()</code>.
-          </p>
-        </div>
+                <div id="showcase-active-code" class="hidden"></div>
+              </div>
+            </div>
+          </div>
 
-        <div>
-          <h3 class="font-semibold text-zinc-900 dark:text-zinc-100 mb-1">Interactive Error Screen</h3>
-          <p class="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            In-browser debug inspector showing highlighted code lines, stack traces, and request context whenever an exception occurs during development.
-          </p>
-        </div>
-
-        <div>
-          <h3 class="font-semibold text-zinc-900 dark:text-zinc-100 mb-1">Artisan-Style CLI</h3>
-          <p class="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            Scaffold models, migrations, seeders, controllers, jobs, and mailables with simple <code class="font-mono">bir make:*</code> commands.
-          </p>
         </div>
       </div>
     </div>
@@ -144,4 +321,157 @@ Route.post('/api/posts', async (ctx: Context) => {
       </div>
     </div>
   </section>
+
+  <!-- Interactive Switcher Script -->
+  <script>
+    const showcaseData = {
+      auth: {
+        title: "Authentication out of the box",
+        desc: "BirFramework gives you session-based cookie authentication, password hashing with Argon2/Bcrypt, CSRF verification, and route protection with zero external setup.",
+        bullets: [
+          "Complete scaffold with <code class='font-mono'>bir make:auth</code>",
+          "Encrypted session cookies with tamper protection",
+          "Automatic <code class='font-mono'>Auth.attempt()</code> and <code class='font-mono'>Auth.user()</code>",
+          "Native middleware for protected route groups"
+        ],
+        link: "/docs/security",
+        tab1: "routes/web.ts",
+        tab2: "AuthController.ts"
+      },
+      orm: {
+        title: "ActiveRecord ORM & Database",
+        desc: "Fluent ActiveRecord querying, model lifecycle hooks, relationships (hasMany, belongsTo), and soft deletes across SQLite, PostgreSQL, and MySQL.",
+        bullets: [
+          "Type-inferred queries with TypeScript generics",
+          "Lifecycle hooks (<code class='font-mono'>beforeCreate</code>, <code class='font-mono'>saved</code>)",
+          "Built-in soft deletes (<code class='font-mono'>post.delete()</code>, <code class='font-mono'>Post.withTrashed()</code>)",
+          "ACID transactions with automatic rollback on error"
+        ],
+        link: "/docs/database",
+        tab1: "app/models/User.ts",
+        tab2: "database.sqlite"
+      },
+      migrations: {
+        title: "Declarative Schema Migrations",
+        desc: "Design and alter database tables using a fluent, declarative schema builder. Migrations run in batches with full rollback support.",
+        bullets: [
+          "Auto-generated timestamps with <code class='font-mono'>bir make:migration</code>",
+          "Fluent column types: string, text, integer, boolean, timestamps",
+          "Unique constraints, nullable fields, foreign keys",
+          "Rollback batch management with <code class='font-mono'>bir migrate:rollback</code>"
+        ],
+        link: "/docs/database",
+        tab1: "migrations/create_articles.ts",
+        tab2: "Schema.ts"
+      },
+      validation: {
+        title: "Request Validation & FormRequests",
+        desc: "Validate incoming request payloads cleanly. FormRequest classes isolate validation logic, sanitization, and authorization from controllers.",
+        bullets: [
+          "Class-based requests with <code class='font-mono'>bir make:request</code>",
+          "Declarative rules (<code class='font-mono'>required|email|min:6</code>)",
+          "Automatic 422 Unprocessable Entity responses with structured errors",
+          "Integrated authorization checks with <code class='font-mono'>authorize()</code>"
+        ],
+        link: "/docs/validation",
+        tab1: "app/requests/StorePostRequest.ts",
+        tab2: "Validator.ts"
+      },
+      templates: {
+        title: ".bir Blade Template Engine",
+        desc: "Modern Blade components, slots, and directives compiled natively on the server. Instant Turbo navigation gives SPA speed without JavaScript bundle bloat.",
+        bullets: [
+          "Native <code class='font-mono'>.bir</code> template files in <code class='font-mono'>views/</code>",
+          "Blade directives (<code class='font-mono'>@if</code>, <code class='font-mono'>@foreach</code>, <code class='font-mono'>@verbatim</code>)",
+          "Component tags (<code class='font-mono'>&lt;x-layouts.app&gt;</code>, <code class='font-mono'>&lt;x-slot&gt;</code>)",
+          "Instant Turbo page transitions without full-page reloads"
+        ],
+        link: "/docs/views",
+        tab1: "views/welcome.bir",
+        tab2: "layouts/app.bir"
+      },
+      queues: {
+        title: "Background Queues & Jobs",
+        desc: "Offload long-running tasks, transactional emails, and external webhooks effortlessly with SQLite and Redis queue drivers.",
+        bullets: [
+          "Generate jobs with <code class='font-mono'>bir make:job</code>",
+          "Delayed job execution (<code class='font-mono'>delaySeconds</code>)",
+          "SQLite and Redis queue storage backends",
+          "Production queue daemon with <code class='font-mono'>bir queue:work</code>"
+        ],
+        link: "/docs/queues",
+        tab1: "app/jobs/SendEmailJob.ts",
+        tab2: "QueueManager.ts"
+      },
+      broadcast: {
+        title: "Real-Time WebSockets & Broadcast",
+        desc: "Built-in WebSocket server with zero third-party dependencies. Broadcast real-time events to frontend channels with a single line of code.",
+        bullets: [
+          "RFC 6455 compliant native WebSocket server",
+          "Channel subscriptions and selective room broadcasting",
+          "Broadcast anywhere with <code class='font-mono'>Broadcast.to('channel').emit()</code>",
+          "Zero external server or SaaS subscription required"
+        ],
+        link: "/docs/broadcasting",
+        tab1: "routes/api.ts",
+        tab2: "WebSocketServer.ts"
+      },
+      testing: {
+        title: "Built-in HTTP Testing Client",
+        desc: "Write clean, fluent integration and end-to-end tests using the native Node.js test runner. No external HTTP server or port conflicts.",
+        bullets: [
+          "Native Node.js test runner integration (<code class='font-mono'>node:test</code>)",
+          "Fluent assertions: <code class='font-mono'>assertOk()</code>, <code class='font-mono'>assertSee()</code>, <code class='font-mono'>assertJson()</code>",
+          "Automatic cookie, session, and redirect tracking",
+          "Fast in-memory execution in under 2 seconds"
+        ],
+        link: "/docs/testing",
+        tab1: "tests/posts.test.ts",
+        tab2: "TestClient.ts"
+      }
+    };
+
+    function switchShowcase(key) {
+      const data = showcaseData[key];
+      if (!data) return;
+
+      // Update Nav Buttons
+      document.querySelectorAll('#showcase-nav button').forEach(btn => {
+        btn.classList.remove('bg-white', 'dark:bg-zinc-800', 'text-zinc-950', 'dark:text-white', 'shadow-xs');
+      });
+      const activeBtn = document.getElementById('nav-btn-' + key);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-white', 'dark:bg-zinc-800', 'text-zinc-950', 'dark:text-white', 'shadow-xs');
+      }
+
+      // Update Text Content
+      document.getElementById('showcase-title').innerText = data.title;
+      document.getElementById('showcase-desc').innerText = data.desc;
+      document.getElementById('showcase-link').href = data.link;
+
+      // Update Bullets
+      const bulletsEl = document.getElementById('showcase-bullets');
+      bulletsEl.innerHTML = data.bullets.map(b => `
+        <li class="flex items-center gap-2">
+          <span class="text-emerald-500 font-bold">&check;</span>
+          <span>${b}</span>
+        </li>
+      `).join('');
+
+      // Update Tabs Label
+      document.getElementById('tab-label-1').innerText = data.tab1;
+      document.getElementById('tab-label-2').innerText = data.tab2;
+
+      // Update Code Pre Panels
+      document.querySelectorAll('[id^="code-content-"]').forEach(pre => pre.classList.add('hidden'));
+      const activePre = document.getElementById('code-content-' + key);
+      if (activePre) {
+        activePre.classList.remove('hidden');
+        document.getElementById('showcase-active-code').innerText = activePre.innerText;
+      }
+    }
+
+    // Initialize default showcase
+    switchShowcase('auth');
+  </script>
 </x-layouts.app>
