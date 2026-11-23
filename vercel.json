@@ -1,4 +1,10 @@
 {
+  "outputDirectory": "public",
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "{views/**,docs/**}"
+    }
+  },
   "rewrites": [
     {
       "source": "/(.*)",
