@@ -61,6 +61,12 @@ bir db:seed
 ## Daemons & Development
 
 ```bash
+# Start full-stack multi-process dev dashboard (Server, Queue, Logs, Vite)
+bir dev
+
+# Live real-time application log stream (tailing storage/logs/bir.log)
+bir pail
+
 # Start development server with hot-reload
 bir serve
 
