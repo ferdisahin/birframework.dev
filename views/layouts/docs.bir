@@ -105,6 +105,11 @@
               </a>
             </li>
             <li>
+              <a href="/docs/jsx" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
+                Type-Safe JSX & TSX
+              </a>
+            </li>
+            <li>
               <a href="/docs/turbo" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Instant Turbo Navigation
               </a>
