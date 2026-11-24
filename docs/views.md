@@ -128,3 +128,32 @@ Render markdown strings passed from your database or controllers:
   @markdown(post.body)
 </article>
 ```
+
+---
+
+## Verbatim Code Escaping (`@verbatim`)
+
+When writing documentation or using frontend template tags like Vue or Alpine, use `@verbatim` to tell BirJS not to parse double curly braces:
+
+```html
+@verbatim
+  <div x-data="{ count: 0 }">
+    <button @click="count++">Count: {{ count }}</button>
+  </div>
+@endverbatim
+```
+
+You can also escape a single expression with `@{{ variable }}`.
+
+---
+
+## Co-Located Components & JavaScript
+
+BirJS allows components to bundle their client-side interactive JavaScript right alongside their `.bir` template files with automatic scoping and zero bundler overhead:
+
+```bash
+bir make:component dropdown -j
+```
+
+Read the full guide in [Blade Components & Co-Located JavaScript](/docs/components).
+

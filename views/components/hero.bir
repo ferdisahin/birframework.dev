@@ -5,7 +5,7 @@
       <!-- Release Badge -->
       <a href="/docs/installation" class="inline-flex items-center gap-2.5 px-3 py-1 rounded-full bg-zinc-100 hover:bg-zinc-200/80 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 text-xs text-zinc-700 dark:text-zinc-300 transition mb-6">
         <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-        <span class="font-medium">BirJS v0.5.3 is now available</span>
+        <span class="font-medium">BirJS v{{ version }} is now available</span>
         <span class="text-zinc-400 dark:text-zinc-600">&rarr;</span>
       </a>
 

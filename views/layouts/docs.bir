@@ -68,6 +68,11 @@
               </a>
             </li>
             <li>
+              <a href="/docs/providers" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
+                Service Providers & Plugins
+              </a>
+            </li>
+            <li>
               <a href="/docs/validation" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Request Validation
               </a>
@@ -92,6 +97,11 @@
             <li>
               <a href="/docs/views" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Blade Component Engine
+              </a>
+            </li>
+            <li>
+              <a href="/docs/components" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
+                Co-Located Components & JS
               </a>
             </li>
             <li>
@@ -136,6 +146,11 @@
             <li>
               <a href="/docs/auth" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Authentication & Sessions
+              </a>
+            </li>
+            <li>
+              <a href="/docs/security" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
+                Security & Hardening
               </a>
             </li>
             <li>

@@ -25,6 +25,8 @@ Generate boilerplate code following framework architectural patterns:
 | --- | --- | --- |
 | `bir make:controller <Name>` | Creates a controller class | `app/controllers/<Name>.ts` |
 | `bir make:model <Name>` | Creates an Active Record Model | `app/models/<Name>.ts` |
+| `bir make:component <Name> [-j]` | Creates a Blade component (with companion JS) | `views/components/<name>/` |
+| `bir make:provider <Name>` | Creates a Service Provider | `app/providers/<Name>.ts` |
 | `bir make:migration <Name>` | Creates a timestamped migration | `database/migrations/<timestamp>_<Name>.ts` |
 | `bir make:middleware <Name>` | Creates a custom middleware | `app/middleware/<Name>.ts` |
 | `bir make:job <Name>` | Creates an asynchronous queue job | `app/jobs/<Name>.ts` |
@@ -67,6 +69,9 @@ bir tinker
 
 # Run automated test suites
 bir test
+
+# List all registered routes and handlers
+bir route:list
 
 # Start background queue processing worker
 bir queue:work
