@@ -17,19 +17,19 @@
         <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
           Fluent query building, relationships, model lifecycle hooks, and soft deletes. Connect seamlessly to SQLite, PostgreSQL, or MySQL via dialect translation.
         </p>
-        <a href="/docs/database" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
+        <a href="/docs/models" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
           Learn more &rarr;
         </a>
       </div>
 
-      <!-- 2. .bir Blade Engine -->
+      <!-- 2. Dual Templating Engines -->
       <div class="border-t border-zinc-200 dark:border-zinc-800 pt-6">
         <div class="text-xs font-semibold text-zinc-400 mb-2">02 / TEMPLATING</div>
-        <h4 class="text-base font-bold text-zinc-950 dark:text-white">.bir Blade Engine</h4>
+        <h4 class="text-base font-bold text-zinc-950 dark:text-white">JSX &amp; Blade Engines</h4>
         <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
-          Components, slots, and directives compiled on the server. Instant Turbo navigation swaps the <code class="px-1 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 font-medium">&lt;body&gt;</code> without full reloads, giving SPA speed with zero client bundle weight.
+          Choose between zero-bundle Type-Safe JSX Server Components with full TypeScript autocomplete or Laravel-style Blade <code class="px-1 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 font-medium">.bir</code> templates.
         </p>
-        <a href="/docs/views" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
+        <a href="/docs/jsx" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
           Learn more &rarr;
         </a>
       </div>
@@ -37,9 +37,9 @@
       <!-- 3. Queues & Redis -->
       <div class="border-t border-zinc-200 dark:border-zinc-800 pt-6">
         <div class="text-xs font-semibold text-zinc-400 mb-2">03 / ASYNC WORK</div>
-        <h4 class="text-base font-bold text-zinc-950 dark:text-white">Background Queues</h4>
+        <h4 class="text-base font-bold text-zinc-950 dark:text-white">Background Queues &amp; Cron</h4>
         <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
-          Offload long operations effortlessly. Built-in SQLite and Redis queue drivers with retry strategies, delay intervals, and dedicated queue worker daemons.
+          Offload long operations effortlessly. Built-in SQLite and Redis queue drivers with retry strategies, delay intervals, and scheduled cron task daemons.
         </p>
         <a href="/docs/queues" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
           Learn more &rarr;
@@ -53,26 +53,62 @@
         <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
           Built-in RFC 6455 WebSocket server. Broadcast real-time notifications, chat messages, or status updates to channels without external SaaS dependencies.
         </p>
-        <a href="/docs/broadcasting" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
+        <a href="/docs/events" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
           Learn more &rarr;
         </a>
       </div>
 
-      <!-- 5. Interactive Debug Screen -->
+      <!-- 5. 4-Service Dev Dashboard -->
       <div class="border-t border-zinc-200 dark:border-zinc-800 pt-6">
-        <div class="text-xs font-semibold text-zinc-400 mb-2">05 / ERROR HANDLING</div>
+        <div class="text-xs font-semibold text-zinc-400 mb-2">05 / DEV EXPERIENCE</div>
+        <h4 class="text-base font-bold text-zinc-950 dark:text-white">4-Service Dev Suite</h4>
+        <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+          Run HTTP server, queue worker, log streamer, and Vite concurrently in a single terminal. Features automatic port increment when port 3000 is occupied.
+        </p>
+        <a href="/docs/dev-server" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
+          Learn more &rarr;
+        </a>
+      </div>
+
+      <!-- 6. Structured Logging & Pail -->
+      <div class="border-t border-zinc-200 dark:border-zinc-800 pt-6">
+        <div class="text-xs font-semibold text-zinc-400 mb-2">06 / OBSERVABILITY</div>
+        <h4 class="text-base font-bold text-zinc-950 dark:text-white">Logging &amp; Bir Pail</h4>
+        <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+          Unified <code class="px-1 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 font-medium">Log</code> facade with structured file output and an interactive CLI tailer displaying colorized ANSI category badges.
+        </p>
+        <a href="/docs/logging" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
+          Learn more &rarr;
+        </a>
+      </div>
+
+      <!-- 7. Interactive Debug Screen -->
+      <div class="border-t border-zinc-200 dark:border-zinc-800 pt-6">
+        <div class="text-xs font-semibold text-zinc-400 mb-2">07 / ERROR HANDLING</div>
         <h4 class="text-base font-bold text-zinc-950 dark:text-white">Ignition Debug Screen</h4>
         <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
           Interactive in-browser exception inspector. Displays highlighted source code frames, environment variables, request headers, and solution hints in development.
         </p>
-        <a href="/docs/errors" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
+        <a href="/docs/error-handling" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
           Learn more &rarr;
         </a>
       </div>
 
-      <!-- 6. Artisan-Class CLI -->
+      <!-- 8. Tailwind CSS v4 & Vite -->
       <div class="border-t border-zinc-200 dark:border-zinc-800 pt-6">
-        <div class="text-xs font-semibold text-zinc-400 mb-2">06 / COMMAND LINE</div>
+        <div class="text-xs font-semibold text-zinc-400 mb-2">08 / FRONTEND TOOLING</div>
+        <h4 class="text-base font-bold text-zinc-950 dark:text-white">Tailwind v4 &amp; Vite HMR</h4>
+        <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+          First-class Tailwind CSS v4 with <code class="px-1 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 font-medium">@source</code> scanning for backend views, combined with an automated full-reload template watcher.
+        </p>
+        <a href="/docs/dev-server" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
+          Learn more &rarr;
+        </a>
+      </div>
+
+      <!-- 9. Artisan-Class CLI -->
+      <div class="border-t border-zinc-200 dark:border-zinc-800 pt-6">
+        <div class="text-xs font-semibold text-zinc-400 mb-2">09 / COMMAND LINE</div>
         <h4 class="text-base font-bold text-zinc-950 dark:text-white">Artisan-Style CLI</h4>
         <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
           Scaffold models, migrations, seeders, controllers, jobs, and mailables with simple <code class="px-1 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 font-medium">bir make:*</code> commands. Inspect routes with <code class="px-1 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 font-medium">bir route:list</code>.

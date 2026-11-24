@@ -11,6 +11,12 @@
         <button onclick="switchShowcase('orm')" id="nav-btn-orm" class="px-4 py-1.5 rounded-full hover:text-zinc-950 dark:hover:text-white transition cursor-pointer">
           ORM
         </button>
+        <button onclick="switchShowcase('jsx')" id="nav-btn-jsx" class="px-4 py-1.5 rounded-full hover:text-zinc-950 dark:hover:text-white transition cursor-pointer">
+          JSX Views
+        </button>
+        <button onclick="switchShowcase('devsuite')" id="nav-btn-devsuite" class="px-4 py-1.5 rounded-full hover:text-zinc-950 dark:hover:text-white transition cursor-pointer">
+          Dev Suite & Pail
+        </button>
         <button onclick="switchShowcase('migrations')" id="nav-btn-migrations" class="px-4 py-1.5 rounded-full hover:text-zinc-950 dark:hover:text-white transition cursor-pointer">
           Migrations
         </button>
@@ -253,6 +259,51 @@ describe('Application Feature Tests', () => {
   });
 });</code></pre>
 
+              <!-- JSX Server Components Code -->
+              <pre id="code-content-jsx" class="hidden"><code>import { Layout } from './layouts/Layout.js';
+
+interface WelcomeProps {
+  title: string;
+  version: string;
+  user?: { name: string; email: string };
+}
+
+export default function Welcome({ title, version, user }: WelcomeProps) {
+  return (
+    &lt;Layout title={title}&gt;
+      &lt;main className="max-w-4xl mx-auto py-12 px-6"&gt;
+        &lt;div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs bg-zinc-900 border border-zinc-800 text-zinc-300"&gt;
+          &lt;span className="w-1.5 h-1.5 rounded-full bg-emerald-400"&gt;&lt;/span&gt;
+          &lt;span&gt;BirJS v{version} • JSX Engine&lt;/span&gt;
+        &lt;/div&gt;
+
+        &lt;h1 className="text-4xl font-bold tracking-tight text-white mt-4"&gt;
+          Type-Safe JSX Server Components
+        &lt;/h1&gt;
+        &lt;p className="text-zinc-400 mt-3 text-base"&gt;
+          Zero client bundle overhead. Pure server-rendered HTML with 100% TypeScript type safety.
+        &lt;/p&gt;
+      &lt;/main&gt;
+    &lt;/Layout&gt;
+  );
+}</code></pre>
+
+              <!-- Dev Suite & Pail Code -->
+              <pre id="code-content-devsuite" class="hidden"><code>$ npm run dev
+
+# Concurrently orchestrating 4 services with dedicated colors:
+[server] > npx tsx watch app.ts
+[queue]  > npx bir queue:work
+[logs]   > npx bir pail
+[vite]   > vite
+
+[vite]   VITE v6.4.6 ready in 82 ms • Local: http://localhost:5173/
+[app]    BirJS ready at http://localhost:3000
+[queue]  [Queue] Worker daemon listening on default queue...
+[logs]   [2026-11-24T16:20:00Z] [HTTP] GET / 200 - 1.2ms
+[logs]   [2026-11-24T16:20:01Z] [Queue] Processing SendWelcomeEmailJob (Job #1)
+[logs]   [2026-11-24T16:20:01Z] [Mail] Sent: Welcome to BirJS to user@example.com</code></pre>
+
               <div id="showcase-active-code" class="hidden"></div>
             </div>
           </div>
@@ -291,6 +342,32 @@ describe('Application Feature Tests', () => {
       link: "/docs/database",
       tab1: "app/models/User.ts",
       tab2: "database.sqlite"
+    },
+    jsx: {
+      title: "Type-Safe JSX Server Components",
+      desc: "React-style functional components rendered strictly on the server with zero client bundle overhead and sub-millisecond execution.",
+      bullets: [
+        "100% compile-time TypeScript type safety and prop validation",
+        "Zero JavaScript bundle sent to the client (pure semantic HTML)",
+        "Composable layouts with <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>&lt;Layout&gt;</code> and <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>&lt;Vite /&gt;</code> integration",
+        "Native async server rendering for database and model queries"
+      ],
+      link: "/docs/jsx",
+      tab1: "views/Welcome.tsx",
+      tab2: "views/layouts/Layout.tsx"
+    },
+    devsuite: {
+      title: "4-Service Dev Dashboard & Pail",
+      desc: "A unified developer experience coordinating HTTP server, background queues, live log tailing, and Vite HMR in a single terminal session.",
+      bullets: [
+        "Concurrent 4-service orchestrator: <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>server, queue, logs, vite</code>",
+        "Automatic port switching when port 3000 is occupied (Zero EADDRINUSE crashes)",
+        "Live structured log streaming with <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>bir pail</code> and ANSI category badges",
+        "Tailwind CSS v4 SSR scanning directives and template change watcher"
+      ],
+      link: "/docs/dev-server",
+      tab1: "npm run dev",
+      tab2: "bir pail"
     },
     migrations: {
       title: "Declarative Schema Migrations",

@@ -58,6 +58,10 @@ The application will start on `http://localhost:3000`.
 
 | Script | Command | Description |
 | --- | --- | --- |
-| `npm run dev` | `npx tsx watch app.ts` | Starts the development server with Hot Reload and Live Reload |
-| `npm start` | `node dist/app.js` | Boots the compiled production server |
-| `npm run build` | `tsc` | Compiles TypeScript source to `dist/` |
+| `npm run dev` | `concurrently ...` | Boots the 4-service dev suite (`server`, `queue`, `logs`, `vite`) |
+| `npm run dev:server` | `npx tsx watch app.ts` | Runs the core HTTP server with Hot Reload and auto port increment |
+| `npm run dev:queue` | `npx bir queue:work` | Consumes async jobs and dispatches scheduled tasks |
+| `npm run dev:logs` | `npx bir pail` | Streams real-time colorized logs directly in your terminal |
+| `npm run dev:vite` | `vite` | Starts Vite HMR and auto-reload watcher for views and templates |
+| `npm run build` | `vite build` | Compiles production assets to `public/build` with manifest |
+| `npm start` | `npx tsx app.ts` | Boots the production application server |

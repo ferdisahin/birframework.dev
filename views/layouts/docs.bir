@@ -36,6 +36,11 @@
               </a>
             </li>
             <li>
+              <a href="/docs/dev-server" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
+                Development Dashboard & HMR
+              </a>
+            </li>
+            <li>
               <a href="/docs/directory-structure" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Directory Structure
               </a>
@@ -171,6 +176,11 @@
             <li>
               <a href="/docs/scheduler" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
                 Task Scheduler (Cron)
+              </a>
+            </li>
+            <li>
+              <a href="/docs/logging" class="block py-1.5 px-2.5 rounded hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
+                Structured Logging & Pail
               </a>
             </li>
             <li>
