@@ -93,3 +93,62 @@ const items = ctx.session.get('cart_items', []);
 // Flash a message (persists only for the next request)
 ctx.session.flash('status', 'Your profile has been updated!');
 ```
+
+---
+
+## API Tokens & Mobile Authentication (Sanctum Style)
+
+BirJS includes first-class support for issuance and verification of API tokens, allowing you to authenticate SPAs, mobile apps, or third-party API clients using Bearer tokens.
+
+### Adding Token Capabilities to Models
+
+Equip your `User` model with the `HasApiTokens` mixin:
+
+```typescript
+import { Model, HasApiTokens } from 'birframework';
+
+export class User extends HasApiTokens(Model) {
+  // Model attributes & relationships
+}
+```
+
+### Issuing Personal Access Tokens
+
+Issue a token with specific fine-grained abilities:
+
+```typescript
+// Issue a token with full permissions:
+const { plainTextToken } = await user.createToken('mobile-app');
+
+// Or issue a token with scoped abilities and expiration:
+const { plainTextToken } = await user.createToken('deploy-key', ['servers:read', 'servers:deploy'], new Date(Date.now() + 30 * 86400000));
+
+return ctx.json({ token: plainTextToken });
+```
+
+Tokens are prefixed with `bir_pat_` and hashed with SHA-256 before storage in the `personal_access_tokens` table.
+
+### Protecting Routes with Bearer Auth
+
+Use the built-in `auth()` and `hasAbility()` middlewares to guard your API routes:
+
+```typescript
+import { Route, auth, hasAbility } from 'birframework';
+
+// Authenticate any valid Bearer token:
+Route.get('/api/user', [auth()], async (ctx) => {
+  return ctx.json(ctx.user);
+});
+
+// Guard route by specific token ability:
+Route.post('/api/servers/deploy', [auth(), hasAbility('servers:deploy')], async (ctx) => {
+  return ctx.json({ status: 'Deploying server...' });
+});
+```
+
+Clients authenticate simply by sending the standard `Authorization` header:
+
+```http
+Authorization: Bearer bir_pat_98f4b7a1e0c24d98a3b5c6e7f8a9b0c1...
+```
+

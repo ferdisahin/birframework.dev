@@ -83,3 +83,75 @@ storage/
 ├── logs/                # Application error logs
 └── database.sqlite      # Default SQLite database
 ```
+
+---
+
+## Mailing & Email System
+
+BirJS provides a clean email delivery API modeled directly on Laravel Mailables:
+
+### 1. Generating a Mailable Class
+
+Use the CLI generator:
+
+```bash
+bir make:mail WelcomeMail
+```
+
+This generates `app/mail/WelcomeMail.ts`:
+
+```typescript
+import { Mailable } from 'birframework';
+
+export class WelcomeMail extends Mailable {
+  constructor(public user: { name: string; email: string }) {
+    super();
+    this.subject('Welcome to BirJS!')
+        .from('hello@birjs.com', 'BirJS Team');
+  }
+
+  public content(): string {
+    // Renders views/emails/welcome.bir with data
+    return this.view('emails/welcome', { user: this.user });
+  }
+}
+```
+
+### 2. Sending Emails
+
+Send emails from anywhere in your application:
+
+```typescript
+import { Mail } from 'birframework';
+import { WelcomeMail } from './mail/WelcomeMail.js';
+
+// Send a class-based Mailable:
+await Mail.to('jane@example.com').send(new WelcomeMail(user));
+
+// Or send a quick raw HTML email:
+await Mail.to('jane@example.com').raw('<h1>Your verification code is 123456</h1>', {
+  subject: 'Verify your account'
+});
+```
+
+### 3. Testing with `Mail.fake()`
+
+Verify emails are sent in automated tests without actually delivering to SMTP:
+
+```typescript
+import { test } from 'node:test';
+import { Mail } from 'birframework';
+
+test('registration sends welcome email', async () => {
+  Mail.fake();
+
+  await registerUserAction({ email: 'test@example.com' });
+
+  const sent = Mail.sent();
+  assert.strictEqual(sent.length, 1);
+  assert.strictEqual(sent[0].to, 'test@example.com');
+
+  Mail.restore();
+});
+```
+

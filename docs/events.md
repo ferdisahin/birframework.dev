@@ -131,3 +131,51 @@ test('registering a user dispatches UserRegistered event', async () => {
   Event.restore();
 });
 ```
+
+---
+
+## 5. Real-Time Broadcasting & WebSockets
+
+BirJS includes a built-in WebSocket broadcasting server that lets you push live events to connected browsers without external services:
+
+### Broadcasting an Event
+
+Broadcast from anywhere in your controllers, jobs, or listeners:
+
+```typescript
+import { Broadcast } from 'birframework';
+
+// Public channel broadcast:
+Broadcast.to('orders').emit('OrderCreated', {
+  orderId: 101,
+  total: 250.00,
+  customer: 'Jane Doe'
+});
+```
+
+### Authorizing Private Channels
+
+Secure private channels using channel authorization rules:
+
+```typescript
+// Authorize access to user-specific private channel:
+Broadcast.channel('private-user.{id}', (client, params) => {
+  return client.user?.id === params?.id;
+});
+```
+
+### Client-Side Integration
+
+In your frontend templates or companion scripts, connect using standard WebSocket or Turbo Streams:
+
+```javascript
+const ws = new WebSocket(`ws://${location.host}/ws`);
+
+ws.onmessage = (event) => {
+  const { channel, event: eventName, data } = JSON.parse(event.data);
+  if (channel === 'orders' && eventName === 'OrderCreated') {
+    console.log('New order received:', data);
+  }
+};
+```
+
