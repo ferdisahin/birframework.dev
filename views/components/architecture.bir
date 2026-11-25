@@ -22,24 +22,24 @@
         </a>
       </div>
 
-      <!-- 2. Dual Templating Engines -->
+      <!-- 2. Unified Preact + Inertia + SSR -->
       <div class="border-t border-zinc-200 dark:border-zinc-800 pt-6">
-        <div class="text-xs font-semibold text-zinc-400 mb-2">02 / TEMPLATING</div>
-        <h4 class="text-base font-bold text-zinc-950 dark:text-white">JSX &amp; Blade Engines</h4>
+        <div class="text-xs font-semibold text-zinc-400 mb-2">02 / UNIFIED FRONTEND</div>
+        <h4 class="text-base font-bold text-zinc-950 dark:text-white">Preact + Inertia + SSR</h4>
         <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
-          Choose between zero-bundle Type-Safe JSX Server Components with full TypeScript autocomplete or Laravel-style Blade <code class="px-1 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 font-medium">.bir</code> templates.
+          One TSX standard across your entire app. Server-rendered HTML on first load for SEO, plus instant <code class="px-1 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 font-medium">&lt;Link&gt;</code> SPA transitions and full <code class="px-1 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 font-medium">useState</code> interactivity.
         </p>
-        <a href="/docs/jsx" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
+        <a href="/docs/inertia" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
           Learn more &rarr;
         </a>
       </div>
 
-      <!-- 3. Queues & Redis -->
+      <!-- 3. Queues, Retries & Mail -->
       <div class="border-t border-zinc-200 dark:border-zinc-800 pt-6">
-        <div class="text-xs font-semibold text-zinc-400 mb-2">03 / ASYNC WORK</div>
-        <h4 class="text-base font-bold text-zinc-950 dark:text-white">Background Queues &amp; Cron</h4>
+        <div class="text-xs font-semibold text-zinc-400 mb-2">03 / ASYNC &amp; MAIL</div>
+        <h4 class="text-base font-bold text-zinc-950 dark:text-white">Queues, Cron &amp; Resend/SMTP</h4>
         <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
-          Offload long operations effortlessly. Built-in SQLite and Redis queue drivers with retry strategies, delay intervals, and scheduled cron task daemons.
+          Failed-job dead-letter table with <code class="px-1 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 font-medium">queue:retry</code>, non-overlapping cron locks, and zero-dependency Resend &amp; SMTP mail drivers with PDF attachments.
         </p>
         <a href="/docs/queues" class="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-zinc-200 hover:underline mt-4">
           Learn more &rarr;

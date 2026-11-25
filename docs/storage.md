@@ -155,3 +155,30 @@ test('registration sends welcome email', async () => {
 });
 ```
 
+### 4. Production Mail Drivers (`Resend` & `SMTP`) & Attachments
+
+BirJS ships with zero-dependency **Resend API** and **raw SMTP (TCP/TLS)** drivers, plus `.attach()` support for PDF invoices:
+
+```typescript
+import { Mail, Mailable } from 'birframework';
+
+// Configure automatically from .env (MAIL_MAILER=resend|smtp|log)
+Mail.configureFromEnv();
+
+// Or configure explicitly:
+Mail.useResend(process.env.RESEND_API_KEY!);
+// Mail.useSmtp({ host: 'smtp.example.com', port: 465, user: '...', pass: '...', secure: true });
+
+class InvoiceMail extends Mailable {
+  content() {
+    return '<p>Your invoice PDF is attached.</p>';
+  }
+}
+
+await Mail.to('customer@example.com').send(
+  new InvoiceMail()
+    .subject('Invoice #1042')
+    .attach({ filename: 'invoice-1042.pdf', content: pdfBuffer, contentType: 'application/pdf' })
+);
+```
+

@@ -12,7 +12,10 @@
           ORM
         </button>
         <button onclick="switchShowcase('jsx')" id="nav-btn-jsx" class="px-4 py-1.5 rounded-full hover:text-zinc-950 dark:hover:text-white transition cursor-pointer">
-          JSX Views
+          Preact + Inertia
+        </button>
+        <button onclick="switchShowcase('security')" id="nav-btn-security" class="px-4 py-1.5 rounded-full hover:text-zinc-950 dark:hover:text-white transition cursor-pointer">
+          Crypt &amp; RBAC
         </button>
         <button onclick="switchShowcase('devsuite')" id="nav-btn-devsuite" class="px-4 py-1.5 rounded-full hover:text-zinc-950 dark:hover:text-white transition cursor-pointer">
           Dev Suite & Pail
@@ -259,35 +262,46 @@ describe('Application Feature Tests', () => {
   });
 });</code></pre>
 
-              <!-- JSX Server Components Code -->
-              <pre id="code-content-jsx" class="hidden"><code>// HomeController.ts — zero relative path imports needed:
-// return ctx.render('Home', { title: 'BirJS', version: '0.5.23' });
-
-import { Layout } from '@/views/layouts/Layout';
-import { Csrf, ErrorMessage, Flash } from 'birframework/jsx';
-
-interface HomeProps {
-  title: string;
-  version: string;
+              <!-- Unified Preact + Inertia Code -->
+              <pre id="code-content-jsx" class="hidden"><code>// HomeController.ts
+export class HomeController {
+  public async index(ctx: Context) {
+    return ctx.inertia('Welcome', { title: 'BirJS', user: await Auth.user(ctx) });
+  }
 }
 
-export default function Home({ title, version }: HomeProps) {
+// views/pages/Welcome.tsx (SSR + Client Preact in ONE file)
+import { useState } from 'preact/hooks';
+import { Link } from '@/resources/js/bir-inertia';
+
+export default function Welcome({ user }: { user: { name: string } }) {
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
-    &lt;Layout title={title}&gt;
-      &lt;main className="max-w-4xl mx-auto py-12 px-6"&gt;
-        &lt;Flash type="success" /&gt;
-        &lt;h1 className="text-4xl font-bold tracking-tight text-white mt-4"&gt;
-          Type-Safe JSX Server Components (v{version})
-        &lt;/h1&gt;
-        &lt;form method="POST" action="/subscribe" className="mt-6 space-y-3"&gt;
-          &lt;Csrf /&gt;
-          &lt;input type="email" name="email" className="px-3 py-2 rounded bg-zinc-900" /&gt;
-          &lt;ErrorMessage field="email" /&gt;
-        &lt;/form&gt;
-      &lt;/main&gt;
-    &lt;/Layout&gt;
+    &lt;div className="p-8 bg-zinc-950 text-white min-h-screen"&gt;
+      &lt;nav className="flex gap-4 mb-6"&gt;
+        &lt;Link href="/invoices"&gt;Invoices (SPA)&lt;/Link&gt;
+        &lt;button onClick={() =&gt; setModalOpen(true)}&gt;Profile ({user.name})&lt;/button&gt;
+      &lt;/nav&gt;
+      {modalOpen &amp;&amp; &lt;div className="p-4 border border-zinc-800 rounded"&gt;Profile Modal&lt;/div&gt;}
+    &lt;/div&gt;
   );
 }</code></pre>
+
+              <!-- Security, Crypt & RBAC Code -->
+              <pre id="code-content-security" class="hidden"><code>import { Route, Crypt, SignedUrl, Gate, can, signed, throttle } from 'birframework';
+
+// AES-256-GCM Two-Way Encryption
+const encryptedKey = Crypt.encrypt({ host: 'srv1.host.com', token: 'whm_991' });
+const decrypted = Crypt.decrypt(encryptedKey);
+
+// RBAC Gate &amp; Route Middleware
+Gate.define('cancel-invoice', (user, inv) =&gt; user.id === inv.userId);
+Route.delete('/invoices/:id', handler).middleware([can('cancel-invoice'), throttle(30, 1)]);
+
+// Expiring HMAC Signed URLs
+const pdfLink = SignedUrl.sign('/invoices/1042/pdf', 1800);
+Route.get('/invoices/:id/pdf', downloadHandler).middleware(signed());</code></pre>
 
               <!-- Dev Suite & Pail Code -->
               <pre id="code-content-devsuite" class="hidden"><code>$ npm run dev
@@ -345,17 +359,30 @@ export default function Home({ title, version }: HomeProps) {
       tab2: "database.sqlite"
     },
     jsx: {
-      title: "Type-Safe JSX Server Components",
-      desc: "React-style functional components rendered strictly on the server with zero client bundle overhead and sub-millisecond execution.",
+      title: "Unified Preact + Inertia + SSR",
+      desc: "One TSX standard across your entire app. First load renders on the server for SEO, while <Link> clicks swap pages smoothly without losing modal or chat state.",
       bullets: [
-        "100% compile-time TypeScript type safety and prop validation",
-        "Zero JavaScript bundle sent to the client (pure semantic HTML)",
-        "Composable layouts with <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>&lt;Layout&gt;</code> and <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>&lt;Vite /&gt;</code> integration",
-        "Native async server rendering for database and model queries"
+        "Single Preact TSX standard (no server vs client component split)",
+        "Instant SSR HTML on first load via <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>preact-render-to-string</code>",
+        "Zero-reload SPA navigation with <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>&lt;Link&gt;</code> and <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>router.post()</code>",
+        "Automatic session flash and auth user sharing via <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>Inertia.share()</code>"
       ],
-      link: "/docs/jsx",
-      tab1: "views/Welcome.tsx",
-      tab2: "views/layouts/Layout.tsx"
+      link: "/docs/inertia",
+      tab1: "HomeController.ts",
+      tab2: "views/pages/Welcome.tsx"
+    },
+    security: {
+      title: "Production Security, Crypt & RBAC",
+      desc: "Everything needed for billing, SaaS, and e-commerce: AES-256-GCM encryption, signed download URLs, Gate authorization, and route throttling.",
+      bullets: [
+        "Two-way <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>Crypt.encrypt()</code> / <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>decrypt()</code> for API secrets",
+        "Expiring HMAC <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>SignedUrl.sign()</code> + <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>signed()</code> middleware",
+        "Role &amp; resource permissions with <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>Gate.define()</code> and <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>can()</code>",
+        "Unparsed <code class='font-medium text-zinc-900 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded'>ctx.rawBody()</code> for Stripe / PayTR / iyzico webhooks"
+      ],
+      link: "/docs/security",
+      tab1: "routes/web.ts",
+      tab2: "Security"
     },
     devsuite: {
       title: "4-Service Dev Dashboard & Pail",
