@@ -31,15 +31,12 @@ export function Navbar({ version }: { version?: string }) {
     <header className="sticky top-0 z-50 w-full border-b border-zinc-200/80 dark:border-zinc-800/80 bg-white/85 dark:bg-[#07080A]/85 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
         <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <span className="w-7 h-7 rounded-lg bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 flex items-center justify-center font-black text-xs tracking-tighter shadow-xs">
-              B
-            </span>
+          <Link href="/" className="flex items-center gap-2.5">
             <span className="text-lg font-extrabold tracking-tight text-zinc-950 dark:text-white">
               Bir<span className="text-emerald-500">JS</span>
             </span>
             {version && (
-              <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400">
+              <span className="text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
                 v{version}
               </span>
             )}
