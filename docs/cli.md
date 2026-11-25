@@ -38,6 +38,7 @@ Generate boilerplate code following framework architectural patterns:
 | `bir make:listener <Name> [--event]` | Creates an event listener class | `app/listeners/<Name>.ts` |
 | `bir make:request <Name>` | Creates a Form Request class | `app/requests/<Name>.ts` |
 | `bir make:auth` | Scaffolds complete Breeze-style auth | Models, Controllers, Views, Migrations |
+| `bir make:vercel` | Scaffolds zero-config Vercel Serverless deployment | `vercel.json`, `api/index.js` |
 
 ---
 
@@ -100,4 +101,23 @@ bir schedule:work
 
 # Scaffold authentication controllers and views
 bir make:auth
+
+# Generate Vercel Serverless deployment config (vercel.json + api/index.js)
+bir make:vercel
 ```
+
+---
+
+## Serverless & Deployment
+
+New projects created with `npx birframework new` come pre-configured for Vercel Serverless. If you are upgrading an existing project or regenerating deployment files, run:
+
+```bash
+bir make:vercel
+```
+
+This generates:
+- `vercel.json` — configures `npm run build --if-present`, `public` output directory, included static/docs bundles, and rewrites to `/api/index.js`.
+- `api/index.js` — mounts `compress()`, `serveStatic({ publicDir: 'public' })`, `Inertia.middleware()`, and exports `app.serverless()`.
+
+> `app.serverless()` also works on AWS Lambda and Netlify-compatible Node runtimes (additional platform generators such as Netlify are planned).

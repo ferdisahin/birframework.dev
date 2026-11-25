@@ -65,3 +65,17 @@ The application will start on `http://localhost:3000`.
 | `npm run dev:vite` | `vite` | Starts Vite HMR and auto-reload watcher for views and templates |
 | `npm run build` | `vite build` | Compiles production assets to `public/build` with manifest |
 | `npm start` | `npx tsx app.ts` | Boots the production application server |
+
+---
+
+## Deploying to Vercel
+
+Every project scaffolded with `npx birframework new` includes `vercel.json` and `api/index.js` out of the box, so you can deploy immediately by running `vercel` or pushing to GitHub.
+
+If you need to add or regenerate Vercel Serverless configuration in an existing project, run:
+
+```bash
+npx bir make:vercel
+```
+
+This wires up `app.serverless()` with `compress()`, `serveStatic({ publicDir: 'public' })`, and `Inertia.middleware()`. Set a random `APP_KEY` in your Vercel Project Environment Variables for production deployments.
