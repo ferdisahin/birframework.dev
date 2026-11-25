@@ -143,7 +143,7 @@ export default function Welcome({ version, nodeVersion }: { version: string; nod
             <div class="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <div class="flex items-center justify-between bg-white dark:bg-[#111113] border border-zinc-200 dark:border-zinc-800 px-3.5 py-2.5 rounded-md text-xs font-mono text-zinc-900 dark:text-zinc-200">
                 <div class="flex items-center gap-2">
-                  <span class="text-emerald-600 dark:text-emerald-400 select-none">$</span>
+                  <span class="text-zinc-400 dark:text-zinc-500 select-none">$</span>
                   <span class="select-all">npx birframework new my-app</span>
                 </div>
                 <button
@@ -174,7 +174,7 @@ export default function Welcome({ version, nodeVersion }: { version: string; nod
               </div>
               <div>
                 <dt class="text-zinc-500">SSR Speed</dt>
-                <dd class="mt-1 font-mono font-semibold text-emerald-600 dark:text-emerald-400 tabular-nums">5,352 req/s</dd>
+                <dd class="mt-1 font-mono font-semibold text-zinc-950 dark:text-white tabular-nums">5,352 req/s</dd>
               </div>
             </dl>
           </div>
@@ -235,7 +235,7 @@ export default function Welcome({ version, nodeVersion }: { version: string; nod
                   <li key={m.name}>
                     <Link href={m.href} class="py-4 flex items-baseline justify-between gap-4 group">
                       <div>
-                        <div class="text-sm font-semibold text-zinc-950 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition">
+                        <div class="text-sm font-semibold text-zinc-950 dark:text-white group-hover:underline underline-offset-4">
                           {m.name}
                         </div>
                         <div class="mt-0.5 text-xs font-mono text-zinc-500 dark:text-zinc-400">
@@ -260,7 +260,7 @@ export default function Welcome({ version, nodeVersion }: { version: string; nod
                   <li key={m.name}>
                     <Link href={m.href} class="py-4 flex items-baseline justify-between gap-4 group">
                       <div>
-                        <div class="text-sm font-semibold text-zinc-950 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition">
+                        <div class="text-sm font-semibold text-zinc-950 dark:text-white group-hover:underline underline-offset-4">
                           {m.name}
                         </div>
                         <div class="mt-0.5 text-xs font-mono text-zinc-500 dark:text-zinc-400">
@@ -313,7 +313,7 @@ export default function Welcome({ version, nodeVersion }: { version: string; nod
                 {BENCHMARKS.map((row) => (
                   <tr key={row.metric}>
                     <td class="py-3.5 px-4 font-medium text-zinc-950 dark:text-white">{row.metric}</td>
-                    <td class="py-3.5 px-4 font-mono font-semibold text-emerald-600 dark:text-emerald-400 tabular-nums">{row.birjs}</td>
+                    <td class="py-3.5 px-4 font-mono font-semibold text-zinc-950 dark:text-white tabular-nums">{row.birjs}</td>
                     <td class="py-3.5 px-4 font-mono text-zinc-500 tabular-nums">{row.nextjs}</td>
                     <td class="py-3.5 px-4 text-zinc-600 dark:text-zinc-400">{row.note}</td>
                   </tr>

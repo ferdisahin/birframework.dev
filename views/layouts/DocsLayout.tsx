@@ -73,7 +73,7 @@ export function DocsLayout({ children }: { children?: any }) {
               value={filter}
               onInput={(e) => setFilter((e.target as HTMLInputElement).value)}
               placeholder="Filter docs..."
-              class="w-full bg-white dark:bg-[#0E1116] border border-zinc-200 dark:border-zinc-800 focus:border-emerald-500 px-3 py-2 rounded-lg text-xs text-zinc-900 dark:text-zinc-200 placeholder-zinc-400 dark:placeholder-zinc-600 focus:outline-none transition"
+              class="w-full bg-white dark:bg-[#0E1116] border border-zinc-200 dark:border-zinc-800 focus:border-zinc-500 dark:focus:border-zinc-500 px-3 py-2 rounded-lg text-xs text-zinc-900 dark:text-zinc-200 placeholder-zinc-400 dark:placeholder-zinc-600 focus:outline-none transition"
             />
           </div>
 
@@ -93,7 +93,7 @@ export function DocsLayout({ children }: { children?: any }) {
                           onClick={() => setMobileOpen(false)}
                           class={`block py-1.5 px-2.5 rounded-md transition ${
                             active
-                              ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-semibold border-l-2 border-emerald-500'
+                              ? 'bg-zinc-200/70 dark:bg-zinc-800/80 text-zinc-950 dark:text-white font-semibold border-l-2 border-zinc-950 dark:border-white'
                               : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900/70 hover:text-zinc-950 dark:hover:text-white'
                           }`}
                         >

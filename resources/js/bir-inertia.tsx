@@ -340,7 +340,7 @@ export async function createBirApp({
               left: 0,
               right: 0,
               height: '2px',
-              background: 'linear-gradient(90deg, #10b981, #3b82f6)',
+              background: '#71717a',
               zIndex: 9999,
             }}
           />

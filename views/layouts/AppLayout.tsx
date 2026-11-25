@@ -33,7 +33,7 @@ export function Navbar({ version }: { version?: string }) {
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-2.5">
             <span className="text-lg font-extrabold tracking-tight text-zinc-950 dark:text-white">
-              Bir<span className="text-emerald-500">JS</span>
+              BirJS
             </span>
             {version && (
               <span className="text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
@@ -104,11 +104,8 @@ export function Footer() {
     <footer className="border-t border-zinc-200 dark:border-zinc-800/80 bg-zinc-50/50 dark:bg-[#07080A] py-12 text-xs text-zinc-500 dark:text-zinc-400">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
         <div className="md:col-span-2">
-          <div className="flex items-center gap-2 text-zinc-950 dark:text-white font-bold text-sm">
-            <span className="w-5 h-5 rounded bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 flex items-center justify-center font-black text-[10px]">
-              B
-            </span>
-            <span>BirJS</span>
+          <div className="text-zinc-950 dark:text-white font-extrabold tracking-tight text-sm">
+            BirJS
           </div>
           <p className="mt-3 max-w-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
             Full-stack TypeScript framework combining Laravel ergonomics with Unified Preact + Inertia + SSR and sub-millisecond Node.js performance.
