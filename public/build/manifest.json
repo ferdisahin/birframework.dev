@@ -1,13 +1,13 @@
 {
-  "_AppLayout-Bj7r7USN.js": {
-    "file": "assets/AppLayout-Bj7r7USN.js",
+  "_AppLayout-DkegN7_8.js": {
+    "file": "assets/AppLayout-DkegN7_8.js",
     "name": "AppLayout",
     "imports": [
       "resources/js/app.tsx"
     ]
   },
   "resources/css/app.css": {
-    "file": "assets/app-C_IZANVU.css",
+    "file": "assets/app-B88wd2Zy.css",
     "name": "app",
     "names": [
       "app.css"
@@ -16,7 +16,7 @@
     "isEntry": true
   },
   "resources/js/app.tsx": {
-    "file": "assets/app-BABBEXPV.js",
+    "file": "assets/app-ft_hf-j7.js",
     "name": "app",
     "src": "resources/js/app.tsx",
     "isEntry": true,
@@ -25,27 +25,27 @@
       "views/pages/Welcome.tsx"
     ],
     "css": [
-      "assets/app-C_IZANVU.css"
+      "assets/app-B88wd2Zy.css"
     ]
   },
   "views/pages/DocsShow.tsx": {
-    "file": "assets/DocsShow-BzLPTlEa.js",
+    "file": "assets/DocsShow-DDyEZUw0.js",
     "name": "DocsShow",
     "src": "views/pages/DocsShow.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.tsx",
-      "_AppLayout-Bj7r7USN.js"
+      "_AppLayout-DkegN7_8.js"
     ]
   },
   "views/pages/Welcome.tsx": {
-    "file": "assets/Welcome-Db544t6X.js",
+    "file": "assets/Welcome-BDktMDkN.js",
     "name": "Welcome",
     "src": "views/pages/Welcome.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.tsx",
-      "_AppLayout-Bj7r7USN.js"
+      "_AppLayout-DkegN7_8.js"
     ]
   }
 }

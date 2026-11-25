@@ -1,5 +1,5 @@
-import { useState, useMemo, useRef, useLayoutEffect } from 'preact/hooks';
-import { Link, usePage } from '../../resources/js/bir-inertia';
+import { useState, useMemo, useRef, useLayoutEffect, useEffect } from 'preact/hooks';
+import { Link, usePage, router } from '../../resources/js/bir-inertia';
 import { Navbar, Footer } from './AppLayout';
 
 interface DocItem {
@@ -8,23 +8,67 @@ interface DocItem {
   category: string;
 }
 
+const SIDEBAR_SCROLL_KEY = 'bir-docs-sidebar-scroll';
 let savedSidebarScrollTop = 0;
+
+function readSavedScroll(): number {
+  if (savedSidebarScrollTop > 0) return savedSidebarScrollTop;
+  if (typeof sessionStorage !== 'undefined') {
+    const val = Number(sessionStorage.getItem(SIDEBAR_SCROLL_KEY) || '0');
+    if (Number.isFinite(val) && val > 0) {
+      savedSidebarScrollTop = val;
+      return val;
+    }
+  }
+  return 0;
+}
+
+function writeSavedScroll(val: number) {
+  savedSidebarScrollTop = val;
+  if (typeof sessionStorage !== 'undefined') {
+    sessionStorage.setItem(SIDEBAR_SCROLL_KEY, String(val));
+  }
+}
 
 export function DocsLayout({ children }: { children?: any }) {
   const page = usePage<{ slug?: string; pages?: DocItem[]; title?: string }>();
   const [filter, setFilter] = useState('');
   const [mobileOpen, setMobileOpen] = useState(false);
   const asideRef = useRef<HTMLElement>(null);
+  const navigatingRef = useRef(false);
 
   const currentSlug = page.props?.slug || '';
   const allPages = page.props?.pages || [];
 
+  useEffect(() => {
+    const offStart = router.on('start', () => {
+      navigatingRef.current = true;
+      if (asideRef.current) {
+        writeSavedScroll(asideRef.current.scrollTop);
+      }
+    });
+    const offFinish = router.on('finish', () => {
+      navigatingRef.current = false;
+    });
+    return () => {
+      offStart();
+      offFinish();
+    };
+  }, []);
+
   useLayoutEffect(() => {
-    const el = asideRef.current;
-    if (!el) return;
-    if (savedSidebarScrollTop > 0 && el.scrollTop !== savedSidebarScrollTop) {
-      el.scrollTop = savedSidebarScrollTop;
-    }
+    const target = readSavedScroll();
+    const restore = () => {
+      const el = asideRef.current;
+      if (el && target > 0 && el.scrollTop !== target) {
+        el.scrollTop = target;
+      }
+    };
+    restore();
+    const raf = typeof requestAnimationFrame !== 'undefined' ? requestAnimationFrame(restore) : 0;
+    return () => {
+      if (raf && typeof cancelAnimationFrame !== 'undefined') cancelAnimationFrame(raf);
+    };
   }, [currentSlug]);
 
   const grouped = useMemo(() => {
@@ -63,7 +107,8 @@ export function DocsLayout({ children }: { children?: any }) {
         <aside
           ref={asideRef}
           onScroll={(e) => {
-            savedSidebarScrollTop = (e.currentTarget as HTMLElement).scrollTop;
+            if (navigatingRef.current) return;
+            writeSavedScroll((e.currentTarget as HTMLElement).scrollTop);
           }}
           class={`${mobileOpen ? 'block' : 'hidden'} md:block w-full md:w-64 shrink-0 md:self-start md:sticky md:top-16 md:h-[calc(100vh-4rem)] overflow-y-auto py-8 pr-4 border-b md:border-b-0 md:border-r border-zinc-200/80 dark:border-zinc-800/80`}
         >
