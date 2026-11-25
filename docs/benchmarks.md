@@ -60,8 +60,8 @@ In contrast, **BirJS lives warm in memory**. Your routes, models, database pools
 ### 2. Zero-Overhead Radix Routing
 BirJS utilizes a custom radix-tree router rather than iterating sequentially through arrays of regexes. Route lookup is `O(k)` where `k` is URL depth, regardless of whether you have 10 routes or 1,000 routes.
 
-### 3. Lightweight Blade Rendering vs Heavy Hydration
-Client-heavy meta-frameworks like Next.js require bundling React, server components, and hydration scripts. BirJS renders clean HTML on the server and pairs with **BirTurbo** for instant DOM morphing, bypassing client-side JavaScript execution overhead.
+### 3. Lightweight Preact + Inertia SSR vs Heavy Hydration
+Client-heavy meta-frameworks like Next.js require bundling large React server component payloads and hydration scripts. BirJS pairs sub-millisecond Node.js routing with **Unified Preact + Inertia + SSR** and Brotli compression, keeping client bundles tiny (~20 KB) and response times low.
 
 ---
 

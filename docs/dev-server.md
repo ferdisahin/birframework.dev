@@ -30,7 +30,7 @@ BirJS boots four dedicated background processes using high-contrast terminal col
 | **`server`** | `#00f5d4` (Teal) | `npx tsx watch app.ts` | The core HTTP server with Hot Reload on code changes. |
 | **`queue`** | `#7209b7` (Purple) | `npx bir queue:work` | Consumes async background jobs and scheduled tasks. |
 | **`logs`** | `#f72585` (Pink) | `npx bir pail` | Real-time structured log streaming with ANSI category badges. |
-| **`vite`** | `#ffb703` (Amber) | `vite` | Vite dev server compiling client CSS, TypeScript, and Hotwire Turbo. |
+| **`vite`** | `#ffb703` (Amber) | `vite` | Vite dev server compiling client CSS, TypeScript, and Preact + Inertia `.tsx` pages. |
 
 ---
 
@@ -50,7 +50,7 @@ You never need to manually hunt down and kill PID processes just to run your app
 
 ## Tailwind CSS v4 Integration
 
-BirJS fully supports Tailwind CSS v4. Because BirJS views (both JSX/TSX server components and Blade `.bir` / `.html` templates) are rendered on the server outside of Vite's JavaScript module graph, the stylesheet requires `@source` scanning directives.
+BirJS fully supports Tailwind CSS v4. Because BirJS views (`.tsx` Inertia pages and `.html` Blade templates) live under `views/`, the stylesheet uses `@source` scanning directives.
 
 In `resources/css/app.css`:
 

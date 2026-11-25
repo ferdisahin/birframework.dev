@@ -111,7 +111,7 @@ export class WelcomeMail extends Mailable {
   }
 
   public content(): string {
-    // Renders views/emails/welcome.bir with data
+    // Renders views/emails/welcome.html with data
     return this.view('emails/welcome', { user: this.user });
   }
 }

@@ -22,7 +22,7 @@ Run `npx birframework new` directly in your terminal to bootstrap a fresh applic
 npx birframework new my-bir-app
 ```
 
-The interactive installer displays the recommended modern stack (**TypeScript (.ts/.tsx) + Tailwind CSS v4 + Unified Preact & Inertia + Hotwire Turbo + Vite**):
+The interactive installer displays the recommended modern stack (**TypeScript (.ts/.tsx) + Tailwind CSS v4 + Unified Preact & Inertia + Vite**):
 - Press **Enter** to install immediately with the recommended defaults.
 - Or type **`c`** to customize Language (`TypeScript` / `JavaScript`), Styling (`Tailwind` / `Pure CSS`), or Bundler (`Vite` / `None`).
 
@@ -30,10 +30,10 @@ Alternatively, pass flags directly for headless CI/CD automation:
 
 ```bash
 # Default full-stack TypeScript + Tailwind v4 + Preact + Inertia + Vite
-npx birframework new my-app --ts --tailwind --hotwire --jsx
+npx birframework new my-app --ts --tailwind --jsx
 
 # Minimal MPA without Vite
-npx birframework new my-app --ts --css --no-turbo
+npx birframework new my-app --ts --css
 ```
 
 ---

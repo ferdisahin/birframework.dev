@@ -166,7 +166,7 @@ Broadcast.channel('private-user.{id}', (client, params) => {
 
 ### Client-Side Integration
 
-In your frontend templates or companion scripts, connect using standard WebSocket or Turbo Streams:
+In your frontend templates or companion scripts, connect using standard WebSocket or Server-Sent Events (SSE):
 
 ```javascript
 const ws = new WebSocket(`ws://${location.host}/ws`);

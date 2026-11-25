@@ -9,12 +9,12 @@ BirJS introduces a modern, modular approach to server-rendered frontend componen
 In BirJS, components can live in either of two structures:
 
 ### 1. Single-file Components
-`views/components/card.bir` &rarr; Used via `<x-card title="Card Title">Content</x-card>`.
+`views/components/card.html` &rarr; Used via `<x-card title="Card Title">Content</x-card>`.
 
 ### 2. Co-Located Folder Components (With Companion JS)
 ```text
 views/components/modal/
-├── modal.bir    # Server-rendered template
+├── modal.html    # Server-rendered template
 └── modal.js     # Scoped client-side companion script
 ```
 Rendered in templates via:
@@ -39,7 +39,7 @@ bir make:component modal -j
 ```
 
 This creates:
-- `views/components/modal/modal.bir`
+- `views/components/modal/modal.html`
 - `views/components/modal/modal.js`
 
 ---
@@ -95,9 +95,9 @@ BirJS provides two clean, conflict-free patterns:
 
 The button does not need to know anything about the modal's internal DOM structure. It simply dispatches a custom event targeting the modal's `id`:
 
-#### The Button Component (`views/components/button/button.bir` + `button.js`):
+#### The Button Component (`views/components/button/button.html` + `button.js`):
 ```html
-<!-- views/components/button/button.bir -->
+<!-- views/components/button/button.html -->
 <button 
   type="button" 
   class="btn {{ class ?? 'btn-primary' }}" 
@@ -126,7 +126,7 @@ export default function initButton(el) {
 
 #### Usage in Your Views:
 ```html
-<!-- views/welcome.bir -->
+<!-- views/welcome.html -->
 <x-button target="confirmModal" action="open">
   Delete User
 </x-button>
@@ -184,7 +184,7 @@ Now you can trigger it anywhere:
 Components support all Laravel Blade style slots and attributes:
 
 ```html
-<!-- views/components/card.bir -->
+<!-- views/components/card.html -->
 <div class="card border rounded-lg p-6 bg-white dark:bg-zinc-900">
   @if(header)
     <div class="card-header border-b pb-3 mb-4 font-bold">

@@ -6,7 +6,7 @@ BirJS features a native, zero-dependency **JSX & TSX view engine**. You can buil
 
 ## Why JSX in BirJS?
 
-| Feature | Blade (`.bir`) | TSX / JSX Components |
+| Feature | Blade (`.html`) | TSX / JSX Components |
 | :--- | :---: | :---: |
 | **Syntax** | Laravel Blade directives & tags | React-style functional components |
 | **Type Safety** | Dynamic runtime | **100% Compile-time TypeScript IntelliSense** |

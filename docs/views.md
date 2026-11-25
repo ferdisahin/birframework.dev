@@ -149,7 +149,7 @@ You can also escape a single expression with `@{{ variable }}`.
 
 ## Co-Located Components & JavaScript
 
-BirJS allows components to bundle their client-side interactive JavaScript right alongside their `.bir` template files with automatic scoping and zero bundler overhead:
+BirJS allows components to bundle their client-side interactive JavaScript right alongside their `.html` template files with automatic scoping and zero bundler overhead:
 
 ```bash
 bir make:component dropdown -j

@@ -21,7 +21,6 @@ export const DOCS_PAGES = [
   { slug: 'components', title: 'Co-Located Components & JS', category: 'Frontend & Views' },
   { slug: 'jsx', title: 'Type-Safe JSX & TSX', category: 'Frontend & Views' },
   { slug: 'inertia', title: 'Unified Preact & Inertia', category: 'Frontend & Views' },
-  { slug: 'turbo', title: 'Instant Turbo Navigation', category: 'Frontend & Views' },
   { slug: 'database', title: 'Multi-Driver Connections', category: 'Database & ORM' },
   { slug: 'models', title: 'Active Record ORM', category: 'Database & ORM' },
   { slug: 'migrations', title: 'Schema & Migrations', category: 'Database & ORM' },

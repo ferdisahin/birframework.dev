@@ -28,7 +28,7 @@ BirJS adopts the time-tested architectural principles and developer experience o
 - **Persistent Memory Runtime**: Unlike PHP-FPM which boots from scratch on every request, BirJS remains warm in memory. Incoming requests are routed and handled in sub-millisecond dispatch cycles (0ms – 2ms).
 - **Batteries-Included Architecture**: Out-of-the-box routing, controllers, dependency injection, validation, database migrations, active record models, queues, scheduler, mail, and storage.
 - **Zero-Dependency Philosophy**: Leverages modern Node.js built-ins (`node:sqlite`, `node:crypto`, `node:http`, `node:fs`) whenever possible, eliminating hundreds of transitive `node_modules` vulnerabilities.
-- **Instant Turbo SPA**: Server-rendered Blade HTML morphs seamlessly into the browser DOM with zero page reloads, zero full flushes, and zero heavy client framework bundles.
+- **Unified Preact + Inertia + SSR**: Server-rendered SEO metadata and persistent `.tsx` layouts paired with SPA-speed navigation via `X-Bir-Inertia` JSON responses.
 
 ---
 
@@ -40,5 +40,5 @@ BirJS adopts the time-tested architectural principles and developer experience o
 | **ORM & Migrations** | Built-in Active Record | Manual Setup | External (Prisma) |
 | **Background Queues** | Built-in Queue Engine | None | Serverless / External |
 | **Task Scheduler** | Native Cron Engine | None | External Cron |
-| **View Engine** | Blade + Turbo SPA | None | JSX / Vue |
+| **View Engine** | Preact + Inertia + SSR / Blade | None | JSX / Vue |
 | **Cold Boot Latency** | Persistent (~0ms) | Persistent | Serverless Cold Starts |
