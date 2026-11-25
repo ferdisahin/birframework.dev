@@ -63,3 +63,20 @@ await DB.transaction(async () => {
   await DB.table('accounts').where('id', 2).increment('balance', 100);
 });
 ```
+
+
+## Pessimistic Row Locking (`forUpdate`)
+
+For concurrent-safe balance, inventory, or invoice updates on PostgreSQL and MySQL, chain `.forUpdate()` inside a transaction:
+
+```ts
+await db.transaction(async () => {
+  const wallet = await db.table('wallets')
+    .where('user_id', userId)
+    .forUpdate()
+    .first();
+  // Safe to update wallet balance
+});
+```
+
+*(On SQLite, `.forUpdate()` is a safe no-op.)*

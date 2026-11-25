@@ -64,3 +64,27 @@ Route.group({ prefix: '/admin', middleware: [Authenticate] }, () => {
   Route.get('/settings', (ctx) => ctx.render('admin/settings'));
 });
 ```
+
+
+## Response Compression (`compress`)
+
+Compress JSON, HTML, CSS, and JS responses automatically with Brotli (`br`) or Gzip (`gzip`), while safely skipping `HEAD`, `204`/`206`/`304`, SSE (`text/event-stream`), and binary media (`audio/*`, `video/*`, `image/*`):
+
+```ts
+import { compress } from 'birframework';
+
+app.use(compress({ threshold: 1024, brotli: true, gzip: true }));
+```
+
+## Media Streaming (`Range 206`), `ETag`, & `ctx.fileStream()`
+
+`serveStatic()` supports `Accept-Ranges: bytes`, `206 Partial Content` / `416 Range Not Satisfiable`, and `ETag` / `304 Not Modified` out of the box for audio, video, and resumable downloads.
+
+For authenticated or dynamic file streaming inside a controller, use `ctx.fileStream()`:
+
+```ts
+Route.get('/stream/:trackId', async (ctx) => {
+  // Check auth/subscription here...
+  await ctx.fileStream(`storage/tracks/${ctx.params.trackId}.mp3`);
+});
+```

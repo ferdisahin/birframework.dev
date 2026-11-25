@@ -1,7 +1,0 @@
-<x-layouts.app title="BirJS - Full-Stack Web Framework for Node.js & TypeScript">
-  <x-hero />
-  <x-showcase />
-  <x-architecture />
-  <x-benchmarks />
-  <x-cta />
-</x-layouts.app>

@@ -66,3 +66,16 @@ Schedule.call(async () => {
   .everyMinute()
   .withoutOverlapping();
 ```
+
+
+## Cross-Process Locking (`withoutOverlapping`)
+
+`withoutOverlapping(ttlSeconds = 3600, lockDir?)` uses atomic exclusive lock files (`storage/framework/locks/schedule-<sha1>.lock`) so multiple worker processes never execute the same scheduled task concurrently:
+
+```ts
+Schedule.call(() => syncPrices(), 'Sync TLD prices')
+  .hourly()
+  .withoutOverlapping(3600);
+```
+
+Stale locks older than `ttlSeconds` are automatically cleaned up.

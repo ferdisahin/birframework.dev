@@ -1,5 +1,7 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { marked } from 'marked';
+import { VERSION } from 'birframework';
 
 export const DOCS_PAGES = [
   { slug: 'overview', title: 'Overview & Philosophy', category: 'Getting Started' },
@@ -40,10 +42,7 @@ export class DocsController {
   async show(ctx) {
     const rawSlug = ctx.params.slug || 'installation';
     let index = DOCS_PAGES.findIndex((p) => p.slug === rawSlug);
-
-    if (index === -1) {
-      index = 1; // fallback to installation
-    }
+    if (index === -1) index = 2;
 
     const current = DOCS_PAGES[index];
     const prev = index > 0 ? DOCS_PAGES[index - 1] : null;
@@ -67,14 +66,36 @@ export class DocsController {
       content = `# ${current.title}\n\nDocumentation for this section is coming soon.`;
     }
 
-    return ctx.render('docs/show', {
-      title: current.title,
-      slug: current.slug,
-      content,
-      prevSlug: prev ? prev.slug : '',
-      prevTitle: prev ? prev.title : '',
-      nextSlug: next ? next.slug : '',
-      nextTitle: next ? next.title : '',
-    });
+    const htmlContent = await marked.parse(content);
+    const title = `${current.title} — BirJS Docs`;
+    const description = `BirJS v${VERSION} documentation: ${current.title} (${current.category}).`;
+    const canonical = `https://birjs.com/docs/${current.slug}`;
+
+    return ctx.inertia(
+      'DocsShow',
+      {
+        version: VERSION,
+        title: current.title,
+        slug: current.slug,
+        category: current.category,
+        htmlContent,
+        pages: DOCS_PAGES,
+        prevSlug: prev ? prev.slug : '',
+        prevTitle: prev ? prev.title : '',
+        nextSlug: next ? next.slug : '',
+        nextTitle: next ? next.title : '',
+      },
+      {
+        lang: 'en',
+        title,
+        description,
+        canonical,
+        meta: {
+          robots: 'index, follow',
+          og: { title, description, url: canonical, type: 'article', siteName: 'BirJS' },
+          twitter: { card: 'summary', title, description },
+        },
+      }
+    );
   }
 }

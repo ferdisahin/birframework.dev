@@ -152,3 +152,21 @@ Clients authenticate simply by sending the standard `Authorization` header:
 Authorization: Bearer bir_pat_98f4b7a1e0c24d98a3b5c6e7f8a9b0c1...
 ```
 
+
+
+## Persistent Session Drivers (`FileSessionStore` & `DatabaseSessionStore`)
+
+By default, `sessionMiddleware()` uses an in-memory store. For production deployments across restarts or multiple workers, configure `file` or `database` persistence:
+
+```ts
+import { sessionMiddleware, FileSessionStore, DatabaseSessionStore, setSessionStore } from 'birframework';
+
+// Option 1: Built-in File store
+app.use(sessionMiddleware({ driver: 'file', storeDir: 'storage/framework/sessions' }));
+
+// Option 2: Database store (_sessions table for SQLite, PostgreSQL, or MySQL)
+app.use(sessionMiddleware({ driver: 'database' }));
+
+// Option 3: Set globally
+setSessionStore(new FileSessionStore('storage/framework/sessions'));
+```

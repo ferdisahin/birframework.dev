@@ -10,8 +10,11 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "@hotwired/turbo": "^8.0.23",
-    "birframework": "^0.5.18"
+    "@preact/preset-vite": "^2.10.6",
+    "birframework": "^0.5.27",
+    "marked": "^18.3.0",
+    "preact": "^11.2.0",
+    "preact-render-to-string": "^6.8.3"
   },
   "engines": {
     "node": ">=22.0.0"

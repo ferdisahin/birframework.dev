@@ -97,3 +97,60 @@ import { Inertia } from 'birframework';
 
 Inertia.location(ctx, '/login'); // Sends 409 X-Bir-Inertia-Location for SPA requests
 ```
+
+
+## Persistent Layouts (`Page.layout`)
+
+To keep shared UI (such as sidebars, audio players, or navigation state) mounted across page visits, attach a `layout` callback to your page component:
+
+```tsx
+import { AppLayout } from '../layouts/AppLayout';
+
+export default function Dashboard({ stats }) {
+  return <div>...</div>;
+}
+
+Dashboard.layout = (page) => <AppLayout>{page}</AppLayout>;
+```
+
+## Forms & File Uploads (`useForm`)
+
+Use `useForm` to manage form state, loading states, automatic `FormData` file serialization, and 422 validation errors:
+
+```tsx
+import { useForm } from '../resources/js/bir-inertia';
+
+const { data, setData, post, processing, errors, wasSuccessful } = useForm({
+  title: '',
+  cover: null as File | null,
+});
+
+const submit = (e: Event) => {
+  e.preventDefault();
+  post('/tracks', { preserveScroll: true });
+};
+```
+
+## Scroll Preservation, `<Head>`, & Navigation State
+
+- **Scroll Preservation:** Pass `preserveScroll: true` to `<Link href="/..." preserveScroll />` or `router.visit(url, { preserveScroll: true })`.
+- **Dynamic Document Head:** Use `<Head title="My Page" description="..." canonical="https://..." />` inside pages to sync `<title>`, `description`, `og:title`, `og:description`, and `canonical` on client navigation.
+- **Progress Indicator:** `AppShell` renders a top `#bir-progress-bar` automatically during visits, and `useNavigation()` exposes `{ navigating }`.
+
+## Server-Side SSR SEO & Meta Tags
+
+Pass `lang`, `title`, `description`, `canonical`, and `meta` (`robots`, `og`, `twitter`, `tags`) directly from your controller:
+
+```ts
+await ctx.inertia('TldDetail', { tld: 'com' }, {
+  lang: 'tr',
+  title: '.com Domain Prices',
+  description: 'Compare .com registration and renewal prices.',
+  canonical: 'https://example.com/tld/com',
+  meta: {
+    robots: 'index, follow',
+    og: { image: 'https://example.com/og.png', siteName: 'tlds' },
+    twitter: { card: 'summary_large_image' },
+  },
+});
+```
