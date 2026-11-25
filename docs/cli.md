@@ -24,8 +24,9 @@ Generate boilerplate code following framework architectural patterns:
 | Command | Description | Output Location |
 | --- | --- | --- |
 | `bir make:controller <Name>` | Creates a controller class | `app/controllers/<Name>.ts` |
-| `bir make:model <Name>` | Creates an Active Record Model | `app/models/<Name>.ts` |
-| `bir make:component <Name> [-j]` | Creates a Blade component (with companion JS) | `views/components/<name>/` |
+| `bir make:model <Name>` | Creates an Active Record Model (`-m`, `-c`, `-r`, `-f`, `-s`, `--all`) | `app/models/<Name>.ts` |
+| `bir make:component <Name> [-j]` | Creates a Blade or TSX component | `views/components/` |
+| `bir make:view <Name> [--jsx]` | Creates a TSX or Blade view template | `views/` |
 | `bir make:provider <Name>` | Creates a Service Provider | `app/providers/<Name>.ts` |
 | `bir make:migration <Name>` | Creates a timestamped migration | `database/migrations/<timestamp>_<Name>.ts` |
 | `bir make:middleware <Name>` | Creates a custom middleware | `app/middleware/<Name>.ts` |
@@ -81,6 +82,18 @@ bir route:list
 
 # Start background queue processing worker
 bir queue:work
+
+# Inspect, retry, or flush failed background jobs
+bir queue:failed
+bir queue:retry all
+bir queue:flush
+
+# Put application into maintenance mode (503) or bring it back up
+bir down --message="Upgrading database" --retry=60
+bir up
+
+# Generate a secure APP_KEY in .env (used by Crypt & SignedUrl)
+bir key:generate
 
 # Start task scheduler daemon
 bir schedule:work

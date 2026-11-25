@@ -62,3 +62,21 @@ npx birframework queue:work
 ```
 
 The worker continuously polls the queue table, executes job `handle()` methods, and manages retry attempts with exponential backoff on failures.
+
+---
+
+## Failed Jobs & Retry Management
+
+When a job exceeds its maximum retry attempts (`tries`), it is automatically recorded in the `_failed_jobs` table instead of being discarded:
+
+```bash
+# List all failed jobs with timestamps and IDs
+npx bir queue:failed
+
+# Retry a specific failed job or all failed jobs
+npx bir queue:retry 42
+npx bir queue:retry all
+
+# Clear the failed jobs table
+npx bir queue:flush
+```

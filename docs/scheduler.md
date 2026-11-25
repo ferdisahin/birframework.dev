@@ -52,3 +52,17 @@ Start the scheduling daemon in your background process manager (PM2, Docker, or 
 ```bash
 npx birframework schedule:work
 ```
+
+---
+
+## Preventing Task Overlaps
+
+If a long-running task (such as daily invoice generation or database backups) takes longer than its schedule interval, chain `.withoutOverlapping()` to skip concurrent executions until the active run finishes:
+
+```ts
+Schedule.call(async () => {
+  await generateRenewalInvoices();
+})
+  .everyMinute()
+  .withoutOverlapping();
+```

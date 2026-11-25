@@ -260,29 +260,30 @@ describe('Application Feature Tests', () => {
 });</code></pre>
 
               <!-- JSX Server Components Code -->
-              <pre id="code-content-jsx" class="hidden"><code>import { Layout } from './layouts/Layout.js';
+              <pre id="code-content-jsx" class="hidden"><code>// HomeController.ts — zero relative path imports needed:
+// return ctx.render('Home', { title: 'BirJS', version: '0.5.23' });
 
-interface WelcomeProps {
+import { Layout } from '@/views/layouts/Layout';
+import { Csrf, ErrorMessage, Flash } from 'birframework/jsx';
+
+interface HomeProps {
   title: string;
   version: string;
-  user?: { name: string; email: string };
 }
 
-export default function Welcome({ title, version, user }: WelcomeProps) {
+export default function Home({ title, version }: HomeProps) {
   return (
     &lt;Layout title={title}&gt;
       &lt;main className="max-w-4xl mx-auto py-12 px-6"&gt;
-        &lt;div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs bg-zinc-900 border border-zinc-800 text-zinc-300"&gt;
-          &lt;span className="w-1.5 h-1.5 rounded-full bg-emerald-400"&gt;&lt;/span&gt;
-          &lt;span&gt;BirJS v{version} • JSX Engine&lt;/span&gt;
-        &lt;/div&gt;
-
+        &lt;Flash type="success" /&gt;
         &lt;h1 className="text-4xl font-bold tracking-tight text-white mt-4"&gt;
-          Type-Safe JSX Server Components
+          Type-Safe JSX Server Components (v{version})
         &lt;/h1&gt;
-        &lt;p className="text-zinc-400 mt-3 text-base"&gt;
-          Zero client bundle overhead. Pure server-rendered HTML with 100% TypeScript type safety.
-        &lt;/p&gt;
+        &lt;form method="POST" action="/subscribe" className="mt-6 space-y-3"&gt;
+          &lt;Csrf /&gt;
+          &lt;input type="email" name="email" className="px-3 py-2 rounded bg-zinc-900" /&gt;
+          &lt;ErrorMessage field="email" /&gt;
+        &lt;/form&gt;
       &lt;/main&gt;
     &lt;/Layout&gt;
   );

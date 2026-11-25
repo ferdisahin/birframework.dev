@@ -53,7 +53,7 @@
         <div class="text-zinc-500 mt-1">Average loopback latency</div>
       </div>
       <div>
-        <div class="text-2xl sm:text-3xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400">186 / 186</div>
+        <div class="text-2xl sm:text-3xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400">204 / 204</div>
         <div class="text-zinc-500 mt-1">Automated test suites pass</div>
       </div>
       <div>

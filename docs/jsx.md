@@ -192,16 +192,80 @@ import { raw } from 'birframework';
 
 ---
 
+## String-Based View Resolution (`ctx.render('Home', props)`)
+
+You do not need relative `../../views/...` imports in your controllers. `ctx.render()` automatically resolves `.tsx` and `.jsx` files inside your root `views/` directory:
+
+```ts
+// app/controllers/HomeController.ts
+import type { Context } from 'birframework';
+
+export class HomeController {
+  public async index(ctx: Context) {
+    // Resolves views/Home.tsx automatically
+    return ctx.render('Home', { title: 'Welcome to BirJS' });
+  }
+
+  public async admin(ctx: Context) {
+    // Dot-notation resolves views/admin/Dashboard.tsx
+    return ctx.render('admin.Dashboard', { stats: { users: 142 } });
+  }
+}
+```
+
+If you prefer explicit JSX tags (`<Home />`), use the `@/*` path alias from any folder depth:
+
+```tsx
+import Home from '@/views/Home'; // or '@/views/Home.tsx'
+return ctx.render(<Home title="Welcome" />);
+```
+
+---
+
+## Built-In Form & Flash Components
+
+Import ready-made form and session helpers from `birframework/jsx`. Thanks to request-scoped `AsyncLocalStorage`, they automatically read the active CSRF token and session flash messages without prop drilling:
+
+```tsx
+import { Csrf, Method, ErrorMessage, Flash } from 'birframework/jsx';
+
+export function ProfileForm() {
+  return (
+    <form method="POST" action="/profile">
+      <Csrf />
+      <Method method="PUT" />
+      <Flash type="success" />
+
+      <input type="email" name="email" />
+      <ErrorMessage field="email" />
+
+      <button type="submit">Save</button>
+    </form>
+  );
+}
+```
+
+---
+
 ## TSConfig Configuration
 
-When writing `.tsx` files, ensure your `tsconfig.json` contains:
+BirJS uses `Bundler` module resolution with `@/*` path aliases and `.tsx` extension imports enabled out of the box:
 
 ```json
 {
   "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "birframework"
+    "jsxImportSource": "birframework",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
   }
 }
 ```
-BirJS automatically exports `./jsx-runtime` to seamlessly integrate with TypeScript, esbuild, and Vite.
+BirJS automatically exports `./jsx-runtime` to seamlessly integrate with TypeScript, `tsx`, and Vite.

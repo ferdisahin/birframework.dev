@@ -139,3 +139,94 @@ BirJS automatically injects industry-standard security headers on all responses:
 * `X-Frame-Options: SAMEORIGIN`
 * `Referrer-Policy: strict-origin-when-cross-origin`
 * `X-XSS-Protection: 1; mode=block`
+
+---
+
+## Two-Way Encryption (`Crypt` — AES-256-GCM)
+
+Encrypt and decrypt sensitive credentials (such as API tokens, server passwords, or payment keys) using `APP_KEY` (generate one via `npx bir key:generate`):
+
+```ts
+import { Crypt } from 'birframework';
+
+// Encrypt strings or JSON objects
+const encrypted = Crypt.encrypt({ host: 'srv1.example.com', apiKey: 'secret_99' });
+
+// Decrypt back to the original object
+const credentials = Crypt.decrypt<{ host: string; apiKey: string }>(encrypted);
+```
+
+---
+
+## Signed URLs (`SignedUrl` & `signed()`)
+
+Generate tamper-proof, expiring URLs for invoice downloads, email verification, or password resets:
+
+```ts
+import { Route, SignedUrl, signed } from 'birframework';
+
+// Generate a URL valid for 30 minutes (1800 seconds)
+const downloadUrl = SignedUrl.sign('/invoices/1042/pdf', 1800);
+
+// Protect the route with the signed() middleware (returns 403 if tampered or expired)
+Route.get('/invoices/:id/pdf', (ctx) => {
+  return ctx.json({ invoiceId: ctx.params.id });
+}).middleware(signed());
+```
+
+---
+
+## Webhook Raw Body Access
+
+Verify HMAC signatures on Stripe, iyzico, or PayTR webhooks using the unparsed raw request payload:
+
+```ts
+import { createHmac } from 'node:crypto';
+import { Route } from 'birframework';
+
+Route.post('/webhooks/stripe', async (ctx) => {
+  const rawBuffer = await ctx.rawBody();
+  const signature = createHmac('sha256', process.env.STRIPE_WEBHOOK_SECRET!)
+    .update(rawBuffer)
+    .digest('hex');
+
+  return ctx.json({ verified: true, signature });
+});
+```
+
+---
+
+## Authorization (`Gate` & `can()` Middleware)
+
+Define role and resource-level authorization rules centrally:
+
+```ts
+import { Route, Gate, can } from 'birframework';
+
+Gate.before((user) => {
+  if (user?.role === 'superadmin') return true;
+});
+
+Gate.define('cancel-invoice', (user, invoice) => {
+  return user?.id === invoice.userId;
+});
+
+// Check inside a controller
+await Gate.authorize('cancel-invoice', user, invoice);
+
+// Or protect routes with middleware
+Route.delete('/admin/servers/:id', handler).middleware(can('manage-servers'));
+```
+
+---
+
+## Route Rate Limiting (`throttle`)
+
+Apply Laravel-style per-IP rate limiting directly to any route:
+
+```ts
+import { Route, throttle } from 'birframework';
+
+// Allow 60 requests per 1 minute
+Route.post('/api/checkout', handler).middleware(throttle(60, 1));
+```

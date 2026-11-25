@@ -169,3 +169,65 @@ console.log(paginatedUsers.total);        // Total count
 console.log(paginatedUsers.currentPage);  // 1
 console.log(paginatedUsers.data);         // Current page items
 ```
+
+---
+
+## Atomic Counters (`increment` & `decrement`)
+
+Update balances, stock counts, or retry counters atomically in SQL without race conditions:
+
+```ts
+await User.where('id', '=', userId).increment('credits', 50);
+await Product.where('id', '=', productId).decrement('stock', 1);
+```
+
+---
+
+## Idempotent Upserts (`firstOrCreate` & `updateOrCreate`)
+
+```ts
+// Find by email, or create with default balance if missing
+const account = await Account.firstOrCreate(
+  { email: 'customer@example.com' },
+  { balance: 0, plan: 'starter' }
+);
+
+// Update existing record or create a new one
+await Setting.updateOrCreate(
+  { key: 'billing.currency' },
+  { value: 'USD' }
+);
+```
+
+---
+
+## Chunking Large Datasets (`chunk`)
+
+Process thousands of invoices or orders in bounded memory batches:
+
+```ts
+await Invoice.where('status', '=', 'unpaid').chunk(100, async (invoices) => {
+  for (const invoice of invoices) {
+    await sendReminder(invoice);
+  }
+});
+```
+
+---
+
+## Many-to-Many Relationships (`belongsToMany`)
+
+Define pivot-table relationships with `attach()`, `detach()`, `sync()`, and `get()`:
+
+```ts
+export class User extends Model {
+  public roles() {
+    return this.belongsToMany(Role, 'role_user', 'user_id', 'role_id');
+  }
+}
+
+const user = await User.find(1);
+await user?.roles().attach([1, 2]);
+const roles = await user?.roles().get();
+await user?.roles().sync([2, 3]);
+```
