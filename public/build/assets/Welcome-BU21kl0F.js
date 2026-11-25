@@ -1,4 +1,4 @@
-import{c as e,i as t,n,t as r}from"./app-kQ6bhmic.js";import{t as i}from"./AppLayout-BeakaXVK.js";var a=[{id:`controller`,label:`Controller + Route`,file:`app/controllers/PostController.ts`,code:`import { Route, Context } from 'birframework';
+import{c as e,i as t,n,t as r}from"./app-0DlVDGVT.js";import{t as i}from"./AppLayout-DKnaKO88.js";var a=[{id:`controller`,label:`Controller + Route`,file:`app/controllers/PostController.ts`,code:`import { Route, Context } from 'birframework';
 import { Post } from '../models/Post.js';
 
 Route.get('/posts/:slug', async (ctx: Context) => {

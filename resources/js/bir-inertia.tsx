@@ -126,16 +126,19 @@ export function Link({
   preserveScroll,
   preserveState,
   className,
+  onClick: userOnClick,
   children,
   ...rest
 }: any) {
-  const onClick = (e: MouseEvent) => {
+  const handleClick = (e: MouseEvent) => {
+    userOnClick?.(e);
+    if (e.defaultPrevented) return;
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
     e.preventDefault();
     router.visit(href, { method, data, replace, preserveScroll, preserveState });
   };
   return (
-    <a href={href} onClick={onClick} className={className} {...rest}>
+    <a href={href} onClick={handleClick} className={className} {...rest}>
       {children}
     </a>
   );
