@@ -327,6 +327,7 @@ export async function createBirApp({
 
     return (
       <PageContext.Provider value={page}>
+        {rendered}
         {navigating && (
           <div
             id="bir-progress-bar"
@@ -341,7 +342,6 @@ export async function createBirApp({
             }}
           />
         )}
-        {rendered}
       </PageContext.Provider>
     );
   }
