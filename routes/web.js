@@ -1,4 +1,6 @@
 import { Route, VERSION } from 'birframework';
+import { readFileSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { HomeController } from '../app/controllers/HomeController.js';
 import { DocsController, DOCS_PAGES } from '../app/controllers/DocsController.js';
 
@@ -13,6 +15,31 @@ Route.get('/robots.txt', (ctx) => {
   ctx.res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
   ctx.res.end("User-agent: *\nAllow: /\n\nSitemap: https://birjs.com/sitemap.xml\n");
 }).name('robots');
+
+// AI Assistant & Machine-Readable Standards
+function serveRawText(ctx, filename) {
+  const possiblePaths = [
+    join(process.cwd(), 'public', filename),
+    join('/var/task/public', filename),
+  ];
+  for (const p of possiblePaths) {
+    if (existsSync(p)) {
+      ctx.res.writeHead(200, {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Cache-Control': 'public, max-age=3600',
+      });
+      ctx.res.end(readFileSync(p, 'utf-8'));
+      return;
+    }
+  }
+  ctx.res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+  ctx.res.end('Not found');
+}
+
+Route.get('/llms.txt', (ctx) => serveRawText(ctx, 'llms.txt')).name('llms.txt');
+Route.get('/llms-full.txt', (ctx) => serveRawText(ctx, 'llms-full.txt')).name('llms-full.txt');
+Route.get('/.cursorrules', (ctx) => serveRawText(ctx, '.cursorrules')).name('cursorrules');
+Route.get('/BIRFRAMEWORK_RULES.md', (ctx) => serveRawText(ctx, 'BIRFRAMEWORK_RULES.md')).name('bir.rules');
 
 // Dynamic Sitemap XML for SEO
 Route.get('/sitemap.xml', (ctx) => {

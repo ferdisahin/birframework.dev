@@ -1,4 +1,4 @@
-import{a as e,l as t,n,t as r}from"./app-ft_hf-j7.js";import{t as i}from"./AppLayout-DkegN7_8.js";var a=[{id:`routing`,label:`Routing`,file:`routes/web.ts`,code:`import { Route, Context } from 'birframework';
+import{a as e,l as t,n,t as r}from"./app-OexHuydV.js";import{t as i}from"./AppLayout-DTn6KsoU.js";var a=[{id:`routing`,label:`Routing`,file:`routes/web.ts`,code:`import { Route, Context } from 'birframework';
 import { PostController } from '../app/controllers/PostController.js';
 
 const posts = new PostController();

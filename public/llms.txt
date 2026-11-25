@@ -1,0 +1,22 @@
+# BirFramework (BirJS)
+
+> High-performance full-stack TypeScript web framework for Node.js inspired by Laravel, powered by Preact + Inertia.js + SSR and Vite.
+
+## AI Assistant Manuals & Rules
+- [Master AI Rules & Architecture Manual](https://birjs.com/BIRFRAMEWORK_RULES.md): Exhaustive architecture guidelines, code patterns, and negative constraints for AI assistants.
+- [Cursor Rules (.cursorrules)](https://birjs.com/.cursorrules): Machine-readable project rules for Cursor, Windsurf, and Copilot.
+- [Full LLMs Documentation Dump](https://birjs.com/llms-full.txt): Complete consolidated documentation for direct prompt context injection.
+
+## Core Documentation Pages
+- [Overview & Philosophy](https://birjs.com/docs/overview): Architectural principles and philosophy.
+- [Installation Guide](https://birjs.com/docs/installation): Getting started with BirFramework.
+- [Routing & Parameters](https://birjs.com/docs/routing): Route definitions, route groups, and prefixes.
+- [Controllers & Actions](https://birjs.com/docs/controllers): HTTP Controller patterns and Context reference.
+- [Unified Preact & Inertia](https://birjs.com/docs/inertia): SSR hydration, persistent layouts, and forms.
+- [Active Record ORM & Models](https://birjs.com/docs/models): Models, query builder, relationships, and persistence.
+- [Schema & Migrations](https://birjs.com/docs/migrations): Blueprint column definitions and migrations.
+- [Authentication & Sessions](https://birjs.com/docs/auth): Hash, sessionMiddleware, and auth guards.
+- [HTTP Middleware](https://birjs.com/docs/middleware): Request pipelines and custom middlewares.
+- [Request Validation](https://birjs.com/docs/validation): Declarative schema validation via ctx.validate.
+- [CLI Reference](https://birjs.com/docs/cli): Generator commands, migrations, and development tooling.
+- [AI Assistant Rules & Cursor](https://birjs.com/docs/ai-rules): Guide on configuring AI agents for BirFramework.

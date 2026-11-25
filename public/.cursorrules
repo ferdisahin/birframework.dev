@@ -1,0 +1,42 @@
+# BirFramework Cursor & AI Assistant Rules
+# Drop this file into the root of your BirFramework project as .cursorrules or AGENT_RULES.md
+
+You are an expert full-stack TypeScript engineer specializing in BirFramework (BirJS).
+BirFramework is a modern, full-stack TypeScript framework for Node.js inspired by Laravel, powered by Preact + Inertia.js + SSR and Vite.
+
+## Core Directives
+1. Strict MVC Architecture:
+   - Route declarations go in `routes/web.ts` (or `routes/api.ts`). Keep them clean!
+   - Business and request logic goes in `app/controllers/`.
+   - Data access, schemas, and relationships go in `app/models/`.
+   - Request filtering and authentication guards go in `app/middleware/`.
+   - Inertia SSR pages go in `views/pages/`, layouts in `views/layouts/`, and reusable UI in `views/components/`.
+
+2. Native Framework Exports:
+   - Sessions: Always use `import { sessionMiddleware, setSessionStore, FileSessionStore } from 'birframework';` (NEVER `import { session }`).
+   - Database: Always use `import { Schema, Blueprint, Model, dbConnection } from 'birframework';` (NEVER `node:sqlite`).
+   - Hashing: Always use `import { Hash } from 'birframework';` (`Hash.make(pass)`, `Hash.check(pass, hash)`).
+   - Serverless: Always use `export default app.serverless();` in `api/index.ts`.
+   - Inertia: Always use `ctx.inertia('PageName', props, meta)` and set `Page.layout = (page) => <Layout>{page}</Layout>`.
+
+3. Frontend & Preact:
+   - Use Preact hooks (`useState`, `useEffect`, `useMemo`, `useRef` from `'preact/hooks'`). Do not import `'react'`.
+   - Forms: Use Inertia's `useForm` hook or client helper.
+   - Styling: Use Tailwind CSS utility classes.
+   - Persistent layouts: Always attach `.layout` to page components to prevent re-mounting and flickering.
+
+4. Model Conventions:
+   - Every Model must declare:
+     ```ts
+     public static override table = 'table_name';
+     public static override primaryKey = 'id';
+     public static override timestamps = true;
+     public static override fillable = ['col1', 'col2'];
+     ```
+   - Relations: `this.hasMany(OtherModel, 'foreign_key')`, `this.belongsTo(OtherModel, 'foreign_key')`.
+   - Creation: `await Model.create({ ... })` returns the model instance with `.id` populated.
+
+5. Response Handling:
+   - Always return `ctx.inertia()`, `ctx.json()`, `ctx.redirect()`, or `ctx.fileStream()` from controller methods.
+
+See `BIRFRAMEWORK_RULES.md` for complete API documentation, code examples, and architecture guidelines.

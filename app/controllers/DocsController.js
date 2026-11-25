@@ -33,8 +33,9 @@ export const DOCS_PAGES = [
   { slug: 'logging', title: 'Structured Logging & Pail', category: 'Architecture & Jobs' },
   { slug: 'storage', title: 'File Storage', category: 'Architecture & Jobs' },
   { slug: 'cache', title: 'Cache System', category: 'Architecture & Jobs' },
-  { slug: 'testing', title: 'HTTP Testing & Runner', category: 'Tooling' },
-  { slug: 'cli', title: 'CLI Command Reference', category: 'Tooling' },
+  { slug: 'testing', title: 'HTTP Testing & Runner', category: 'Tooling & AI' },
+  { slug: 'cli', title: 'CLI Command Reference', category: 'Tooling & AI' },
+  { slug: 'ai-rules', title: 'AI Assistant Rules & Cursor', category: 'Tooling & AI' },
 ];
 
 export class DocsController {
