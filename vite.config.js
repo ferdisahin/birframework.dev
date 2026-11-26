@@ -1,12 +1,18 @@
-import { birVite } from 'birframework';
+import * as BirFramework from 'birframework';
 import { defineConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import preact from '@preact/preset-vite';
 
+const supportsPortDiscovery = typeof BirFramework.birVite === 'function';
+
 export default defineConfig(({ command }) => ({
   base: command === 'build' ? '/build/' : '/',
   publicDir: false,
-  plugins: [birVite(), tailwindcss(), preact()],
+  plugins: [
+    ...(supportsPortDiscovery ? [BirFramework.birVite()] : []),
+    tailwindcss(),
+    preact(),
+  ],
   build: {
     outDir: 'public/build',
     emptyOutDir: true,
@@ -17,7 +23,9 @@ export default defineConfig(({ command }) => ({
   },
   server: {
     port: 5173,
-    strictPort: false,
+    // Older framework releases require the fixed asset port.
+    strictPort: !supportsPortDiscovery,
+    ...(supportsPortDiscovery ? {} : { origin: 'http://localhost:5173' }),
     cors: true,
   },
 }));
