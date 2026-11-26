@@ -7,17 +7,16 @@ export function Navbar({ version }: { version?: string }) {
   const currentUrl = page?.url || '/';
 
   useEffect(() => {
-    const saved = localStorage.getItem('bir-theme');
-    const isDark = saved ? saved === 'dark' : true;
-    setDark(isDark);
-    document.documentElement.classList.toggle('dark', isDark);
+    setDark(document.documentElement.classList.contains('dark'));
   }, []);
 
   const toggleTheme = () => {
     const next = !dark;
     setDark(next);
     document.documentElement.classList.toggle('dark', next);
-    localStorage.setItem('bir-theme', next ? 'dark' : 'light');
+    document.documentElement.style.colorScheme = next ? 'dark' : 'light';
+    document.documentElement.style.backgroundColor = next ? '#07080a' : '#fafafa';
+    try { localStorage.setItem('bir-theme', next ? 'dark' : 'light'); } catch {}
   };
 
   const navLinkClass = (active: boolean) =>

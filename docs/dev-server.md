@@ -14,7 +14,7 @@ npm run dev
 npx bir dev
 ```
 
-BirJS boots four dedicated background processes using high-contrast terminal colors:
+The generated Inertia profile boots four dedicated background processes using high-contrast terminal colors:
 
 ```text
 [server] > npx tsx watch app.ts
@@ -28,7 +28,7 @@ BirJS boots four dedicated background processes using high-contrast terminal col
 | Service | Color | Command | Purpose |
 | :--- | :--- | :--- | :--- |
 | **`server`** | `#00f5d4` (Teal) | `npx tsx watch app.ts` | The core HTTP server with Hot Reload on code changes. |
-| **`queue`** | `#7209b7` (Purple) | `npx bir queue:work` | Consumes async background jobs and scheduled tasks. |
+| **`queue`** | `#7209b7` (Purple) | `npx bir queue:work` | Consumes asynchronous background jobs. Run scheduled tasks with `bir schedule:work`. |
 | **`logs`** | `#f72585` (Pink) | `npx bir pail` | Real-time structured log streaming with ANSI category badges. |
 | **`vite`** | `#ffb703` (Amber) | `vite` | Vite dev server compiling client CSS, TypeScript, and Preact + Inertia `.tsx` pages. |
 
@@ -36,7 +36,7 @@ BirJS boots four dedicated background processes using high-contrast terminal col
 
 ## Automatic Port Switching
 
-If your primary application port (`3000`) or Vite port (`5173`) is already being used by another application (e.g., Next.js, Docker, or another local project), BirJS intercepts the `EADDRINUSE` system error and automatically increments to the next available port:
+The HTTP server retries the next port when its requested port is occupied. Vite handles its own port fallback when strictPort is false. Register birVite() so rendered asset URLs follow the port selected by Vite.
 
 ```text
 ➜ Port 3000 is in use, trying 3001 instead...
@@ -50,7 +50,7 @@ You never need to manually hunt down and kill PID processes just to run your app
 
 ## Tailwind CSS v4 Integration
 
-BirJS fully supports Tailwind CSS v4. Because BirJS views (`.tsx` Inertia pages and `.html` Blade templates) live under `views/`, the stylesheet uses `@source` scanning directives.
+BirJS fully supports Tailwind CSS v4. Because BirJS views (`.tsx` / `.jsx` pages and components) live under `views/`, the stylesheet uses `@source` scanning directives.
 
 In `resources/css/app.css`:
 
@@ -71,10 +71,12 @@ When editing server-side templates or views, standard frontend bundlers typicall
 
 ```js
 import { defineConfig } from 'vite';
+import { birVite } from 'birframework';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   plugins: [
+    birVite(),
     tailwindcss(),
     {
       name: 'bir-watch-views',
@@ -89,10 +91,23 @@ export default defineConfig({
     },
   ],
   server: {
-    origin: 'http://localhost:5173',
     cors: true,
   },
 });
 ```
 
 Whenever you modify any file inside `views/` or `app/`, the browser automatically performs a full-reload with the latest rendered markup and compiled Tailwind utility styles.
+
+
+## Vite port discovery
+
+Register `birVite()` from `birframework` in your Vite plugins. The plugin writes the actual development server address to `storage/framework/vite.json`. Both Inertia and server-rendered Vite tags read this address, including when port 5173 is occupied and Vite selects another port.
+
+```js
+import { birVite } from 'birframework';
+
+// In your existing Vite configuration:
+// plugins: [birVite(), ...otherPlugins]
+```
+
+Allow port fallback with `strictPort: false` and omit a fixed `server.origin`. An explicit `VITE_DEV_SERVER_URL` overrides discovery, which is useful behind a development proxy. Production continues to use the build manifest.

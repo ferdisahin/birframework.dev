@@ -18,15 +18,15 @@ This creates a timestamped migration file in `database/migrations/`:
 // database/migrations/2026_11_23_000001_create_posts_table.ts
 import { Schema, Blueprint } from 'birframework';
 
-export class CreatePostsTable {
+export default class CreatePostsTable {
   public async up() {
     await Schema.create('posts', (table: Blueprint) => {
       table.id();
       table.string('title');
       table.string('slug').unique();
       table.text('content');
-      table.integer('user_id').references('id').on('users');
-      table.boolean('published').defaultTo(false);
+      table.integer('user_id');
+      table.boolean('published').default(false);
       table.timestamps();
     });
   }

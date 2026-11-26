@@ -20,7 +20,7 @@ Log.warning('Rate limit threshold approached', { ip: '192.168.1.1', attempts: 55
 // Critical errors and exceptions
 Log.error('Payment gateway connection failed', { gateway: 'stripe', error: err.message });
 
-// Debug details (muted in production)
+// Debug details
 Log.debug('Cache query miss', { key: 'users:profile:42' });
 ```
 
@@ -43,7 +43,7 @@ BirJS implements standard RFC 5424 log severity levels:
 
 ---
 
-## Log Storage & File Rotation
+## Log Storage
 
 By default, all log entries are appended asynchronously to:
 

@@ -1,81 +1,47 @@
 # Task Scheduler
 
-BirJS includes a built-in fluent task scheduling engine, eliminating the need to configure multiple server-level OS cron entries.
+Register tasks and start the scheduler in the same process. The CLI schedule:work and schedule:run commands do not automatically import your application's schedule definitions.
 
----
-
-## Defining Schedules
-
-Register scheduled tasks in `app/console/Kernel.ts` or during application bootstrap:
+## Application entry point
 
 ```ts
-// app/console/Kernel.ts
+// app/console/scheduler.ts
 import { Schedule } from 'birframework';
-import { BackupDatabaseJob } from '../jobs/BackupDatabaseJob.ts';
 
-export function registerSchedule() {
-  // Execute closure every minute
-  Schedule.call(() => {
-    console.log('[Schedule] Running minute check...');
-  }).everyMinute();
+Schedule.call(async () => {
+  console.log('Scheduled check');
+}, 'Scheduled check').everyMinute();
 
-  // Execute daily at midnight
-  Schedule.call(async () => {
-    await cleanOldSessions();
-  }).daily();
-
-  // Execute job every Monday at 08:00
-  Schedule.job(new BackupDatabaseJob()).weeklyOn(1, '08:00');
-}
+await Schedule.work();
 ```
-
----
-
-## Frequency Options
-
-| Method | Schedule Interval |
-| --- | --- |
-| `everyMinute()` | Runs every 60 seconds |
-| `everyFiveMinutes()` | Runs every 5 minutes |
-| `hourly()` | Runs at the start of every hour |
-| `daily()` | Runs every day at 00:00 |
-| `dailyAt('14:30')` | Runs every day at specified time |
-| `weekly()` | Runs once a week on Sunday at 00:00 |
-| `monthly()` | Runs on the first day of every month |
-
----
-
-## Running the Scheduler
-
-Start the scheduling daemon in your background process manager (PM2, Docker, or systemd):
 
 ```bash
-npx birframework schedule:work
+node --import tsx app/console/scheduler.ts
 ```
 
----
+Use `Schedule.work({ once: true })` to run due tasks once. In a JavaScript project omit the tsx loader and use a .js file.
 
-## Preventing Task Overlaps
+## Frequencies
 
-If a long-running task (such as daily invoice generation or database backups) takes longer than its schedule interval, chain `.withoutOverlapping()` to skip concurrent executions until the active run finishes:
+Supported helpers are everySecond(), everyMinute(), everyFiveMinutes(), everyTenMinutes(), everyThirtyMinutes(), hourly(), daily(), and dailyAt('14:30'). Interval helpers measure elapsed time since the previous execution. dailyAt checks the local process time.
+
+## Queue jobs
+
+```ts
+import { Schedule } from 'birframework';
+import { BackupJob } from '../jobs/BackupJob.js';
+
+Schedule.job(new BackupJob()).dailyAt('02:00');
+```
+
+Schedule.job dispatches to the queue. Register the class in app/jobs/index.ts and run a queue worker to execute it.
+
+## Prevent overlap
 
 ```ts
 Schedule.call(async () => {
-  await generateRenewalInvoices();
-})
-  .everyMinute()
-  .withoutOverlapping();
+  await synchronizeCatalog();
+}, 'Synchronize catalog').everyFiveMinutes().withoutOverlapping(3600);
 ```
 
-
-## Cross-Process Locking (`withoutOverlapping`)
-
-`withoutOverlapping(ttlSeconds = 3600, lockDir?)` uses atomic exclusive lock files (`storage/framework/locks/schedule-<sha1>.lock`) so multiple worker processes never execute the same scheduled task concurrently:
-
-```ts
-Schedule.call(() => syncPrices(), 'Sync TLD prices')
-  .hourly()
-  .withoutOverlapping(3600);
-```
-
-Stale locks older than `ttlSeconds` are automatically cleaned up.
+withoutOverlapping uses exclusive files under storage/framework/locks. Processes coordinate only when sharing the lock directory. A task exceeding the lock TTL can overlap a later execution. Keep descriptions stable and distinct for tasks that need independent locks.

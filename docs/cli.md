@@ -25,8 +25,8 @@ Generate boilerplate code following framework architectural patterns:
 | --- | --- | --- |
 | `bir make:controller <Name>` | Creates a controller class | `app/controllers/<Name>.ts` |
 | `bir make:model <Name>` | Creates an Active Record Model (`-m`, `-c`, `-r`, `-f`, `-s`, `--all`) | `app/models/<Name>.ts` |
-| `bir make:component <Name> [-j]` | Creates a Blade or TSX component | `views/components/` |
-| `bir make:view <Name> [--jsx]` | Creates a TSX or Blade view template | `views/` |
+| `bir make:component <Name>` | Creates a Preact TSX/JSX component | `views/components/` |
+| `bir make:view <Name>` | Creates a Preact TSX/JSX view | `views/pages/` for Inertia, otherwise `views/` |
 | `bir make:provider <Name>` | Creates a Service Provider | `app/providers/<Name>.ts` |
 | `bir make:migration <Name>` | Creates a timestamped migration | `database/migrations/<timestamp>_<Name>.ts` |
 | `bir make:middleware <Name>` | Creates a custom middleware | `app/middleware/<Name>.ts` |
@@ -96,7 +96,7 @@ bir up
 # Generate a secure APP_KEY in .env (used by Crypt & SignedUrl)
 bir key:generate
 
-# Start task scheduler daemon
+# Start scheduler daemon (tasks must already be registered in that process)
 bir schedule:work
 
 # Scaffold authentication controllers and views

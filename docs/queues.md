@@ -25,10 +25,8 @@ export class SendWelcomeEmailJob extends Job {
   }
 
   public async handle() {
-    await Mail.to(this.user.email).send({
-      subject: `Welcome to BirJS, ${this.user.name}!`,
-      view: 'emails/welcome',
-      data: { user: this.user },
+    await Mail.to(this.user.email).raw('<p>Welcome to BirJS.</p>', {
+      subject: 'Welcome to BirJS',
     });
   }
 }
@@ -41,14 +39,14 @@ export class SendWelcomeEmailJob extends Job {
 Dispatch jobs from your controllers or services:
 
 ```ts
-import { Queue } from 'birframework';
+import { dispatch } from 'birframework';
 import { SendWelcomeEmailJob } from '../jobs/SendWelcomeEmailJob.ts';
 
 // Dispatch immediately to default queue
-await Queue.dispatch(new SendWelcomeEmailJob(user));
+await dispatch(new SendWelcomeEmailJob(user));
 
 // Dispatch with delay
-await Queue.later(60 * 1000, new SendWelcomeEmailJob(user));
+await dispatch(new SendWelcomeEmailJob(user).delay(60));
 ```
 
 ---
@@ -61,7 +59,7 @@ Start processing queued jobs in the background:
 npx birframework queue:work
 ```
 
-The worker continuously polls the queue table, executes job `handle()` methods, and manages retry attempts with exponential backoff on failures.
+The worker continuously polls the queue table, executes job `handle()` methods, and manages retry attempts with retries on failures.
 
 ---
 
@@ -80,3 +78,16 @@ npx bir queue:retry all
 # Clear the failed jobs table
 npx bir queue:flush
 ```
+
+## Register jobs in the worker process
+
+Create `app/jobs/index.ts` (or `.js`) and register each job class. The CLI worker imports this file before processing persisted jobs.
+
+```ts
+import { Queue } from 'birframework';
+import { SendWelcomeEmailJob } from './SendWelcomeEmailJob.js';
+
+Queue.register(SendWelcomeEmailJob);
+```
+
+Job properties are persisted as JSON. Use serializable values and resolve database records inside `handle()` when fresh data is needed. Delay values are seconds.

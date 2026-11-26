@@ -6,32 +6,22 @@ BirJS includes a unified database connection layer supporting SQLite, PostgreSQL
 
 ## Configuration
 
-Configure your database drivers in `config/database.ts`:
+The default connection reads environment variables directly.
 
-```ts
-import { env } from 'birframework';
-
-export default {
-  default: env('DB_CONNECTION', 'sqlite'),
-
-  connections: {
-    sqlite: {
-      driver: 'sqlite',
-      database: env('DB_DATABASE', 'storage/database.sqlite'),
-    },
-    postgres: {
-      driver: 'postgres',
-      host: env('DB_HOST', '127.0.0.1'),
-      port: env('DB_PORT', 5432),
-      database: env('DB_DATABASE', 'my_app'),
-      username: env('DB_USERNAME', 'postgres'),
-      password: env('DB_PASSWORD', ''),
-    },
-  },
-};
+```ini
+DB_CONNECTION=sqlite
+DB_DATABASE=storage/database.sqlite
 ```
 
----
+For PostgreSQL use `DB_CONNECTION=postgres`, port 5432 and install `pg`. For MySQL use `DB_CONNECTION=mysql`, port 3306 and install `mysql2`. Both read `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD`, or `DATABASE_URL`.
+
+```bash
+npm install pg
+# For MySQL instead:
+# npm install mysql2
+```
+
+An explicit connection uses `new DatabaseConnection({ driver, host, port, database, user, password })`. The option is `user`, while the environment variable is `DB_USERNAME`.
 
 ## Zero-Dependency SQLite
 
@@ -47,7 +37,7 @@ Execute raw parameterized SQL queries or use the fluent query builder:
 import { DB } from 'birframework';
 
 // Raw parameterized query
-const activeUsers = await DB.select(
+const activeUsers = await DB.raw(
   'SELECT * FROM users WHERE status = ? AND age >= ?',
   ['active', 21]
 );
@@ -70,8 +60,8 @@ await DB.transaction(async () => {
 For concurrent-safe balance, inventory, or invoice updates on PostgreSQL and MySQL, chain `.forUpdate()` inside a transaction:
 
 ```ts
-await db.transaction(async () => {
-  const wallet = await db.table('wallets')
+await DB.transaction(async () => {
+  const wallet = await DB.table('wallets')
     .where('user_id', userId)
     .forUpdate()
     .first();

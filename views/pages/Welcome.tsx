@@ -12,7 +12,7 @@ import { PostController } from '../app/controllers/PostController.js';
 
 const posts = new PostController();
 
-Route.get('/', (ctx: Context) => ctx.inertia('Welcome', { version: '0.5.27' }));
+Route.get('/', (ctx: Context) => ctx.inertia('Welcome', { version: '0.5.29' }));
 
 Route.group({ prefix: '/api', middleware: ['auth:api'] }, () => {
   Route.get('/posts', (ctx) => posts.index(ctx));
@@ -153,7 +153,7 @@ const CLI_DEMOS = [
     cmd: 'npx birframework new my-app',
     label: 'Scaffold',
     output: [
-      'BirJS Project Wizard v0.5.27',
+      'BirJS Project Wizard v0.5.29',
       '  ✔ Created routes/web.ts, app.ts, vite.config.js',
       '  ✔ Configured Preact + Inertia + Tailwind v4',
       '  ✔ Generated vercel.json and api/index.js',
@@ -274,7 +274,7 @@ export default function Welcome({ version, nodeVersion }: { version: string; nod
                     <div class="text-xs font-bold">BirJS HTTP Core</div>
                     <div class="text-[11px] font-mono opacity-75 mt-0.5">Router · Middleware · Brotli · Sessions · Auth</div>
                   </div>
-                  <span class="text-[11px] font-mono font-semibold tabular-nums">5,352 req/s</span>
+                  <span class="text-[11px] font-mono font-semibold tabular-nums">Server-rendered</span>
                 </div>
 
                 <div class="flex justify-center">
@@ -302,8 +302,8 @@ export default function Welcome({ version, nodeVersion }: { version: string; nod
         <div class="max-w-7xl mx-auto border-x border-zinc-200/80 dark:border-zinc-800/80 grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-zinc-200/80 dark:divide-zinc-800/80 text-xs">
           <div class="p-6">
             <div class="text-zinc-500">HTTP Throughput</div>
-            <div class="mt-1.5 text-lg font-bold font-mono text-zinc-950 dark:text-white tabular-nums">5,352 req/s</div>
-            <div class="mt-0.5 text-[11px] text-zinc-500">4.28 ms avg SSR latency</div>
+            <div class="mt-1.5 text-lg font-bold font-mono text-zinc-950 dark:text-white tabular-nums">Server-rendered</div>
+            <div class="mt-0.5 text-[11px] text-zinc-500">HTML on the initial request</div>
           </div>
           <div class="p-6">
             <div class="text-zinc-500">Frontend Stack</div>
@@ -542,47 +542,20 @@ export default function Welcome({ version, nodeVersion }: { version: string; nod
           <div class="p-6 lg:p-10">
             <div class="flex items-baseline justify-between gap-4">
               <h2 class="text-xl font-bold text-zinc-950 dark:text-white">
-                Measured SSR Benchmarks
+                Measure your application
               </h2>
               <Link href="/docs/benchmarks" class="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline">
                 Methodology
               </Link>
             </div>
             <p class="mt-2 text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-              Tested on the identical 1,800+ TLD comparison app with 25 concurrent connections.
+              Build for production and measure your actual routes, data, and deployment environment.
             </p>
 
-            <div class="mt-6 space-y-5">
-              <div>
-                <div class="flex justify-between text-xs mb-1.5">
-                  <span class="font-semibold text-zinc-950 dark:text-white">BirJS (Preact + Inertia + SSR)</span>
-                  <span class="font-mono font-bold text-zinc-950 dark:text-white tabular-nums">5,352 req/s · 4.28 ms</span>
-                </div>
-                <div class="h-2.5 w-full bg-zinc-100 dark:bg-zinc-800 rounded overflow-hidden">
-                  <div class="h-full w-full bg-zinc-950 dark:bg-white" />
-                </div>
-              </div>
-
-              <div>
-                <div class="flex justify-between text-xs mb-1.5">
-                  <span class="text-zinc-600 dark:text-zinc-400">Next.js (App Router SSR)</span>
-                  <span class="font-mono text-zinc-500 tabular-nums">1,790 req/s</span>
-                </div>
-                <div class="h-2.5 w-full bg-zinc-100 dark:bg-zinc-800 rounded overflow-hidden">
-                  <div class="h-full w-[33%] bg-zinc-400 dark:bg-zinc-600" />
-                </div>
-              </div>
-
-              <div class="pt-4 border-t border-zinc-200 dark:border-zinc-800 grid grid-cols-2 gap-4 text-xs">
-                <div>
-                  <div class="text-zinc-500">JSON API (/api/prices)</div>
-                  <div class="mt-1 font-mono font-bold text-zinc-950 dark:text-white tabular-nums">582 req/s</div>
-                </div>
-                <div>
-                  <div class="text-zinc-500">Vite Client Build</div>
-                  <div class="mt-1 font-mono font-bold text-zinc-950 dark:text-white tabular-nums">~50–460 ms</div>
-                </div>
-              </div>
+            <div class="mt-6 space-y-5 text-sm leading-7 text-zinc-600 dark:text-zinc-400">
+              <p>Measure rendered pages and JSON endpoints separately. Include database queries and authentication when they are part of your workload.</p>
+              <p>Record runtime versions, response size, throughput, latency percentiles, and errors with each result.</p>
+              <code class="block overflow-x-auto rounded border border-zinc-200 dark:border-zinc-800 p-4 text-xs">npx autocannon -c 10 -d 30 http://localhost:3000/</code>
             </div>
           </div>
         </div>

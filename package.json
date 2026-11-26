@@ -3,18 +3,19 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently -n \"vite,server\" -c \"cyan,green\" \"vite\" \"node --watch app.js\"",
-    "dev:server": "node --watch app.js",
+    "dev": "concurrently -n \"vite,server\" -c \"cyan,green\" \"npm:dev:vite\" \"npm:dev:server\"",
+    "dev:server": "node --import tsx --watch app.js",
     "dev:vite": "vite",
     "build": "vite build",
-    "start": "node app.js"
+    "start": "node --import tsx app.js"
   },
   "dependencies": {
     "@preact/preset-vite": "^2.10.6",
-    "birframework": "^0.5.27",
+    "birframework": "^0.5.29",
     "marked": "^18.3.0",
-    "preact": "^11.2.0",
-    "preact-render-to-string": "^6.8.3"
+    "preact": "^10.25.0",
+    "preact-render-to-string": "^6.8.3",
+    "tsx": "^4.23.15"
   },
   "engines": {
     "node": ">=22.0.0"

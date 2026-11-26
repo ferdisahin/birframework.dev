@@ -1,68 +1,34 @@
-# Configuration & Environment
+# Configuration and Environment
 
-BirJS provides centralized configuration management and native `.env` parsing out of the box.
-
----
-
-## Environment Variables (`.env`)
-
-At the root of your application, the `.env` file defines your environment-specific settings:
+BirJS loads a root `.env` file on framework import. Existing process environment values take precedence. Environment values are strings, so convert numbers and booleans explicitly.
 
 ```ini
-APP_NAME=BirJS
-APP_ENV=development
-APP_KEY=base64:randomGeneratedSecurityKey32Chars
-APP_DEBUG=true
-APP_URL=http://localhost:3000
-
+NODE_ENV=development
+PORT=3000
 DB_CONNECTION=sqlite
 DB_DATABASE=storage/database.sqlite
-
-SESSION_DRIVER=cookie
-QUEUE_CONNECTION=database
-CACHE_DRIVER=memory
+CACHE_STORE=memory
 ```
 
----
+Generate a private application key with `npx bir key:generate`.
 
-## Reading Environment Values
-
-BirJS provides an `env()` helper that reads from `process.env` with type casting and fallback defaults:
+## Reading values
 
 ```ts
-import { env } from 'birframework';
-
-const appName = env('APP_NAME', 'BirJS');
-const port = env('PORT', 3000);
-const isDebug = env('APP_DEBUG', false);
+const port = Number(process.env.PORT) || 3000;
+const debug = process.env.APP_DEBUG === 'true';
+const name = process.env.APP_NAME || 'My App';
 ```
 
----
+## Application configuration
 
-## Centralized Config Files
-
-Configuration files reside in the `config/` directory. Each file exports configuration options that can be accessed anywhere in your application:
+`Config` provides a process-local configuration store. Import your configuration files explicitly and register their values during bootstrap. The database driver reads DB_* environment variables directly.
 
 ```ts
-// config/database.ts
-import { env } from 'birframework';
+import { Config, config } from 'birframework';
 
-export default {
-  default: env('DB_CONNECTION', 'sqlite'),
-
-  connections: {
-    sqlite: {
-      driver: 'sqlite',
-      database: env('DB_DATABASE', 'storage/database.sqlite'),
-    },
-    postgres: {
-      driver: 'postgres',
-      host: env('DB_HOST', '127.0.0.1'),
-      port: env('DB_PORT', 5432),
-      database: env('DB_DATABASE', 'app'),
-      username: env('DB_USERNAME', 'postgres'),
-      password: env('DB_PASSWORD', ''),
-    },
-  },
-};
+Config.set('app.name', process.env.APP_NAME || 'My App');
+const name = config<string>('app.name');
 ```
+
+Application registers default memory sessions and security headers. Configure persistent sessions and additional middleware explicitly. An environment variable alone does not install middleware. Vite can discover its listening address using `birVite()`. See [Development server](/docs/dev-server).

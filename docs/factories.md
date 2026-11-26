@@ -37,10 +37,7 @@ The `Faker` generator provides common fake data generators with zero external de
 
 ```typescript
 faker.name()               // "Jane Miller"
-faker.firstName()          // "Alex"
-faker.lastName()           // "Taylor"
 faker.email('example.com') // "jane.miller84@example.com"
-faker.username()           // "alex_dev_92"
 faker.number(10, 100)      // 42
 faker.boolean()            // true / false
 faker.uuid()               // "a3f5c1d2e8b4..."
@@ -105,13 +102,11 @@ export const UserFactory = Factory.define(User, (faker) => ({
   email: faker.email(),
   role: 'member',
   email_verified: true,
-}))
-  .state('admin', { role: 'admin' })
-  .state('unverified', { email_verified: false });
+}));
 
 // Usage:
-const admin = await UserFactory.state('admin').create();
-const unverifiedUsers = await UserFactory.state('unverified').count(5).create();
+const admin = await UserFactory.state({ role: 'admin' }).create();
+const unverifiedUsers = await UserFactory.state({ email_verified: false }).count(5).create();
 ```
 
 ---

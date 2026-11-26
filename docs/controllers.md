@@ -34,7 +34,7 @@ export class UserController {
   public async show(ctx: Context) {
     const user = await User.find(ctx.params.id);
     if (!user) {
-      return ctx.notFound('User not found');
+      return ctx.json({ error: 'User not found' }, 404);
     }
     return ctx.json(user);
   }
@@ -43,13 +43,13 @@ export class UserController {
    * Store a newly created user in storage.
    */
   public async store(ctx: Context) {
-    const validated = ctx.validate({
+    const validated = await ctx.validate({
       name: 'required|min:3',
       email: 'required|email|unique:users,email',
     });
 
     const user = await User.create(validated);
-    return ctx.created(user);
+    return ctx.json(user, 201);
   }
 }
 ```
@@ -80,8 +80,8 @@ The `Context` object passed to controller actions contains rich utility methods:
 
 - `ctx.params`: Route parameters (`/users/:id` -> `ctx.params.id`)
 - `ctx.query`: URL query string parameters (`?page=2` -> `ctx.query.page`)
-- `ctx.body`: Parsed request payload (JSON or Form URL-encoded)
+- `await ctx.body()`: Parsed request payload (JSON or Form URL-encoded)
 - `ctx.json(data, status?)`: Return JSON response
-- `ctx.render(view, data?)`: Render Blade HTML template
+- `ctx.render(view, data?)`: Render a named Preact TSX/JSX view
 - `ctx.redirect(url, status?)`: HTTP redirect
-- `ctx.session`: Session store (get, set, flash)
+- `ctx.session`: Optional session store, available after sessionMiddleware() (get, set, flash)

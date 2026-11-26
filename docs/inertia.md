@@ -7,9 +7,9 @@ BirJS combines Laravel-style server routing and controllers with a single unifie
 ## How It Works
 
 1. **First Page Load (SEO + Zero Flicker):**
-   When a user or search engine visits `/`, `ctx.inertia('Welcome', props)` renders `views/pages/Welcome.tsx` on the server via `preact-render-to-string`, embeds the serialized props in `<div id="app" data-page="...">`, and Preact (`3 KB`) hydrates it seamlessly in the browser.
+   When a user or search engine visits `/`, `ctx.inertia('Welcome', props)` renders `views/pages/Welcome.tsx` on the server via `preact-render-to-string`, embeds the serialized props in `<div id="app" data-page="...">`, and Preact hydrates it in the browser.
 2. **SPA Transitions (`<Link>` & `router`):**
-   Clicking `<Link href="/invoices">` sends a lightweight fetch with `X-Bir-Inertia: true`. BirJS returns only `{ component, props, url }` as JSON, swapping the active page without a full page reload — keeping persistent layouts, modals, or chat widgets alive.
+   Clicking `<Link href="/invoices">` sends a lightweight fetch with `X-Bir-Inertia: true`. BirJS returns only `{ component, props, url }` as JSON, swapping the active page without a full page reload — preserving shared UI when implemented through persistent layouts.
 
 ---
 
@@ -18,7 +18,7 @@ BirJS combines Laravel-style server routing and controllers with a single unifie
 ```ts
 // app/controllers/InvoiceController.ts
 import type { Context } from 'birframework';
-import { Invoice } from '@/app/models/Invoice';
+import { Invoice } from '../models/Invoice.js';
 
 export class InvoiceController {
   public async index(ctx: Context) {
@@ -36,7 +36,7 @@ export class InvoiceController {
 ```tsx
 // views/pages/Invoices/Index.tsx
 import { useState } from 'preact/hooks';
-import { Link, router, usePage } from '@/resources/js/bir-inertia';
+import { Link, router, usePage } from '../../../../resources/js/bir-inertia';
 
 export default function Index({ invoices }: { invoices: any[] }) {
   const { props } = usePage<{ flash?: { success?: string } }>();
@@ -118,8 +118,9 @@ Dashboard.layout = (page) => <AppLayout>{page}</AppLayout>;
 Use `useForm` to manage form state, loading states, automatic `FormData` file serialization, and 422 validation errors:
 
 ```tsx
-import { useForm } from '../resources/js/bir-inertia';
+import { useForm } from '../../resources/js/bir-inertia';
 
+function UploadForm() {
 const { data, setData, post, processing, errors, wasSuccessful } = useForm({
   title: '',
   cover: null as File | null,
@@ -129,6 +130,11 @@ const submit = (e: Event) => {
   e.preventDefault();
   post('/tracks', { preserveScroll: true });
 };
+return <form onSubmit={submit}>
+  <input value={data.title} onInput={(e) => setData('title', e.currentTarget.value)} />
+  <button disabled={processing}>Save</button>
+</form>;
+}
 ```
 
 ## Scroll Preservation, `<Head>`, & Navigation State

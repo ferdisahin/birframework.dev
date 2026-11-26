@@ -8,7 +8,7 @@ Get up and running with BirJS in seconds using the official interactive CLI scaf
 
 Before creating your first project, ensure your environment satisfies the following prerequisites:
 
-- **Node.js**: `v20.0.0` or higher (recommended: Node.js 22 LTS with native `node:sqlite`)
+- **Node.js**: `v22.5.0` or higher
 - **NPM**: `v9.0.0` or higher, or `pnpm` / `yarn`
 - **Operating System**: macOS, Linux, or Windows (WSL recommended)
 
@@ -24,16 +24,16 @@ npx birframework new my-bir-app
 
 The interactive installer displays the recommended modern stack (**TypeScript (.ts/.tsx) + Tailwind CSS v4 + Unified Preact & Inertia + Vite**):
 - Press **Enter** to install immediately with the recommended defaults.
-- Or type **`c`** to customize Language (`TypeScript` / `JavaScript`), Styling (`Tailwind` / `Pure CSS`), or Bundler (`Vite` / `None`).
+- Or type **`c`** to customize Language (`TypeScript` / `JavaScript`), Styling (`Tailwind` / `Pure CSS`), or rendering profile (`Inertia` / `Server-rendered`).
 
 Alternatively, pass flags directly for headless CI/CD automation:
 
 ```bash
 # Default full-stack TypeScript + Tailwind v4 + Preact + Inertia + Vite
-npx birframework new my-app --ts --tailwind --jsx
+npx birframework new my-app --ts --tailwind --inertia
 
 # Minimal MPA without Vite
-npx birframework new my-app --ts --css
+npx birframework new my-app --ts --css --server-rendered
 ```
 
 ---
@@ -60,7 +60,7 @@ The application will start on `http://localhost:3000`.
 | --- | --- | --- |
 | `npm run dev` | `concurrently ...` | Boots the 4-service dev suite (`server`, `queue`, `logs`, `vite`) |
 | `npm run dev:server` | `npx tsx watch app.ts` | Runs the core HTTP server with Hot Reload and auto port increment |
-| `npm run dev:queue` | `npx bir queue:work` | Consumes async jobs and dispatches scheduled tasks |
+| `npm run dev:queue` | `npx bir queue:work` | Consumes asynchronous jobs (run scheduling separately with `bir schedule:work`) |
 | `npm run dev:logs` | `npx bir pail` | Streams real-time colorized logs directly in your terminal |
 | `npm run dev:vite` | `vite` | Starts Vite HMR and auto-reload watcher for views and templates |
 | `npm run build` | `vite build` | Compiles production assets to `public/build` with manifest |

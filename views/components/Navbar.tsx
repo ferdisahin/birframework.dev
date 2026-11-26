@@ -3,21 +3,20 @@ import { Link, usePage } from '../../resources/js/bir-inertia';
 
 export function Navbar() {
   const page = usePage<{ version?: string }>();
-  const version = page.props?.version || '0.5.27';
+  const version = page.props?.version || '';
   const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
-    const saved = localStorage.getItem('bir-theme');
-    const dark = saved ? saved === 'dark' : true;
-    setIsDark(dark);
-    document.documentElement.classList.toggle('dark', dark);
+    setIsDark(document.documentElement.classList.contains('dark'));
   }, []);
 
   const toggleTheme = () => {
     const next = !isDark;
     setIsDark(next);
     document.documentElement.classList.toggle('dark', next);
-    localStorage.setItem('bir-theme', next ? 'dark' : 'light');
+    document.documentElement.style.colorScheme = next ? 'dark' : 'light';
+    document.documentElement.style.backgroundColor = next ? '#07080a' : '#fafafa';
+    try { localStorage.setItem('bir-theme', next ? 'dark' : 'light'); } catch {}
   };
 
   return (

@@ -1,6 +1,6 @@
 # Localization & i18n Translation
 
-BirJS provides an intuitive internationalization (i18n) and translation system inspired by Laravel, supporting parameter interpolation, fallback locales, and direct Blade template directives.
+BirJS provides an intuitive internationalization (i18n) and translation system inspired by Laravel, supporting parameter interpolation and fallback locales for use in controllers and components.
 
 ---
 
@@ -40,7 +40,7 @@ Translate keys anywhere in your application:
 import { __, Lang } from 'birframework';
 
 // Simple translation
-const hello = __('welcome', { name: 'Taylor' }); 
+const hello = __('welcome', { name: 'Taylor' });
 // -> "Welcome back, Taylor!"
 
 // Dot notation nested key
@@ -65,19 +65,21 @@ if (Lang.has('auth.failed')) {
 
 ---
 
-## 3. Localization in Blade Templates
+## 3. Translations in pages
 
-In your HTML/Blade templates, you can use the global `__()` helper or the `@lang()` directive:
+Translate using the request locale in your controller and pass the result as page props.
 
-```html
-<!-- Escaped translation -->
-<h1>{{ __('welcome', { name: user.name }) }}</h1>
-
-<!-- Directive shorthand -->
-<p>@lang('auth.failed')</p>
+```ts
+Route.get('/welcome', (ctx) => ctx.inertia('Welcome', {
+  message: ctx.__('welcome', { name: 'Ahmet' }),
+}));
 ```
 
----
+```tsx
+export default function Welcome({ message }: { message: string }) {
+  return <h1>{message}</h1>;
+}
+```
 
 ## 4. Context Locale Detection
 

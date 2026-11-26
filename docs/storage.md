@@ -30,14 +30,18 @@ await Storage.delete('avatars/user-1.jpg');
 
 BirJS natively parses `multipart/form-data` uploads with zero external dependencies. In your controllers, access uploaded files via `ctx.file('field_name')`:
 
-```html
-<!-- views/profile.html -->
-<form action="/profile/avatar" method="POST" enctype="multipart/form-data">
-  {!! csrfField() !!}
-  <input type="file" name="avatar" accept="image/*" required />
-  <button type="submit">Upload Avatar</button>
-</form>
+```tsx
+export function AvatarForm({ csrfToken }: { csrfToken: string }) {
+  return <form action="/profile/avatar" method="POST" encType="multipart/form-data">
+    <input type="hidden" name="_token" value={csrfToken} />
+    <input type="file" name="avatar" accept="image/*" required />
+    <button type="submit">Upload Avatar</button>
+  </form>;
+}
 ```
+
+Pass the current CSRF token from the controller to the page.
+
 
 ```typescript
 // app/controllers/ProfileController.ts
@@ -58,7 +62,7 @@ export class ProfileController {
     console.log(file.size);         // Size in bytes
 
     // 1. Store with auto-generated unique filename:
-    const storedPath = await file.store('avatars'); 
+    const storedPath = await file.store('avatars');
     // -> "avatars/a7f8b9...png" in storage/app/avatars/
 
     // 2. Or store on the public web disk with a custom name:
@@ -110,8 +114,8 @@ export class WelcomeMail extends Mailable {
         .from('hello@birjs.com', 'BirJS Team');
   }
 
-  public content(): string {
-    // Renders views/emails/welcome.html with data
+  public async content(): Promise<string> {
+    // Renders views/emails/welcome.tsx with data
     return this.view('emails/welcome', { user: this.user });
   }
 }
@@ -140,6 +144,7 @@ Verify emails are sent in automated tests without actually delivering to SMTP:
 
 ```typescript
 import { test } from 'node:test';
+import assert from 'node:assert/strict';
 import { Mail } from 'birframework';
 
 test('registration sends welcome email', async () => {

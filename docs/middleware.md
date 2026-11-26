@@ -20,13 +20,13 @@ Create a middleware class or function implementing the `Middleware` signature:
 
 ```ts
 // app/middleware/Authenticate.ts
-import type { Context, NextFunction } from 'birframework';
+import type { Context, Next } from 'birframework';
 
-export async function Authenticate(ctx: Context, next: NextFunction) {
+export async function Authenticate(ctx: Context, next: Next) {
   const token = ctx.req.headers['authorization'];
 
   if (!token) {
-    return ctx.unauthorized({ error: 'Authentication token required' });
+    return ctx.json({ error: 'Authentication token required' }, 401);
   }
 
   // Continue to the next middleware or controller

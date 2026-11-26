@@ -9,7 +9,7 @@ BirJS features an intuitive, expressive router inspired by Laravel, engineered f
 Define routes in `routes/web.ts` (for HTML views) or `routes/api.ts` (for REST endpoints):
 
 ```ts
-import { Route } from 'birframework';
+import { Route, auth } from 'birframework';
 
 // Basic GET route returning JSON
 Route.get('/ping', (ctx) => {
@@ -18,7 +18,7 @@ Route.get('/ping', (ctx) => {
 
 // Basic POST route
 Route.post('/contact', async (ctx) => {
-  const body = ctx.body;
+  const body = await ctx.body();
   return ctx.json({ success: true, message: 'Message received' });
 });
 ```
@@ -47,15 +47,14 @@ Route.get('/posts/:slug/comments/:commentId', (ctx) => {
 
 ## Named Routes
 
-Name your routes to generate URLs dynamically throughout your application:
+Name routes for identification in route listings and application tooling:
 
 ```ts
 Route.get('/users/profile', (ctx) => {
   return ctx.render('profile');
 }).name('user.profile');
 
-// Resolving named URL elsewhere:
-const url = Route.url('user.profile'); // => "/users/profile"
+// Use the registered URL when linking to this route.
 ```
 
 ---
@@ -65,7 +64,7 @@ const url = Route.url('user.profile'); // => "/users/profile"
 Organize related endpoints with route prefixes and shared middleware:
 
 ```ts
-Route.group({ prefix: '/api/v1', middleware: ['auth'] }, () => {
+Route.group({ prefix: '/api/v1', middleware: [auth()] }, () => {
   Route.get('/me', (ctx) => ctx.json(ctx.user));
   Route.get('/orders', (ctx) => ctx.json([]));
 });

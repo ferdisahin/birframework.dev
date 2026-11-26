@@ -1,7 +1,9 @@
+import { theme } from './app/middleware/theme.js';
 import { Application, logger, compress, serveStatic, Inertia } from 'birframework';
 import './routes/web.js';
 
 const app = new Application();
+app.use(theme);
 app.use(compress({ threshold: 512 }));
 app.use(serveStatic({ publicDir: 'public' }));
 app.use(Inertia.middleware());

@@ -1,16 +1,17 @@
 # Cache System
 
-BirJS provides an expressive, unified API for various caching backends. Because Node.js runs in persistent V8 memory (unlike traditional PHP-FPM), in-memory caching operates at sub-microsecond latency out of the box with zero external infrastructure.
+BirJS provides an expressive, unified API for various caching backends. Because Node.js runs in persistent V8 memory (unlike traditional PHP-FPM), in-memory caching operates at low latency out of the box with zero external infrastructure.
 
 ---
 
 ## Configuration & Drivers
 
-BirJS supports two built-in cache drivers:
+BirJS supports three built-in cache drivers:
 
 | Driver | Description | Persistence |
 |---|---|---|
-| `memory` | In-memory key-value store with TTL (Default) | In-process V8 RAM (Zero setup, sub-microsecond) |
+| `memory` | In-memory key-value store with TTL (Default) | In-process V8 RAM (Process-local) |
+| `redis` | Redis server, configured with `REDIS_URL` | Shared across processes |
 | `file` | Serialized JSON files in `storage/cache/` | Survives server restarts |
 
 Configure your default driver via `.env`:
@@ -92,7 +93,7 @@ const categories = await Cache.rememberForever('categories', async () => {
 
 ---
 
-## Atomic Counters & Pull
+## Counters & Pull
 
 ### Incrementing and Decrementing
 
@@ -138,3 +139,5 @@ await Cache.store('file').put('license_key', 'valid', 86400);
 // Retrieve from in-memory cache
 const memoryVal = await Cache.store('memory').get('session_id');
 ```
+
+Redis requires `npm install ioredis` and a running Redis server. File and memory stores have different concurrency guarantees. Treat read-modify-write counters according to the selected driver.

@@ -1,548 +1,2488 @@
-# BirFramework AI Rules & Architecture Manual
+# BirJS documentation
 
-> **System Instruction for AI Assistants (Cursor, Claude, Copilot, ChatGPT, Antigravity):**
-> You are an elite software architect and senior full-stack TypeScript engineer specializing in **BirFramework** (BirJS). When writing or refactoring code for any BirFramework application, you MUST adhere strictly to the conventions, rules, file structures, and code patterns outlined in this document.
+Source: https://birjs.com/docs/ai-rules
 
----
+# AI Assistant Guide
 
-## 1. Executive Summary & Philosophy
+Download the application guide and add it to your coding assistant's project context. Match examples to the version installed in your application.
 
-**BirFramework** is a modern, high-performance full-stack TypeScript web framework for Node.js inspired by Laravel's elegance and developer ergonomics, coupled with the speed of **Preact + Inertia.js + SSR**, **Vite**, and zero-config deployment to **Vercel** or standard Node.js servers.
+- [Application guide](/BIRFRAMEWORK_RULES.md)
+- [Cursor rules file](/.cursorrules)
+- [Documentation index](/llms.txt)
+- [Complete documentation](/llms-full.txt)
 
-### Core Tenets
-1. **Batteries-Included MVC**: Strict separation of concerns via Models (`app/models/`), Controllers (`app/controllers/`), Middleware (`app/middleware/`), and Routes (`routes/web.ts`).
-2. **Never Write Spaghetti Routes**: Route files MUST ONLY declare routes and bind them to Controller actions. NEVER write large inline closures or direct database queries in `routes/web.ts`.
-3. **Use Built-in Framework Primitives**: Always use BirFramework's native `Schema`, `Blueprint`, `Model` (ActiveRecord ORM), `Hash`, `sessionMiddleware`, `ctx.validate`, and `ctx.inertia`. NEVER invent custom workarounds or import low-level drivers like `node:sqlite` directly when framework abstractions exist.
-4. **Preact over React**: Frontend views use **Preact** (`preact/hooks`) for ultra-light client bundles and instant hydration with Inertia SSR. Never import `'react'` unless an external library strictly requires it.
-5. **Persistent Layouts**: Always wrap page components with `Page.layout` for seamless, unmounting-free client-side page transitions and state persistence.
+The downloadable guide and the text below are maintained together.
 
----
+## Application guide
 
-## 2. Directory Structure Conventions
+This guide describes the local framework API. Check the installed package version and its declarations before using an API from another release.
 
-A standard BirFramework application follows this canonical layout:
+## Runtime and entry points
 
-```text
-my-bir-app/
-├── api/
-│   └── index.ts                 # Vercel Serverless Function entry point
-├── app/
-│   ├── controllers/             # HTTP Controllers (e.g., AuthController.ts, DashboardController.ts)
-│   ├── models/                  # ActiveRecord Models (e.g., User.ts, Post.ts, Component.ts)
-│   ├── middleware/              # Route & HTTP Middleware (e.g., requireAuth.ts, resolveLocale.ts)
-│   ├── providers/               # Service Providers & Plugins
-│   └── jobs/                    # Asynchronous Queue Jobs
-├── database/
-│   ├── migrations/              # Database Schema Migrations
-│   ├── seeders/                 # Database Seeders
-│   └── factories/               # Model Factories
-├── routes/
-│   ├── web.ts                   # Web & Inertia Routes
-│   └── api.ts                   # Stateless JSON API Routes
-├── views/
-│   ├── layouts/                 # Preact Layout Components (e.g., AppLayout.tsx, DocsLayout.tsx)
-│   ├── pages/                   # Inertia Page Components rendered via ctx.inertia()
-│   └── components/              # Reusable UI Components
-├── resources/
-│   ├── css/
-│   │   └── app.css              # Tailwind CSS v4 Entry
-│   └── js/
-│       └── app.tsx              # Inertia Client Hydration Entry
-├── storage/
-│   ├── database.sqlite          # Default SQLite database (if file-based)
-│   ├── logs/                    # Application and Pail logs
-│   └── sessions/                # File-based session store
-├── public/                      # Static assets served directly (images, robots.txt, etc.)
-├── app.ts                       # Local development & production Node.js server entry point
-├── package.json                 # Dependencies & scripts
-├── tsconfig.json                # TypeScript compiler configuration
-├── vercel.json                  # Serverless deployment configuration
-└── vite.config.js               # Vite asset bundling & SSR build configuration
-```
+Use Node.js 22.5 or later. Create a project with `npx birframework new my-app --ts --tailwind --inertia`. Use --js for JavaScript or --server-rendered for server-rendered views. Generate APP_KEY with `npx bir key:generate`.
 
----
+An Application can register middleware and routes. Keep bootstrap export separate from the entry that calls listen when importing it into tests. app.serverless() returns a serverless handler.
 
-## 3. Server Initialization (`app.ts` & `api/index.ts`)
+## HTTP
 
-### Local & Node.js Production Entry (`app.ts`)
+Import Context from birframework. Read input with `await ctx.body()` and validate with `await ctx.validate(rules)`. ctx.params contains path values and ctx.query contains query values. Respond with ctx.json(data, status), ctx.text(), ctx.html(), ctx.redirect(), ctx.inertia(), or ctx.render(). Set response headers with ctx.header(name, value).
 
-```typescript
-import {
-  Application,
-  logger,
-  compress,
-  serveStatic,
-  Inertia,
-  sessionMiddleware,
-  setSessionStore,
-  FileSessionStore
-} from 'birframework';
-import './routes/web.js';
-
-const app = new Application();
-
-// 1. Performance: Compression for responses > 512 bytes
-app.use(compress({ threshold: 512 }));
-
-// 2. Static Asset Delivery: Serves public/ directly
-app.use(serveStatic({ publicDir: 'public' }));
-
-// 3. Sessions: FileSessionStore or DatabaseSessionStore
-setSessionStore(new FileSessionStore({ path: './storage/sessions' }));
-app.use(sessionMiddleware({
-  cookieName: 'bir_session',
-  maxAge: 86400 * 7, // 7 days
-  httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-  sameSite: 'lax',
-}));
-
-// 4. Inertia Middleware: Handles X-Inertia requests & SSR
-app.use(Inertia.middleware());
-
-// 5. Logging: Structured CLI logging
-if (process.env.NODE_ENV !== 'production') {
-  app.use(logger());
-}
-
-// 6. Server Listen: Automatic port conflict resolution
-const PORT = Number(process.env.PORT) || 3000;
-app.listen(PORT, '0.0.0.0', (port) => {
-  console.log(`BirFramework running at http://localhost:${port || PORT}`);
-});
-```
-
-### Vercel Serverless Entry (`api/index.ts`)
-
-```typescript
-import {
-  Application,
-  compress,
-  serveStatic,
-  Inertia,
-  sessionMiddleware,
-  setSessionStore,
-  FileSessionStore
-} from 'birframework';
-import '../routes/web.js';
-
-const app = new Application();
-app.use(compress({ threshold: 512 }));
-app.use(serveStatic({ publicDir: 'public' }));
-setSessionStore(new FileSessionStore({ path: '/tmp/sessions' }));
-app.use(sessionMiddleware());
-app.use(Inertia.middleware());
-
-export default app.serverless();
-```
-
----
-
-## 4. Routing (`routes/web.ts`)
-
-Routes are registered using the global `Route` facade (or `router`).
-
-```typescript
+```ts
 import { Route } from 'birframework';
-import { HomeController } from '../app/controllers/HomeController.js';
-import { AuthController } from '../app/controllers/AuthController.js';
-import { AdminController } from '../app/controllers/AdminController.js';
-import { requireAuth } from '../app/middleware/requireAuth.js';
-import { resolveLocale } from '../app/middleware/resolveLocale.js';
 
-const home = new HomeController();
-const auth = new AuthController();
-const admin = new AdminController();
-
-// Global middleware on route groups
-Route.group({ middleware: [resolveLocale] }, () => {
-  // Public Routes
-  Route.get('/', (ctx) => home.index(ctx)).name('home');
-  Route.get('/login', (ctx) => auth.showLogin(ctx)).name('login');
-  Route.post('/login', (ctx) => auth.login(ctx));
-  Route.post('/logout', (ctx) => auth.logout(ctx)).name('logout');
-
-  // Media Streaming (Audio/Video with HTTP 206 Range)
-  Route.get('/stream/audio/:file', (ctx) => home.streamAudio(ctx)).name('audio.stream');
-
-  // Protected Admin Routes with Prefix & Middleware
-  Route.group({ prefix: '/admin', middleware: [requireAuth] }, () => {
-    Route.get('/', (ctx) => admin.dashboard(ctx)).name('admin.dashboard');
-    Route.post('/items', (ctx) => admin.createItem(ctx)).name('admin.items.create');
-    Route.put('/items/:id', (ctx) => admin.updateItem(ctx)).name('admin.items.update');
-    Route.delete('/items/:id', (ctx) => admin.deleteItem(ctx)).name('admin.items.delete');
-  });
+Route.post('/contact', async (ctx) => {
+  const data = await ctx.validate({ email: 'required|email' });
+  return ctx.json({ email: data.email }, 201);
 });
 ```
 
----
+## Middleware and sessions
 
-## 5. HTTP Context (`HttpContext`) Reference
+The middleware signature is (ctx: Context, next: Next). Import Context and Next as types. Await next(). Register sessionMiddleware() before using ctx.session or csrf(). Pass csrfToken(ctx) to page props and include a hidden _token input in forms or X-CSRF-TOKEN in requests.
 
-Every controller action and route handler receives an instance of `HttpContext` (`ctx`):
+FileSessionStore takes a directory string. sessionMiddleware({ driver: 'file', storeDir: 'storage/framework/sessions' }) selects it directly. An in-memory store is process-local. Serverless /tmp storage is instance-local.
 
-| Property / Method | Description | Example |
-| :--- | :--- | :--- |
-| `ctx.req` | Raw Node.js `IncomingMessage` | `ctx.req.headers['user-agent']` |
-| `ctx.res` | Raw Node.js `ServerResponse` | `ctx.res.setHeader('X-Custom', 'val')` |
-| `ctx.params` | Named route parameters | `ctx.params.id` from `/users/:id` |
-| `ctx.query` | Parsed URL query parameters | `ctx.query.page`, `ctx.query.filter` |
-| `ctx.body` | Parsed JSON or URL-encoded body | `const { email, password } = ctx.body;` |
-| `ctx.session` | Session manager instance | `ctx.session.get('user_id')`, `ctx.session.set('user_id', 1)` |
-| `ctx.json(data, status = 200)` | Responds with JSON | `return ctx.json({ success: true }, 201);` |
-| `ctx.html(string, status = 200)` | Responds with raw HTML | `return ctx.html('<h1>Hello</h1>');` |
-| `ctx.redirect(url, status = 302)`| Redirects to given URL | `return ctx.redirect('/admin');` |
-| `ctx.fileStream(filePath, opts)` | Streams file with HTTP 206 Range support | `return ctx.fileStream('/path/to/song.mp3');` |
-| `ctx.inertia(component, props, meta)` | Renders Inertia/Preact SSR page | `return ctx.inertia('Dashboard', { user }, { title: 'Dashboard' });` |
-| `ctx.validate(rules)` | Validates request body with rules | `const data = await ctx.validate({ email: 'required|email' });` |
+## Models and database
 
----
-
-## 6. Controllers (`app/controllers/`)
-
-Controllers group related HTTP actions into dedicated classes. Always instantiate controllers or call methods cleanly.
-
-```typescript
-import { HttpContext, Hash } from 'birframework';
-import { User } from '../models/User.js';
-import { Incident } from '../models/Incident.js';
-
-export class AdminController {
-  /**
-   * Render the admin dashboard via Inertia
-   */
-  async dashboard(ctx: HttpContext) {
-    const user = await User.find(ctx.session.get('user_id'));
-    const incidents = await Incident.orderBy('created_at', 'desc').limit(50).get();
-
-    return ctx.inertia('Admin/Dashboard', {
-      user: { id: user.id, name: user.name, email: user.email },
-      incidents,
-      flash: {
-        success: ctx.session.getFlash('success'),
-        error: ctx.session.getFlash('error'),
-      },
-    }, {
-      title: 'Admin Dashboard — BirJS',
-    });
-  }
-
-  /**
-   * Create a new incident
-   */
-  async createIncident(ctx: HttpContext) {
-    const data = await ctx.validate({
-      title_en: 'required|string|max:255',
-      title_tr: 'required|string|max:255',
-      impact: 'required|in:minor,major,critical',
-      message_en: 'required|string',
-      message_tr: 'required|string',
-    });
-
-    await Incident.create(data);
-
-    ctx.session.flash('success', 'Incident created successfully');
-    return ctx.redirect('/admin');
-  }
-}
-```
-
----
-
-## 7. Database, Schema & Models (ActiveRecord ORM)
-
-BirFramework includes a robust multi-driver ActiveRecord ORM supporting SQLite, PostgreSQL, and MySQL.
-
-### Database Connection
-BirFramework initializes a global `dbConnection` instance automatically (configured via `.env` or defaults to `./storage/database.sqlite`).
-
-### Defining a Schema Migration (`database/migrations/`)
-
-Use `Schema.create(tableName, (table: Blueprint) => { ... })`:
-
-```typescript
-import { Schema, Blueprint } from 'birframework';
-
-export async function up() {
-  await Schema.create('components', (table: Blueprint) => {
-    table.id();                                  // Auto-increment primary key 'id'
-    table.string('name_en', 100);
-    table.string('name_tr', 100);
-    table.string('status', 30).default('operational');
-    table.integer('sort_order').default(0);
-    table.timestamps();                          // created_at & updated_at
-  });
-
-  await Schema.create('incidents', (table: Blueprint) => {
-    table.id();
-    table.string('title_en', 255);
-    table.string('title_tr', 255);
-    table.string('impact', 30).default('minor');
-    table.string('status', 30).default('investigating');
-    table.integer('component_id').nullable();
-    table.text('message_en');
-    table.text('message_tr');
-    table.timestamps();
-  });
-}
-
-export async function down() {
-  await Schema.dropIfExists('incidents');
-  await Schema.dropIfExists('components');
-}
-```
-
-#### Blueprint Column Types:
-- `table.id()` — Primary key integer auto-increment
-- `table.string(name, length = 255)` — VARCHAR / TEXT
-- `table.text(name)` — TEXT
-- `table.integer(name)` — INTEGER
-- `table.float(name)` — REAL / FLOAT
-- `table.boolean(name)` — BOOLEAN (0 or 1 in SQLite)
-- `table.json(name)` — JSON text
-- `table.timestamps()` — `created_at` and `updated_at` ISO strings
-
-#### Column Modifiers:
-- `.nullable()`
-- `.unique()`
-- `.default(value)`
-
----
-
-### Defining an ActiveRecord Model (`app/models/`)
-
-Every model extends `Model` and declares `static table` and `static fillable`:
-
-```typescript
+```ts
 import { Model } from 'birframework';
-import { DailyUptime } from './DailyUptime.js';
 
-export class Component extends Model {
-  public static override table = 'components';
-  public static override primaryKey = 'id';
-  public static override timestamps = true;
-
-  // IMPORTANT: Only fields listed in fillable can be mass-assigned via create() or update()
-  public static override fillable = [
-    'name_en',
-    'name_tr',
-    'status',
-    'sort_order',
-  ];
-
-  // Relationship: Component has many DailyUptime records
-  uptimes() {
-    return this.hasMany(DailyUptime, 'component_id');
-  }
+export class User extends Model {
+  static table = 'users';
+  static fillable = ['name', 'email'];
 }
+
+const users = await User.query().orderBy('id', 'desc').get();
+const page = await User.paginate({ page: 1, perPage: 15 });
+console.log(page.data, page.meta.total);
 ```
 
-### Model Query & Persistence Operations
+The default connection reads DB_CONNECTION and DB_DATABASE. PostgreSQL and MySQL also read DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, or DATABASE_URL. Install pg or mysql2 for those drivers. DB.raw(sql, bindings) queries SQL. DB.execute performs writes. DB.table(name) returns a query builder. DB.transaction(async () => ...) manages a transaction.
 
-```typescript
-// 1. Fetching Records
-const allComponents = await Component.all();
-const single = await Component.find(1);
-const active = await Component.where('status', 'operational').first();
-const sorted = await Component.orderBy('sort_order', 'asc').limit(10).get();
+Migrations export up/down functions or a default object/class with up/down. Use Schema.create and Blueprint column helpers. Column defaults use .default(value).
 
-// 2. Creating Records
-// Model.create automatically executes INSERT and returns the hydrated instance with .id populated!
-const component = await Component.create({
-  name_en: 'API Gateway',
-  name_tr: 'API Ağ Geçidi',
-  status: 'operational',
-  sort_order: 1,
-});
-console.log(component.id); // Valid number ID!
+## Authentication
 
-// 3. Updating Records
-component.status = 'degraded_performance';
-await component.save();
+Auth.attempt(ctx, credentials, User) requires the user model. Auth.user(ctx, User) resolves the current user. Use auth() middleware for access checks. Model fillable and guarded are static properties.
 
-// Or mass update:
-await component.update({ status: 'major_outage' });
+## Pages and components
 
-// 4. Deleting Records
-await component.delete();
-```
+Inertia pages live in views/pages and use ctx.inertia('Page', props). Server-rendered views use ctx.render('View', props). Both use Preact TSX/JSX. Reusable components live in views/components. Browser events require hydration. Access browser globals in handlers or effects.
+
+Import Link, router, useForm, usePage, and Head from the generated resources/js/bir-inertia module using the correct relative path. Use persistent Page.layout only for UI that should remain mounted. Register birVite() in Vite plugins to discover the development asset port. Production assets use the build manifest.
+
+## Jobs and scheduling
+
+Dispatch with dispatch(new MyJob()) and delay with .delay(seconds). Register job classes through Queue.register(MyJob) in app/jobs/index.ts or .js so the worker can deserialize them. Start the worker with npx bir queue:work.
+
+Import schedule definitions in the same process that calls Schedule.work(). The schedule CLI does not automatically discover application definitions. Use implemented interval helpers or dailyAt. Cross-process overlap locks require shared filesystem storage.
+
+## Mail and storage
+
+Mail.to(address).send() accepts a Mailable. For HTML strings use Mail.to(address).raw(html, { subject }). Mailable.view returns a promise, so content can be async. Escape user-controlled HTML text. Storage.disk(name) selects local, public, or configured cloud storage.
+
+## Tests and documentation
+
+Use node:test and createTestClient for HTTP tests. Close the client after tests. Import a bootstrap Application without opening a listener. Read the topic documentation for configuration and complete examples. Avoid invented APIs and performance guarantees.
+
+
+Source: https://birjs.com/docs/auth
+
+# Authentication & Sessions
+
+BirJS provides built-in authentication services, secure cryptographically signed cookies, session handling, and a full-stack starter kit inspired by Laravel Breeze.
 
 ---
 
-## 8. Authentication & Password Hashing
+## Instant Auth Starter Kit (`make:auth`)
 
-### Password Hashing (`Hash`)
-BirFramework provides cryptographically secure password hashing using Node.js `scrypt`:
+To scaffold a complete, production-ready authentication system with login, registration, password hashing, dashboard, and Tailwind CSS views in seconds:
 
-```typescript
+```bash
+npx birframework make:auth
+```
+
+This single command automatically scaffolds:
+- `app/models/User.ts` (Active Record User model)
+- `database/migrations/*_create_users_table.ts` (Schema migration)
+- `app/controllers/AuthController.ts` (Login, Register, and Logout actions)
+- `views/auth/login.tsx` & `views/auth/register.tsx` (Modern Tailwind UI forms)
+- `views/dashboard.tsx` (Protected member dashboard)
+- Automatically wires authentication routes into `routes/web.ts`
+
+Run your migrations and test your new auth system:
+
+```bash
+npx birframework migrate
+npm run dev
+```
+
+Navigate to `http://localhost:3000/login` to see your authentication UI in action.
+
+---
+
+## Password Hashing
+
+Use `Hash` for scrypt password hashing. API tokens use a separate SHA-256 digest.
+
+```ts
 import { Hash } from 'birframework';
 
-// Hash a plaintext password (returns 'scrypt:salt:hash')
-const hashedPassword = await Hash.make('secret123');
+// Hash a plaintext password
+const hashedPassword = await Hash.make('secret-password');
 
 // Verify a plaintext password against the hash
-const isValid = await Hash.check('secret123', hashedPassword); // returns boolean
+const isValid = await Hash.check('secret-password', hashedPassword);
 ```
 
-### Sessions (`sessionMiddleware` & `setSessionStore`)
+---
 
-> **CRITICAL RULE**: The session middleware is exported as **`sessionMiddleware()`**, NOT `session()`.
+## Authentication Attempt
 
-```typescript
-import { sessionMiddleware, setSessionStore, FileSessionStore } from 'birframework';
+Authenticate incoming login credentials in a controller action:
 
-// In app.ts:
-setSessionStore(new FileSessionStore({ path: './storage/sessions' }));
-app.use(sessionMiddleware({
-  cookieName: 'bir_session',
-  maxAge: 86400 * 7,
-}));
+```ts
+import { Auth } from 'birframework';
+import { User } from '../models/User.js';
 
-// In Controllers:
-// Setting session values
-ctx.session.set('user_id', user.id);
+export class AuthController {
+  public async login(ctx) {
+    const { email, password } = await ctx.validate({
+      email: 'required|email',
+      password: 'required',
+    });
 
-// Reading session values
-const userId = ctx.session.get('user_id');
+    const success = await Auth.attempt(ctx, { email, password }, User);
 
-// Flash messages (available only on the next request)
-ctx.session.flash('success', 'Logged in successfully!');
-const message = ctx.session.getFlash('success');
-
-// Destroying session on logout
-ctx.session.destroy();
-```
-
-### Custom Auth Middleware (`app/middleware/requireAuth.ts`)
-
-```typescript
-import { HttpContext } from 'birframework';
-
-export async function requireAuth(ctx: HttpContext, next: () => Promise<void>) {
-  const userId = ctx.session?.get('user_id');
-
-  if (!userId) {
-    if (ctx.req.headers['x-inertia']) {
-      return ctx.redirect('/login');
+    if (!success) {
+      return ctx.json({ error: 'Invalid credentials' }, 401);
     }
-    return ctx.redirect('/login');
+
+    return ctx.redirect('/dashboard');
   }
 
+  public async logout(ctx) {
+    await Auth.logout(ctx);
+    return ctx.redirect('/');
+  }
+}
+```
+
+---
+
+## Signed Cookies & Sessions
+
+BirJS cryptographically signs cookies using `APP_KEY` from your `.env` file to prevent client-side tampering:
+
+```ts
+// Set a session value
+ctx.session.set('cart_items', [101, 102]);
+
+// Read a session value
+const items = ctx.session.get('cart_items', []);
+
+// Flash a message (persists only for the next request)
+ctx.session.flash('status', 'Your profile has been updated!');
+```
+
+---
+
+## API Tokens & Mobile Authentication (Sanctum Style)
+
+BirJS includes first-class support for issuance and verification of API tokens, allowing you to authenticate SPAs, mobile apps, or third-party API clients using Bearer tokens.
+
+### Adding Token Capabilities to Models
+
+Equip your `User` model with the `HasApiTokens` mixin:
+
+```typescript
+import { Model, HasApiTokens } from 'birframework';
+
+export class User extends HasApiTokens(Model) {
+  // Model attributes & relationships
+}
+```
+
+### Issuing Personal Access Tokens
+
+Issue a token with specific fine-grained abilities:
+
+```typescript
+// Issue a token with full permissions:
+const { plainTextToken } = await user.createToken('mobile-app');
+
+// Or issue a token with scoped abilities and expiration:
+const { plainTextToken } = await user.createToken('deploy-key', ['servers:read', 'servers:deploy'], new Date(Date.now() + 30 * 86400000));
+
+return ctx.json({ token: plainTextToken });
+```
+
+Tokens are prefixed with `bir_pat_` and hashed with SHA-256 before storage in the `personal_access_tokens` table.
+
+### Protecting Routes with Bearer Auth
+
+Use the built-in `auth()` and `hasAbility()` middlewares to guard your API routes:
+
+```typescript
+import { Route, Auth, auth, hasAbility } from 'birframework';
+
+// Authenticate any valid Bearer token:
+Route.get('/api/user', async (ctx) => {
+  return ctx.json(await Auth.user(ctx, User));
+}).middleware(auth());
+
+// Guard route by specific token ability:
+Route.post('/api/servers/deploy', async (ctx) => {
+  return ctx.json({ status: 'Deploying server...' });
+}).middleware(auth(), hasAbility('servers:deploy'));
+```
+
+Clients authenticate simply by sending the standard `Authorization` header:
+
+```http
+Authorization: Bearer bir_pat_98f4b7a1e0c24d98a3b5c6e7f8a9b0c1...
+```
+
+
+
+## Persistent Session Drivers (`FileSessionStore` & `DatabaseSessionStore`)
+
+By default, `sessionMiddleware()` uses an in-memory store. For production deployments across restarts or multiple workers, configure `file` or `database` persistence:
+
+```ts
+import { sessionMiddleware, FileSessionStore, DatabaseSessionStore, setSessionStore } from 'birframework';
+
+// Option 1: Built-in File store
+app.use(sessionMiddleware({ driver: 'file', storeDir: 'storage/framework/sessions' }));
+
+// Option 2: Database store (_sessions table for SQLite, PostgreSQL, or MySQL)
+app.use(sessionMiddleware({ driver: 'database' }));
+
+// Option 3: Set globally
+setSessionStore(new FileSessionStore('storage/framework/sessions'));
+```
+
+
+Source: https://birjs.com/docs/benchmarks
+
+# Performance Measurement
+
+The previous comparison measured BirJS 0.1.5. Those results do not describe the current TSX/JSX rendering stack. Measure the current application in production mode and record the framework version, runtime, hardware, response size, and database workload alongside each result.
+
+## Build and start
+
+```bash
+npm ci
+npm run build
+NODE_ENV=production PORT=4001 npm start
+```
+
+Configure APP_KEY and database credentials before starting. Confirm the application reports the expected port and returns the intended page.
+
+## Measure a representative endpoint
+
+```bash
+npx autocannon -c 10 -d 30 http://127.0.0.1:4001/
+```
+
+Run a warm-up first and repeat the measurement. Record throughput, latency percentiles, error counts, and response bytes. Measure JSON endpoints and rendered pages separately. Include authentication and database queries when those are part of the real workload.
+
+Comparisons require the same host, concurrency, duration, response content, and production setup. Publish raw outputs and exact configuration with any performance claim.
+
+
+Source: https://birjs.com/docs/cache
+
+# Cache System
+
+BirJS provides an expressive, unified API for various caching backends. Because Node.js runs in persistent V8 memory (unlike traditional PHP-FPM), in-memory caching operates at low latency out of the box with zero external infrastructure.
+
+---
+
+## Configuration & Drivers
+
+BirJS supports three built-in cache drivers:
+
+| Driver | Description | Persistence |
+|---|---|---|
+| `memory` | In-memory key-value store with TTL (Default) | In-process V8 RAM (Process-local) |
+| `redis` | Redis server, configured with `REDIS_URL` | Shared across processes |
+| `file` | Serialized JSON files in `storage/cache/` | Survives server restarts |
+
+Configure your default driver via `.env`:
+
+```env
+CACHE_STORE=memory
+# or CACHE_STORE=file
+```
+
+---
+
+## Basic Usage
+
+Import the `Cache` facade:
+
+```ts
+import { Cache } from 'birframework';
+```
+
+### Storing Items
+
+Store an item with an optional TTL in seconds (omit or pass `0` to keep forever):
+
+```ts
+// Store for 10 minutes (600 seconds)
+await Cache.put('site_settings', { theme: 'dark', notifications: true }, 600);
+
+// Store indefinitely
+await Cache.put('app_version', '1.0.0');
+```
+
+### Retrieving Items
+
+```ts
+const settings = await Cache.get('site_settings');
+
+// With fallback default value
+const theme = await Cache.get('user_theme', 'light');
+```
+
+### Checking Existence
+
+```ts
+if (await Cache.has('site_settings')) {
+  // Key exists and has not expired
+}
+```
+
+---
+
+## The `remember` Method
+
+The crown jewel of caching ergonomics: retrieves an item from cache if it exists, or executes the callback, stores the result for the given TTL, and returns it.
+
+```ts
+import { Cache, Route, type Context } from 'birframework';
+import { Post } from '../app/models/Post.js';
+
+Route.get('/api/posts/popular', async (ctx: Context) => {
+  const posts = await Cache.remember('popular_posts', 300, async () => {
+    // Heavy database query only runs once every 5 minutes
+    return await Post.where('views', '>', 1000)
+      .orderBy('views', 'desc')
+      .limit(10)
+      .get();
+  });
+
+  return ctx.json(posts);
+});
+```
+
+To remember an item forever:
+
+```ts
+const categories = await Cache.rememberForever('categories', async () => {
+  return await Category.all();
+});
+```
+
+---
+
+## Counters & Pull
+
+### Incrementing and Decrementing
+
+```ts
+// Increment by 1
+await Cache.increment('page_views');
+
+// Increment by custom amount
+await Cache.increment('credits', 10);
+
+// Decrement
+await Cache.decrement('credits', 5);
+```
+
+### Pull (Retrieve & Delete)
+
+Retrieve an item and immediately remove it from cache:
+
+```ts
+const token = await Cache.pull('one_time_token');
+```
+
+### Removing Items & Flushing
+
+```ts
+// Remove a single key
+await Cache.forget('site_settings');
+
+// Clear the entire cache
+await Cache.flush();
+```
+
+---
+
+## Multi-Store Switching
+
+You can switch between different cache stores on the fly:
+
+```ts
+// Store in file cache (persisted across restarts)
+await Cache.store('file').put('license_key', 'valid', 86400);
+
+// Retrieve from in-memory cache
+const memoryVal = await Cache.store('memory').get('session_id');
+```
+
+Redis requires `npm install ioredis` and a running Redis server. File and memory stores have different concurrency guarantees. Treat read-modify-write counters according to the selected driver.
+
+
+Source: https://birjs.com/docs/cli
+
+# CLI Command Reference
+
+BirJS provides an artisan-style command-line tool `bir` for code generation, migrations, worker daemons, and project management.
+
+---
+
+## Project Scaffolding
+
+```bash
+# Interactive new project wizard
+npx birframework new <project-name>
+
+# Headless options
+npx birframework new <project-name> --ts --tailwind
+npx birframework new <project-name> --js --css
+```
+
+---
+
+## Code Generators (`make:*`)
+
+Generate boilerplate code following framework architectural patterns:
+
+| Command | Description | Output Location |
+| --- | --- | --- |
+| `bir make:controller <Name>` | Creates a controller class | `app/controllers/<Name>.ts` |
+| `bir make:model <Name>` | Creates an Active Record Model (`-m`, `-c`, `-r`, `-f`, `-s`, `--all`) | `app/models/<Name>.ts` |
+| `bir make:component <Name>` | Creates a Preact TSX/JSX component | `views/components/` |
+| `bir make:view <Name>` | Creates a Preact TSX/JSX view | `views/pages/` for Inertia, otherwise `views/` |
+| `bir make:provider <Name>` | Creates a Service Provider | `app/providers/<Name>.ts` |
+| `bir make:migration <Name>` | Creates a timestamped migration | `database/migrations/<timestamp>_<Name>.ts` |
+| `bir make:middleware <Name>` | Creates a custom middleware | `app/middleware/<Name>.ts` |
+| `bir make:job <Name>` | Creates an asynchronous queue job | `app/jobs/<Name>.ts` |
+| `bir make:mail <Name>` | Creates a mailable email class | `app/mail/<Name>.ts` |
+| `bir make:seeder <Name>` | Creates a database seeder class | `database/seeders/<Name>.ts` |
+| `bir make:factory <Name>` | Creates a model factory with Faker | `database/factories/<Name>.ts` |
+| `bir make:event <Name>` | Creates an event class | `app/events/<Name>.ts` |
+| `bir make:listener <Name> [--event]` | Creates an event listener class | `app/listeners/<Name>.ts` |
+| `bir make:request <Name>` | Creates a Form Request class | `app/requests/<Name>.ts` |
+| `bir make:auth` | Scaffolds complete Breeze-style auth | Models, Controllers, Views, Migrations |
+| `bir make:vercel` | Scaffolds zero-config Vercel Serverless deployment | `vercel.json`, `api/index.js` |
+
+---
+
+## Database & Migrations
+
+```bash
+# Run all outstanding migrations
+bir migrate
+
+# Roll back the most recent migration batch
+bir migrate:rollback
+
+# Drop all tables and re-run all migrations
+bir migrate:fresh
+
+# Seed the database with test records
+bir db:seed
+```
+
+---
+
+## Daemons & Development
+
+```bash
+# Start full-stack multi-process dev dashboard (Server, Queue, Logs, Vite)
+bir dev
+
+# Live real-time application log stream (tailing storage/logs/bir.log)
+bir pail
+
+# Start development server with hot-reload
+bir serve
+
+# Launch interactive REPL console with auto-loaded models
+bir tinker
+
+# Run automated test suites
+bir test
+
+# List all registered routes and handlers
+bir route:list
+
+# Start background queue processing worker
+bir queue:work
+
+# Inspect, retry, or flush failed background jobs
+bir queue:failed
+bir queue:retry all
+bir queue:flush
+
+# Put application into maintenance mode (503) or bring it back up
+bir down --message="Upgrading database" --retry=60
+bir up
+
+# Generate a secure APP_KEY in .env (used by Crypt & SignedUrl)
+bir key:generate
+
+# Start scheduler daemon (tasks must already be registered in that process)
+bir schedule:work
+
+# Scaffold authentication controllers and views
+bir make:auth
+
+# Generate Vercel Serverless deployment config (vercel.json + api/index.js)
+bir make:vercel
+```
+
+---
+
+## Serverless & Deployment
+
+New projects created with `npx birframework new` come pre-configured for Vercel Serverless. If you are upgrading an existing project or regenerating deployment files, run:
+
+```bash
+bir make:vercel
+```
+
+This generates:
+- `vercel.json` — configures `npm run build --if-present`, `public` output directory, included static/docs bundles, and rewrites to `/api/index.js`.
+- `api/index.js` — mounts `compress()`, `serveStatic({ publicDir: 'public' })`, `Inertia.middleware()`, and exports `app.serverless()`.
+
+> `app.serverless()` also works on AWS Lambda and Netlify-compatible Node runtimes (additional platform generators such as Netlify are planned).
+
+
+Source: https://birjs.com/docs/components
+
+# Components
+
+Build reusable interface elements as Preact functions in `views/components/`. Use props for data, children for nested content, and hooks for browser interaction in hydrated Inertia pages.
+
+## Generate a component
+
+```bash
+npx bir make:component Card
+```
+
+The generator creates `views/components/Card.tsx` in a TypeScript project or `Card.jsx` in a JavaScript project.
+
+## Props and children
+
+```tsx
+import type { ComponentChildren } from 'preact';
+
+export function Card({ title, children }: {
+  title: string;
+  children?: ComponentChildren;
+}) {
+  return <section class="rounded-lg border p-6">
+    <h2>{title}</h2>
+    {children}
+  </section>;
+}
+```
+
+Import the component into a page and compose it with other components.
+
+```tsx
+import { Card } from '../components/Card';
+
+export default function Welcome() {
+  return <Card title="Your project"><p>Ready to build.</p></Card>;
+}
+```
+
+## Interactive components
+
+```tsx
+import { useState } from 'preact/hooks';
+
+export function Toggle() {
+  const [open, setOpen] = useState(false);
+  return <div>
+    <button type="button" aria-expanded={open} onClick={() => setOpen(!open)}>
+      Details
+    </button>
+    {open && <p>More information about this item.</p>}
+  </div>;
+}
+```
+
+Use this component in a hydrated Inertia page. Browser event handlers require a client bundle. Server-only rendering produces HTML without activating handlers.
+
+## Organizing components
+
+Group related components in subdirectories and keep complete screens in `views/pages/`. Share state through props and callbacks. Keep browser-only APIs inside event handlers or effects so server rendering can run without `window` or `document`.
+
+
+Source: https://birjs.com/docs/configuration
+
+# Configuration and Environment
+
+BirJS loads a root `.env` file on framework import. Existing process environment values take precedence. Environment values are strings, so convert numbers and booleans explicitly.
+
+```ini
+NODE_ENV=development
+PORT=3000
+DB_CONNECTION=sqlite
+DB_DATABASE=storage/database.sqlite
+CACHE_STORE=memory
+```
+
+Generate a private application key with `npx bir key:generate`.
+
+## Reading values
+
+```ts
+const port = Number(process.env.PORT) || 3000;
+const debug = process.env.APP_DEBUG === 'true';
+const name = process.env.APP_NAME || 'My App';
+```
+
+## Application configuration
+
+`Config` provides a process-local configuration store. Import your configuration files explicitly and register their values during bootstrap. The database driver reads DB_* environment variables directly.
+
+```ts
+import { Config, config } from 'birframework';
+
+Config.set('app.name', process.env.APP_NAME || 'My App');
+const name = config<string>('app.name');
+```
+
+Application registers default memory sessions and security headers. Configure persistent sessions and additional middleware explicitly. An environment variable alone does not install middleware. Vite can discover its listening address using `birVite()`. See [Development server](/docs/dev-server).
+
+
+Source: https://birjs.com/docs/controllers
+
+# Controllers & Actions
+
+Controllers centralize HTTP request handling logic into dedicated classes instead of writing bloated inline route closures.
+
+---
+
+## Creating a Controller
+
+Create a controller manually in `app/controllers/` or generate one with the CLI:
+
+```bash
+npx birframework make:controller UserController
+```
+
+Example controller class:
+
+```ts
+// app/controllers/UserController.ts
+import type { Context } from 'birframework';
+import { User } from '../models/User.ts';
+
+export class UserController {
+  /**
+   * Display a listing of users.
+   */
+  public async index(ctx: Context) {
+    const users = await User.query().orderBy('created_at', 'DESC').get();
+    return ctx.render('users/index', { users });
+  }
+
+  /**
+   * Display a specific user.
+   */
+  public async show(ctx: Context) {
+    const user = await User.find(ctx.params.id);
+    if (!user) {
+      return ctx.json({ error: 'User not found' }, 404);
+    }
+    return ctx.json(user);
+  }
+
+  /**
+   * Store a newly created user in storage.
+   */
+  public async store(ctx: Context) {
+    const validated = await ctx.validate({
+      name: 'required|min:3',
+      email: 'required|email|unique:users,email',
+    });
+
+    const user = await User.create(validated);
+    return ctx.json(user, 201);
+  }
+}
+```
+
+---
+
+## Binding Controllers to Routes
+
+Pass an instance or class action to your route definition:
+
+```ts
+// routes/web.ts
+import { Route } from 'birframework';
+import { UserController } from '../app/controllers/UserController.ts';
+
+const userCtrl = new UserController();
+
+Route.get('/users', (ctx) => userCtrl.index(ctx));
+Route.get('/users/:id', (ctx) => userCtrl.show(ctx));
+Route.post('/users', (ctx) => userCtrl.store(ctx));
+```
+
+---
+
+## Context Helpers
+
+The `Context` object passed to controller actions contains rich utility methods:
+
+- `ctx.params`: Route parameters (`/users/:id` -> `ctx.params.id`)
+- `ctx.query`: URL query string parameters (`?page=2` -> `ctx.query.page`)
+- `await ctx.body()`: Parsed request payload (JSON or Form URL-encoded)
+- `ctx.json(data, status?)`: Return JSON response
+- `ctx.render(view, data?)`: Render a named Preact TSX/JSX view
+- `ctx.redirect(url, status?)`: HTTP redirect
+- `ctx.session`: Optional session store, available after sessionMiddleware() (get, set, flash)
+
+
+Source: https://birjs.com/docs/database
+
+# Multi-Driver Database Engine
+
+BirJS includes a unified database connection layer supporting SQLite, PostgreSQL, and MySQL.
+
+---
+
+## Configuration
+
+The default connection reads environment variables directly.
+
+```ini
+DB_CONNECTION=sqlite
+DB_DATABASE=storage/database.sqlite
+```
+
+For PostgreSQL use `DB_CONNECTION=postgres`, port 5432 and install `pg`. For MySQL use `DB_CONNECTION=mysql`, port 3306 and install `mysql2`. Both read `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD`, or `DATABASE_URL`.
+
+```bash
+npm install pg
+# For MySQL instead:
+# npm install mysql2
+```
+
+An explicit connection uses `new DatabaseConnection({ driver, host, port, database, user, password })`. The option is `user`, while the environment variable is `DB_USERNAME`.
+
+## Zero-Dependency SQLite
+
+BirJS uses Node's built-in `node:sqlite` engine when running on Node.js 22+. No external binary downloads, C++ node-gyp compilers, or heavy native dependencies are required.
+
+---
+
+## Raw Queries & Fluent Query Builder
+
+Execute raw parameterized SQL queries or use the fluent query builder:
+
+```ts
+import { DB } from 'birframework';
+
+// Raw parameterized query
+const activeUsers = await DB.raw(
+  'SELECT * FROM users WHERE status = ? AND age >= ?',
+  ['active', 21]
+);
+
+// Fluent query builder
+const count = await DB.table('orders')
+  .where('status', 'completed')
+  .count();
+
+// Transactions
+await DB.transaction(async () => {
+  await DB.table('accounts').where('id', 1).decrement('balance', 100);
+  await DB.table('accounts').where('id', 2).increment('balance', 100);
+});
+```
+
+
+## Pessimistic Row Locking (`forUpdate`)
+
+For concurrent-safe balance, inventory, or invoice updates on PostgreSQL and MySQL, chain `.forUpdate()` inside a transaction:
+
+```ts
+await DB.transaction(async () => {
+  const wallet = await DB.table('wallets')
+    .where('user_id', userId)
+    .forUpdate()
+    .first();
+  // Safe to update wallet balance
+});
+```
+
+*(On SQLite, `.forUpdate()` is a safe no-op.)*
+
+
+Source: https://birjs.com/docs/dev-server
+
+# Development Dashboard & Vite HMR
+
+BirJS features a unified development environment designed to run your entire application stack in a single terminal session. Rather than opening separate terminal tabs for your web server, queue worker, asset compiler, and log watcher, BirJS coordinates all four services concurrently.
+
+---
+
+## The 4-Service Dev Dashboard
+
+When you start your project with:
+
+```bash
+npm run dev
+# or via CLI
+npx bir dev
+```
+
+The generated Inertia profile boots four dedicated background processes using high-contrast terminal colors:
+
+```text
+[server] > npx tsx watch app.ts
+[queue]  > npx bir queue:work
+[logs]   > npx bir pail
+[vite]   > vite
+```
+
+### Process Roles
+
+| Service | Color | Command | Purpose |
+| :--- | :--- | :--- | :--- |
+| **`server`** | `#00f5d4` (Teal) | `npx tsx watch app.ts` | The core HTTP server with Hot Reload on code changes. |
+| **`queue`** | `#7209b7` (Purple) | `npx bir queue:work` | Consumes asynchronous background jobs. Run scheduled tasks with `bir schedule:work`. |
+| **`logs`** | `#f72585` (Pink) | `npx bir pail` | Real-time structured log streaming with ANSI category badges. |
+| **`vite`** | `#ffb703` (Amber) | `vite` | Vite dev server compiling client CSS, TypeScript, and Preact + Inertia `.tsx` pages. |
+
+---
+
+## Automatic Port Switching
+
+The HTTP server retries the next port when its requested port is occupied. Vite handles its own port fallback when strictPort is false. Register birVite() so rendered asset URLs follow the port selected by Vite.
+
+```text
+➜ Port 3000 is in use, trying 3001 instead...
+✔ Automatically switched to available port: http://localhost:3001
+[app] BirJS ready at http://localhost:3001
+```
+
+You never need to manually hunt down and kill PID processes just to run your app.
+
+---
+
+## Tailwind CSS v4 Integration
+
+BirJS fully supports Tailwind CSS v4. Because BirJS views (`.tsx` / `.jsx` pages and components) live under `views/`, the stylesheet uses `@source` scanning directives.
+
+In `resources/css/app.css`:
+
+```css
+@import "tailwindcss";
+
+@source "../../views";
+@source "../../app";
+```
+
+These directives instruct Tailwind v4 to continuously inspect your controller returns, JSX components, and view templates for utility classes.
+
+---
+
+## Vite Backend Template Hot Reloading
+
+When editing server-side templates or views, standard frontend bundlers typically do not trigger browser reloads. BirJS includes a custom watcher plugin inside `vite.config.js`:
+
+```js
+import { defineConfig } from 'vite';
+import { birVite } from 'birframework';
+import tailwindcss from '@tailwindcss/vite';
+
+export default defineConfig({
+  plugins: [
+    birVite(),
+    tailwindcss(),
+    {
+      name: 'bir-watch-views',
+      handleHotUpdate({ file, server }) {
+        if (file.includes('/views/') || file.includes('/app/')) {
+          server.ws.send({
+            type: 'full-reload',
+            path: '*',
+          });
+        }
+      },
+    },
+  ],
+  server: {
+    cors: true,
+  },
+});
+```
+
+Whenever you modify any file inside `views/` or `app/`, the browser automatically performs a full-reload with the latest rendered markup and compiled Tailwind utility styles.
+
+
+## Vite port discovery
+
+Register `birVite()` from `birframework` in your Vite plugins. The plugin writes the actual development server address to `storage/framework/vite.json`. Both Inertia and server-rendered Vite tags read this address, including when port 5173 is occupied and Vite selects another port.
+
+```js
+import { birVite } from 'birframework';
+
+// In your existing Vite configuration:
+// plugins: [birVite(), ...otherPlugins]
+```
+
+Allow port fallback with `strictPort: false` and omit a fixed `server.origin`. An explicit `VITE_DEV_SERVER_URL` overrides discovery, which is useful behind a development proxy. Production continues to use the build manifest.
+
+
+Source: https://birjs.com/docs/directory-structure
+
+# Directory Structure
+
+The generated structure depends on language and rendering profile. The following tree combines the default Inertia directories with optional application directories. Create and import optional configuration and route files explicitly.
+
+---
+
+## Directory Overview
+
+```
+my-bir-app/
+├── app/
+│   ├── controllers/       # HTTP Request Handlers
+│   ├── models/            # Active Record ORM Models
+│   ├── middleware/        # HTTP Middleware Pipeline
+│   ├── jobs/              # Asynchronous Queue Jobs
+│   ├── mail/              # Mailable Email Classes
+│   └── providers/         # Optional service providers
+├── config/                # Optional, explicitly imported
+│   ├── app.ts             # App-wide Configuration
+│   ├── database.ts        # Database Connections & Drivers
+│   └── queue.ts           # Queue Driver Settings
+├── database/
+│   ├── migrations/        # Incremental Schema Migrations
+│   └── seeders/           # Database Test Seeders
+├── public/                # Static Assets (Images, Favicons, CSS)
+├── routes/
+│   ├── web.ts             # Browser Web Routes (HTML Views)
+│   └── api.ts             # Optional, import it from bootstrap
+├── views/
+│   ├── layouts/           # Shared TSX/JSX layouts
+│   ├── components/        # Reusable Preact components
+│   └── pages/
+│       └── Welcome.tsx   # Inertia page
+├── storage/               # File Storage, Logs, and SQLite DBs
+├── .env                   # Local Environment Variables
+├── app.ts                 # Application Bootstrap Entrypoint
+└── package.json
+```
+
+---
+
+## Key Directories Explained
+
+### `app/controllers/`
+Houses your HTTP controllers. Controllers group related request handling logic, interact with models, and return JSON responses or rendered Preact views.
+
+### `app/models/`
+Defines your database models extending `Model`. Each model provides active record query building, relationships, validation, and serialization.
+
+### `database/migrations/`
+Version-controlled database schema changes. Migrations let you incrementally alter tables and roll back changes across environments.
+
+### `views/`
+Holds Preact TSX/JSX views. Inertia pages live in `views/pages/`, shared layouts in `views/layouts/`, and reusable components in `views/components/`.
+
+### `storage/`
+Stores uploaded files, temporary cache, job locks, and default SQLite databases (`storage/database.sqlite`).
+
+
+Source: https://birjs.com/docs/error-handling
+
+# Error Handling & Ignition Debug Screen
+
+BirJS includes a built-in, zero-config interactive error handling engine inspired by **Laravel Ignition** and **Next.js Error Overlay**.
+
+---
+
+## Interactive Ignition Debug Screen
+
+In development (`NODE_ENV !== 'production'`), when an unhandled exception occurs during a browser request, BirJS intercepts the failure and presents a sleek, interactive debug screen:
+
+### Key Features
+1. **Source Code Preview**: Automatically inspects the call stack, locates the exact application file and line number, and renders the code snippet with the faulting line highlighted in red.
+2. **Filtered Stack Trace**: Distinguishes your application frames from external vendor / `node_modules` frames so you can focus on your code immediately.
+3. **Context Tabs**:
+   - **Request**: HTTP Method, URL, Path, and incoming request headers.
+   - **Query & Body**: Parsed query parameters and POST payloads.
+   - **Session**: Active session key-value pairs.
+   - **Environment**: Node.js version, platform, OS architecture, and process uptime.
+
+```
+┌────────────────────────────────────────────────────────┐
+│ BirJS development  •  GET /posts/my-slug  •  500 ERR │
+├────────────────────────────────────────────────────────┤
+│ TypeError: Cannot read properties of undefined         │
+│ app/controllers/PostController.ts:42                   │
+│                                                        │
+│  40 │  const slug = ctx.params.slug;                   │
+│  41 │  const post = await Post.firstWhere('slug', slug);│
+│ >42 │  return ctx.render('posts/show', { post });      │
+│  43 │}                                                 │
+└────────────────────────────────────────────────────────┘
+```
+
+---
+
+## API & JSON Error Responses
+
+If an exception occurs during an API request (`Accept: application/json` or paths starting with `/api`), BirJS automatically formats the error as structured JSON:
+
+```json
+{
+  "error": "TypeError",
+  "message": "Cannot read properties of undefined (reading 'title')",
+  "file": "app/controllers/PostController.ts",
+  "line": 42,
+  "stack": "TypeError: Cannot read properties of undefined..."
+}
+```
+
+---
+
+## Production Security (`NODE_ENV=production`)
+
+In production environments, detailed stack traces, file paths, and code snippets are **strictly masked** to protect sensitive infrastructure data:
+
+- **Browser Requests**: Renders `views/errors/500.tsx` if present in your project, or falls back to BirJS's minimal, production-safe 500 error page.
+- **API Requests**: Returns `{ "error": "Internal Server Error", "message": "Server Error" }` with HTTP status `500`.
+
+---
+
+## Smart 404 Not Found Handling
+
+When an incoming request matches no registered route:
+
+1. **Browser Requests (`text/html`)**:
+   - Automatically searches for `views/errors/404.tsx`.
+   - If not found, renders BirJS's built-in dark-themed 404 page displaying the requested path and a link back to the homepage.
+2. **API Requests (`application/json` or `/api/*`)**:
+   - Responds with standard 404 JSON:
+   ```json
+   {
+     "error": "Not Found",
+     "message": "Route [GET /unknown-path] not found.",
+     "path": "/unknown-path",
+     "method": "GET"
+   }
+   ```
+
+
+Source: https://birjs.com/docs/events
+
+# Events & Listeners
+
+BirJS provides an asynchronous, type-safe **Event** and **Listener** system. Events serve as a great way to decouple various aspects of your application, since a single event can have multiple listeners that don't depend on each other.
+
+---
+
+## 1. Scaffolding Events & Listeners
+
+Generate an event and a corresponding listener using the CLI:
+
+```bash
+npx birframework make:event UserRegistered
+npx birframework make:listener SendWelcomeEmail --event UserRegistered
+```
+
+### Event Definition (`app/events/UserRegistered.ts`)
+
+```typescript
+import { User } from '../models/User.js';
+
+export class UserRegistered {
+  constructor(public user: User) {}
+}
+
+export default UserRegistered;
+```
+
+### Listener Definition (`app/listeners/SendWelcomeEmail.ts`)
+
+```typescript
+import { UserRegistered } from '../events/UserRegistered.js';
+import { Mail } from 'birframework';
+
+export class SendWelcomeEmail {
+  public async handle(event: UserRegistered): Promise<void> {
+    await Mail.to(event.user.email).raw('<p>Thanks for joining us.</p>', { subject: 'Welcome to BirJS!' });
+  }
+}
+
+export default SendWelcomeEmail;
+```
+
+---
+
+## 2. Registering Listeners
+
+Register listeners anywhere in your application boot lifecycle (such as `app.ts` or a service provider):
+
+```typescript
+import { Event } from 'birframework';
+import { UserRegistered } from './events/UserRegistered.js';
+import { SendWelcomeEmail } from './listeners/SendWelcomeEmail.js';
+
+// Register class listener
+Event.listen(UserRegistered, SendWelcomeEmail);
+
+// Or register an inline callback function
+Event.listen(UserRegistered, async (event) => {
+  console.log(`User created with ID: ${event.user.id}`);
+});
+
+// Or use string events with wildcards
+Event.listen('order.*', (data) => {
+  console.log('Order event caught:', data);
+});
+```
+
+---
+
+## 3. Dispatching Events
+
+Dispatch events using the `Event.dispatch()` facade:
+
+```typescript
+import { Event } from 'birframework';
+import { UserRegistered } from './events/UserRegistered.js';
+
+// Dispatch a class event
+const user = await User.create({ name: 'John Doe', email: 'john@example.com' });
+await Event.dispatch(new UserRegistered(user));
+
+// Dispatch a named string event with payload
+await Event.dispatch('order.completed', { orderId: 452, amount: 99.0 });
+```
+
+### Stopping Early with `until`
+
+Use `Event.until()` to stop dispatching as soon as the first listener returns a non-null result:
+
+```typescript
+const result = await Event.until('payment.verify', { cardToken: 'tok_123' });
+if (result?.approved) {
+  // Process approved payment
+}
+```
+
+---
+
+## 4. Testing with `Event.fake()`
+
+When writing automated tests, you often want to verify that an event was fired without actually triggering heavy listeners (like sending emails or external webhooks). BirJS includes testing utilities inspired by Laravel:
+
+```typescript
+import { test } from 'node:test';
+import assert from 'node:assert';
+import { Event } from 'birframework';
+import { UserRegistered } from '../app/events/UserRegistered.js';
+
+test('registering a user dispatches UserRegistered event', async () => {
+  // 1. Fake the event dispatcher
+  Event.fake();
+
+  // 2. Perform the action
+  await registerUserAction({ name: 'Jane', email: 'jane@example.com' });
+
+  // 3. Assert the event was dispatched
+  Event.assertDispatched(UserRegistered);
+
+  // 4. Assert with callback payload inspection
+  Event.assertDispatched(UserRegistered, (event) => {
+    return event.user.email === 'jane@example.com';
+  });
+
+  // 5. Assert unexpected event was not dispatched
+  Event.assertNotDispatched('user.deleted');
+
+  // 6. Restore real dispatching
+  Event.restore();
+});
+```
+
+---
+
+## 5. Real-Time Broadcasting & WebSockets
+
+BirJS includes a built-in WebSocket broadcasting server that lets you push live events to connected browsers without external services:
+
+### Broadcasting an Event
+
+Broadcast from anywhere in your controllers, jobs, or listeners:
+
+```typescript
+import { Broadcast } from 'birframework';
+
+// Public channel broadcast:
+Broadcast.to('orders').emit('OrderCreated', {
+  orderId: 101,
+  total: 250.00,
+  customer: 'Jane Doe'
+});
+```
+
+### Authorizing Private Channels
+
+Secure private channels using channel authorization rules:
+
+```typescript
+// Authorize access to user-specific private channel:
+Broadcast.channel('private-user.{id}', (client, params) => {
+  return String(client.user?.id) === params?.id;
+});
+```
+
+### Client-Side Integration
+
+In your client-side components or browser modules, connect using the WebSocket protocol:
+
+```javascript
+const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+const ws = new WebSocket(`${protocol}//${location.host}/ws`);
+ws.onopen = () => ws.send(JSON.stringify({ event: 'subscribe', channel: 'orders' }));
+
+ws.onmessage = (event) => {
+  const { channel, event: eventName, data } = JSON.parse(event.data);
+  if (channel === 'orders' && eventName === 'OrderCreated') {
+    console.log('New order received:', data);
+  }
+};
+```
+
+
+
+Source: https://birjs.com/docs/factories
+
+# Model Factories & Database Seeding
+
+When developing applications and writing automated tests, generating realistic test data quickly is essential. BirJS provides a built-in **Factory** system and lightweight **Faker** utility, completely eliminating the need for bulky third-party mock libraries.
+
+---
+
+## 1. Creating a Factory
+
+Scaffold a new factory using the BirJS CLI:
+
+```bash
+npx birframework make:factory UserFactory
+```
+
+This generates `database/factories/UserFactory.ts`:
+
+```typescript
+import { Factory, type Faker } from 'birframework';
+import { User } from '../../app/models/User.js';
+
+export const UserFactory = Factory.define(User, (faker: Faker) => ({
+  name: faker.name(),
+  email: faker.email(),
+  role: 'member',
+  created_at: new Date(),
+  updated_at: new Date(),
+}));
+
+export default UserFactory;
+```
+
+---
+
+## 2. The Built-in Faker Utility
+
+The `Faker` generator provides common fake data generators with zero external dependencies:
+
+```typescript
+faker.name()               // "Jane Miller"
+faker.email('example.com') // "jane.miller84@example.com"
+faker.number(10, 100)      // 42
+faker.boolean()            // true / false
+faker.uuid()               // "a3f5c1d2e8b4..."
+faker.word()               // "lorem"
+faker.sentence()           // "Quis nostrud exercitation ullamco laboris."
+faker.paragraph()          // Full multi-sentence paragraph
+faker.pick(['a', 'b'])     // Random element from array
+```
+
+---
+
+## 3. Using Factories
+
+### Generating In-Memory Attributes (`raw`)
+
+Generate plain JavaScript objects without touching the database:
+
+```typescript
+const attributes = UserFactory.raw({ role: 'admin' });
+// { name: "Jane Miller", email: "...", role: "admin", ... }
+```
+
+### Creating In-Memory Model Instances (`make`)
+
+Instantiate unpersisted `Model` instances:
+
+```typescript
+const user = UserFactory.make({ role: 'admin' });
+console.log(user.name); // Access model properties directly
+```
+
+### Persisting to the Database (`create`)
+
+Save the generated model directly to your configured SQL database (SQLite, PostgreSQL, MySQL):
+
+```typescript
+const user = await UserFactory.create();
+console.log(user.id); // Primary key assigned by database
+```
+
+### Generating Multiple Records (`count`)
+
+Combine `.count()` with `.make()` or `.create()`:
+
+```typescript
+// Create 20 users in memory
+const users = UserFactory.count(20).make();
+
+// Insert 50 users into the database
+const persistedUsers = await UserFactory.count(50).create();
+```
+
+---
+
+## 4. Factory States
+
+Define reusable state modifications for specific scenarios (e.g. VIP customers, unverified emails, admins):
+
+```typescript
+export const UserFactory = Factory.define(User, (faker) => ({
+  name: faker.name(),
+  email: faker.email(),
+  role: 'member',
+  email_verified: true,
+}));
+
+// Usage:
+const admin = await UserFactory.state({ role: 'admin' }).create();
+const unverifiedUsers = await UserFactory.state({ email_verified: false }).count(5).create();
+```
+
+---
+
+## 5. Database Seeders
+
+BirJS seeders allow you to populate your database with initial data or realistic mock records:
+
+```bash
+npx birframework make:seeder DatabaseSeeder
+```
+
+In `database/seeders/DatabaseSeeder.ts`:
+
+```typescript
+import { Seeder } from 'birframework';
+import { UserFactory } from '../factories/UserFactory.js';
+
+export class DatabaseSeeder extends Seeder {
+  public async run(): Promise<void> {
+    // Seed 1 default superadmin
+    await UserFactory.create({
+      name: 'Super Admin',
+      email: 'admin@birjs.com',
+      role: 'admin',
+    });
+
+    // Seed 50 test users
+    await UserFactory.count(50).create();
+  }
+}
+
+export default DatabaseSeeder;
+```
+
+Run seeders at any time with:
+
+```bash
+npx birframework db:seed
+```
+
+
+Source: https://birjs.com/docs/inertia
+
+# Unified Preact + Inertia + SSR
+
+BirJS combines Laravel-style server routing and controllers with a single unified **Preact + Inertia + SSR** frontend stack. Write all your pages and interactive UI using one consistent TSX standard (`preact`) with full `useState`, `useEffect`, and `onClick` support — while preserving instant Server-Side Rendering (SSR) on initial page load.
+
+---
+
+## How It Works
+
+1. **First Page Load (SEO + Zero Flicker):**
+   When a user or search engine visits `/`, `ctx.inertia('Welcome', props)` renders `views/pages/Welcome.tsx` on the server via `preact-render-to-string`, embeds the serialized props in `<div id="app" data-page="...">`, and Preact hydrates it in the browser.
+2. **SPA Transitions (`<Link>` & `router`):**
+   Clicking `<Link href="/invoices">` sends a lightweight fetch with `X-Bir-Inertia: true`. BirJS returns only `{ component, props, url }` as JSON, swapping the active page without a full page reload — preserving shared UI when implemented through persistent layouts.
+
+---
+
+## Returning Inertia Pages from Controllers
+
+```ts
+// app/controllers/InvoiceController.ts
+import type { Context } from 'birframework';
+import { Invoice } from '../models/Invoice.js';
+
+export class InvoiceController {
+  public async index(ctx: Context) {
+    const invoices = await Invoice.all();
+    // Resolves views/pages/Invoices/Index.tsx
+    return ctx.inertia('Invoices/Index', { invoices });
+  }
+}
+```
+
+---
+
+## Writing Pages & Persistent Layouts
+
+```tsx
+// views/pages/Invoices/Index.tsx
+import { useState } from 'preact/hooks';
+import { Link, router, usePage } from '../../../../resources/js/bir-inertia';
+
+export default function Index({ invoices }: { invoices: any[] }) {
+  const { props } = usePage<{ flash?: { success?: string } }>();
+  const [modalOpen, setModalOpen] = useState(false);
+
+  return (
+    <div className="min-h-screen bg-[#09090b] text-white p-8">
+      <nav className="flex items-center justify-between mb-8">
+        <Link href="/" className="text-sm text-zinc-400 hover:text-white">Home</Link>
+        <button onClick={() => setModalOpen(true)} className="px-3 py-1.5 rounded bg-white text-black text-xs font-medium">
+          New Invoice
+        </button>
+      </nav>
+
+      {props.flash?.success && (
+        <div className="mb-4 p-3 rounded bg-emerald-500/10 text-emerald-400 text-xs">{props.flash.success}</div>
+      )}
+
+      <h1 className="text-2xl font-bold">Invoices ({invoices.length})</h1>
+
+      {modalOpen && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center">
+          <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-6">
+            <h2 className="text-sm font-semibold">Create Invoice</h2>
+            <button onClick={() => { router.post('/invoices', { amount: 100 }); setModalOpen(false); }}>
+              Submit
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+---
+
+## Sharing Global Props (`Inertia.share`)
+
+Share authenticated user state or global settings across every page automatically:
+
+```ts
+import { Inertia, Auth } from 'birframework';
+
+Inertia.share('auth', async (ctx) => ({
+  user: await Auth.user(ctx),
+}));
+```
+
+Session flash messages (`success`, `error`, `errors`) are shared automatically on `props.flash`.
+
+---
+
+## External / Full Redirects (`Inertia.location`)
+
+```ts
+import { Inertia } from 'birframework';
+
+Inertia.location(ctx, '/login'); // Sends 409 X-Bir-Inertia-Location for SPA requests
+```
+
+
+## Persistent Layouts (`Page.layout`)
+
+To keep shared UI (such as sidebars, audio players, or navigation state) mounted across page visits, attach a `layout` callback to your page component:
+
+```tsx
+import { AppLayout } from '../layouts/AppLayout';
+
+export default function Dashboard({ stats }) {
+  return <div>...</div>;
+}
+
+Dashboard.layout = (page) => <AppLayout>{page}</AppLayout>;
+```
+
+## Forms & File Uploads (`useForm`)
+
+Use `useForm` to manage form state, loading states, automatic `FormData` file serialization, and 422 validation errors:
+
+```tsx
+import { useForm } from '../../resources/js/bir-inertia';
+
+function UploadForm() {
+const { data, setData, post, processing, errors, wasSuccessful } = useForm({
+  title: '',
+  cover: null as File | null,
+});
+
+const submit = (e: Event) => {
+  e.preventDefault();
+  post('/tracks', { preserveScroll: true });
+};
+return <form onSubmit={submit}>
+  <input value={data.title} onInput={(e) => setData('title', e.currentTarget.value)} />
+  <button disabled={processing}>Save</button>
+</form>;
+}
+```
+
+## Scroll Preservation, `<Head>`, & Navigation State
+
+- **Scroll Preservation:** Pass `preserveScroll: true` to `<Link href="/..." preserveScroll />` or `router.visit(url, { preserveScroll: true })`.
+- **Dynamic Document Head:** Use `<Head title="My Page" description="..." canonical="https://..." />` inside pages to sync `<title>`, `description`, `og:title`, `og:description`, and `canonical` on client navigation.
+- **Progress Indicator:** `AppShell` renders a top `#bir-progress-bar` automatically during visits, and `useNavigation()` exposes `{ navigating }`.
+
+## Server-Side SSR SEO & Meta Tags
+
+Pass `lang`, `title`, `description`, `canonical`, and `meta` (`robots`, `og`, `twitter`, `tags`) directly from your controller:
+
+```ts
+await ctx.inertia('TldDetail', { tld: 'com' }, {
+  lang: 'tr',
+  title: '.com Domain Prices',
+  description: 'Compare .com registration and renewal prices.',
+  canonical: 'https://example.com/tld/com',
+  meta: {
+    robots: 'index, follow',
+    og: { image: 'https://example.com/og.png', siteName: 'tlds' },
+    twitter: { card: 'summary_large_image' },
+  },
+});
+```
+
+
+Source: https://birjs.com/docs/installation
+
+# Installation Guide
+
+Get up and running with BirJS in seconds using the official interactive CLI scaffolder.
+
+---
+
+## System Requirements
+
+Before creating your first project, ensure your environment satisfies the following prerequisites:
+
+- **Node.js**: `v22.5.0` or higher
+- **NPM**: `v9.0.0` or higher, or `pnpm` / `yarn`
+- **Operating System**: macOS, Linux, or Windows (WSL recommended)
+
+---
+
+## Quickstart Scaffolding
+
+Run `npx birframework new` directly in your terminal to bootstrap a fresh application:
+
+```bash
+npx birframework new my-bir-app
+```
+
+The interactive installer displays the recommended modern stack (**TypeScript (.ts/.tsx) + Tailwind CSS v4 + Unified Preact & Inertia + Vite**):
+- Press **Enter** to install immediately with the recommended defaults.
+- Or type **`c`** to customize Language (`TypeScript` / `JavaScript`), Styling (`Tailwind` / `Pure CSS`), or rendering profile (`Inertia` / `Server-rendered`).
+
+Alternatively, pass flags directly for headless CI/CD automation:
+
+```bash
+# Default full-stack TypeScript + Tailwind v4 + Preact + Inertia + Vite
+npx birframework new my-app --ts --tailwind --inertia
+
+# Minimal MPA without Vite
+npx birframework new my-app --ts --css --server-rendered
+```
+
+---
+
+## Starting the Development Server
+
+Navigate into your newly scaffolded application and launch the dev server:
+
+```bash
+cd my-bir-app
+npm install
+npm run dev
+```
+
+The application will start on `http://localhost:3000`.
+
+> **Port Auto-Increment**: If port `3000` is already in use by another service on your machine, BirJS automatically detects `EADDRINUSE` and gracefully switches to the next available port (`3001`, `3002`, etc.) without crashing.
+
+---
+
+## Available Scripts
+
+| Script | Command | Description |
+| --- | --- | --- |
+| `npm run dev` | `concurrently ...` | Boots the 4-service dev suite (`server`, `queue`, `logs`, `vite`) |
+| `npm run dev:server` | `npx tsx watch app.ts` | Runs the core HTTP server with Hot Reload and auto port increment |
+| `npm run dev:queue` | `npx bir queue:work` | Consumes asynchronous jobs (run scheduling separately with `bir schedule:work`) |
+| `npm run dev:logs` | `npx bir pail` | Streams real-time colorized logs directly in your terminal |
+| `npm run dev:vite` | `vite` | Starts Vite HMR and auto-reload watcher for views and templates |
+| `npm run build` | `vite build` | Compiles production assets to `public/build` with manifest |
+| `npm start` | `npx tsx app.ts` | Boots the production application server |
+
+---
+
+## Deploying to Vercel
+
+Every project scaffolded with `npx birframework new` includes `vercel.json` and `api/index.js` out of the box, so you can deploy immediately by running `vercel` or pushing to GitHub.
+
+If you need to add or regenerate Vercel Serverless configuration in an existing project, run:
+
+```bash
+npx bir make:vercel
+```
+
+This wires up `app.serverless()` with `compress()`, `serveStatic({ publicDir: 'public' })`, and `Inertia.middleware()`. Set a random `APP_KEY` in your Vercel Project Environment Variables for production deployments.
+
+
+Source: https://birjs.com/docs/jsx
+
+# TSX and JSX
+
+BirJS uses Preact for TSX and JSX views. TypeScript projects use `.tsx` components and JavaScript projects use `.jsx` components.
+
+Use `ctx.inertia()` with `views/pages/` for hydrated pages and client navigation. Use `ctx.render()` with named views for server-rendered HTML.
+
+See [Views](/docs/views), [Components](/docs/components), and [Inertia](/docs/inertia) for setup and examples.
+
+
+Source: https://birjs.com/docs/localization
+
+# Localization & i18n Translation
+
+BirJS provides an intuitive internationalization (i18n) and translation system inspired by Laravel, supporting parameter interpolation and fallback locales for use in controllers and components.
+
+---
+
+## 1. Translation Files
+
+Store your translation files under `lang/` or `resources/lang/` as JSON files named after their locale code (e.g. `lang/en.json`, `lang/tr.json`):
+
+```json
+// lang/en.json
+{
+  "welcome": "Welcome back, {name}!",
+  "auth": {
+    "failed": "These credentials do not match our records.",
+    "throttle": "Too many login attempts. Please try again in :seconds seconds."
+  }
+}
+```
+
+```json
+// lang/tr.json
+{
+  "welcome": "Hoş geldiniz, {name}!",
+  "auth": {
+    "failed": "Girdiğiniz bilgiler kayıtlarımızla eşleşmiyor.",
+    "throttle": "Çok fazla giriş denemesi. Lütfen :seconds saniye sonra tekrar deneyin."
+  }
+}
+```
+
+---
+
+## 2. Using the `__()` Helper and `Lang` Facade
+
+Translate keys anywhere in your application:
+
+```typescript
+import { __, Lang } from 'birframework';
+
+// Simple translation
+const hello = __('welcome', { name: 'Taylor' });
+// -> "Welcome back, Taylor!"
+
+// Dot notation nested key
+const error = __('auth.failed');
+
+// Parameter replacement supports both :param and {param}
+const throttle = __('auth.throttle', { seconds: 30 });
+```
+
+### Switching Locales Dynamically
+
+```typescript
+// Change locale at runtime
+Lang.setLocale('tr');
+console.log(__('welcome', { name: 'Ahmet' })); // "Hoş geldiniz, Ahmet!"
+
+// Check if a translation key exists
+if (Lang.has('auth.failed')) {
+  // ...
+}
+```
+
+---
+
+## 3. Translations in pages
+
+Translate using the request locale in your controller and pass the result as page props.
+
+```ts
+Route.get('/welcome', (ctx) => ctx.inertia('Welcome', {
+  message: ctx.__('welcome', { name: 'Ahmet' }),
+}));
+```
+
+```tsx
+export default function Welcome({ message }: { message: string }) {
+  return <h1>{message}</h1>;
+}
+```
+
+## 4. Context Locale Detection
+
+In your route handlers and controllers, `ctx.locale` automatically inspects:
+1. `?lang=tr` URL query parameter
+2. `X-Locale` HTTP request header
+3. Falls back to default `APP_LOCALE`
+
+```typescript
+Route.get('/welcome', (ctx) => {
+  // Translates automatically using request's detected locale:
+  const message = ctx.__('welcome', { name: 'Ferdi' });
+  return ctx.json({ message, locale: ctx.locale });
+});
+```
+
+
+Source: https://birjs.com/docs/logging
+
+# Structured Logging & Pail
+
+BirJS includes a unified, structured logging architecture designed for high-performance applications. It pairs file-based persistence with **Bir Pail**, an interactive CLI log tailer that streams colorized logs in real time.
+
+---
+
+## The Log Facade
+
+Import the `Log` facade from `birframework` to record runtime events, security warnings, or diagnostic traces:
+
+```ts
+import { Log } from 'birframework';
+
+// Informational events
+Log.info('Order successfully processed', { orderId: 8492, amount: 149.99 });
+
+// Warning states
+Log.warning('Rate limit threshold approached', { ip: '192.168.1.1', attempts: 55 });
+
+// Critical errors and exceptions
+Log.error('Payment gateway connection failed', { gateway: 'stripe', error: err.message });
+
+// Debug details
+Log.debug('Cache query miss', { key: 'users:profile:42' });
+```
+
+---
+
+## Log Levels
+
+BirJS implements standard RFC 5424 log severity levels:
+
+| Level | Method | Typical Use Case |
+| :--- | :--- | :--- |
+| **Emergency** | `Log.emergency(msg, ctx)` | System is unusable |
+| **Alert** | `Log.alert(msg, ctx)` | Immediate action required |
+| **Critical** | `Log.critical(msg, ctx)` | Critical system or database conditions |
+| **Error** | `Log.error(msg, ctx)` | Runtime errors that do not require immediate action |
+| **Warning** | `Log.warning(msg, ctx)` | Exceptional occurrences that are not errors |
+| **Notice** | `Log.notice(msg, ctx)` | Normal but significant events |
+| **Info** | `Log.info(msg, ctx)` | Interesting runtime events (user login, job dispatched) |
+| **Debug** | `Log.debug(msg, ctx)` | Detailed debug information for development |
+
+---
+
+## Log Storage
+
+By default, all log entries are appended asynchronously to:
+
+```
+storage/logs/bir.log
+```
+
+Log entries are formatted with ISO-8601 timestamps, log levels, and stringified JSON contextual data:
+
+```text
+[2026-11-24T16:20:00.123Z] [INFO] [HTTP] GET /api/v1/users 200 - 2.4ms {"ip":"::1"}
+[2026-11-24T16:20:05.456Z] [ERROR] [Queue] Job SendInvoiceJob failed {"attempt":3,"error":"Timeout"}
+```
+
+---
+
+## Bir Pail: Real-Time Log Streaming
+
+Inspired by Laravel Pail, BirJS includes **Bir Pail**, a zero-dependency CLI log tailer that continuously monitors `storage/logs/bir.log` and renders incoming events with distinct ANSI badges and clean formatting:
+
+```bash
+npx bir pail
+# or using the shortcut
+npx bir logs
+```
+
+### Visual Category Badges
+
+Bir Pail automatically recognizes the source and categorizes your logs with high-contrast color badges:
+
+* <span style="color:#38bdf8;font-weight:bold;">[HTTP]</span> Cyan: Incoming HTTP requests, routes, status codes, and execution latency.
+* <span style="color:#a855f7;font-weight:bold;">[Queue]</span> Purple: Job processing, retries, completions, and queue failures.
+* <span style="color:#f43f5e;font-weight:bold;">[Error]</span> Rose: Uncaught exceptions, database connectivity drops, and 500 responses.
+* <span style="color:#fbbf24;font-weight:bold;">[Schedule]</span> Amber: Cron task triggers and background scheduler executions.
+* <span style="color:#10b981;font-weight:bold;">[Mail]</span> Emerald: Outgoing transactional emails and mailable deliveries.
+
+---
+
+## Dev Dashboard Integration
+
+Bir Pail is integrated into the default development workflow. When you run:
+
+```bash
+npm run dev
+```
+
+The 4-service concurrent runner launches:
+1. `server`: Your HTTP application
+2. `queue`: The background queue worker
+3. `logs`: **Bir Pail** live log streamer
+4. `vite`: Frontend assets dev server
+
+All four streams output to a single unified terminal window with dedicated color tags.
+
+
+Source: https://birjs.com/docs/middleware
+
+# HTTP Middleware Pipeline
+
+Middleware provides a convenient mechanism for inspecting and filtering HTTP requests entering your application.
+
+---
+
+## What is Middleware?
+
+Middleware functions wrap incoming requests in an onion-style pipeline. Common use cases include:
+- Verifying authentication tokens or session cookies
+- Enforcing rate limiting
+- Verifying CSRF tokens on state-changing requests
+- Logging request durations and response statuses
+
+---
+
+## Defining Custom Middleware
+
+Create a middleware class or function implementing the `Middleware` signature:
+
+```ts
+// app/middleware/Authenticate.ts
+import type { Context, Next } from 'birframework';
+
+export async function Authenticate(ctx: Context, next: Next) {
+  const token = ctx.req.headers['authorization'];
+
+  if (!token) {
+    return ctx.json({ error: 'Authentication token required' }, 401);
+  }
+
+  // Continue to the next middleware or controller
   await next();
 }
 ```
 
 ---
 
-## 9. Frontend Architecture: Preact + Inertia + SSR
+## Applying Middleware
 
-BirFramework combines the developer experience of Inertia.js with Preact for featherweight, lightning-fast SSR hydration.
+### 1. Global Middleware
+Applied to every incoming request:
 
-### Server-Side Rendering (`ctx.inertia`)
+```ts
+// app.ts
+import { app } from './bootstrap.ts';
+import { RequestLogger } from './app/middleware/RequestLogger.ts';
 
-```typescript
-return ctx.inertia(
-  'StatusPage',                  // Matches views/pages/StatusPage.tsx
-  {
-    components,
-    incidents,
-    systemStatus: 'all_good',
-  },
-  {
-    lang: 'tr',
-    title: 'Sistem Durumu — BirJS',
-    description: 'Gerçek zamanlı sistem ve servis durumu göstergesi.',
+app.use(RequestLogger);
+```
+
+### 2. Route-Level Middleware
+Attached to specific routes or route groups:
+
+```ts
+import { Route } from 'birframework';
+import { Authenticate } from './app/middleware/Authenticate.ts';
+
+Route.get('/dashboard', (ctx) => {
+  return ctx.render('dashboard');
+}).middleware(Authenticate);
+
+Route.group({ prefix: '/admin', middleware: [Authenticate] }, () => {
+  Route.get('/settings', (ctx) => ctx.render('admin/settings'));
+});
+```
+
+
+## Response Compression (`compress`)
+
+Compress JSON, HTML, CSS, and JS responses automatically with Brotli (`br`) or Gzip (`gzip`), while safely skipping `HEAD`, `204`/`206`/`304`, SSE (`text/event-stream`), and binary media (`audio/*`, `video/*`, `image/*`):
+
+```ts
+import { compress } from 'birframework';
+
+app.use(compress({ threshold: 1024, brotli: true, gzip: true }));
+```
+
+## Media Streaming (`Range 206`), `ETag`, & `ctx.fileStream()`
+
+`serveStatic()` supports `Accept-Ranges: bytes`, `206 Partial Content` / `416 Range Not Satisfiable`, and `ETag` / `304 Not Modified` out of the box for audio, video, and resumable downloads.
+
+For authenticated or dynamic file streaming inside a controller, use `ctx.fileStream()`:
+
+```ts
+Route.get('/stream/:trackId', async (ctx) => {
+  // Check auth/subscription here...
+  await ctx.fileStream(`storage/tracks/${ctx.params.trackId}.mp3`);
+});
+```
+
+
+Source: https://birjs.com/docs/migrations
+
+# Schema & Migrations
+
+Migrations are like version control for your database, allowing your team to define and share the application's database schema definition.
+
+---
+
+## Creating a Migration
+
+Generate a new migration using the Bir CLI:
+
+```bash
+npx birframework make:migration create_posts_table
+```
+
+This creates a timestamped migration file in `database/migrations/`:
+
+```ts
+// database/migrations/2026_11_23_000001_create_posts_table.ts
+import { Schema, Blueprint } from 'birframework';
+
+export default class CreatePostsTable {
+  public async up() {
+    await Schema.create('posts', (table: Blueprint) => {
+      table.id();
+      table.string('title');
+      table.string('slug').unique();
+      table.text('content');
+      table.integer('user_id');
+      table.boolean('published').default(false);
+      table.timestamps();
+    });
   }
-);
-```
 
-### Persistent Layout Pattern (`Page.layout`)
-
-To ensure persistent layouts (audio players, navigation headers, sidebar scrolls) do NOT unmount or flicker between page transitions, define `Component.layout`:
-
-```tsx
-// views/pages/StatusPage.tsx
-import { AppLayout } from '../layouts/AppLayout';
-import { Head } from '../../resources/js/bir-inertia';
-
-interface StatusPageProps {
-  components: any[];
-  systemStatus: string;
-}
-
-export default function StatusPage({ components, systemStatus }: StatusPageProps) {
-  return (
-    <div>
-      <Head title="System Status" />
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold">System Status</h1>
-        {/* Page content */}
-      </div>
-    </div>
-  );
-}
-
-// Persistent Layout definition:
-StatusPage.layout = (page: any) => <AppLayout>{page}</AppLayout>;
-```
-
-### Inertia Links and Forms
-
-```tsx
-import { Link, useForm } from '../../resources/js/bir-inertia';
-
-export function LoginForm() {
-  const { data, setData, post, processing, errors } = useForm({
-    email: '',
-    password: '',
-  });
-
-  const handleSubmit = (e: Event) => {
-    e.preventDefault();
-    post('/login');
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="email"
-        value={data.email}
-        onInput={(e: any) => setData('email', e.target.value)}
-      />
-      {errors.email && <span className="text-red-500">{errors.email}</span>}
-
-      <button type="submit" disabled={processing}>
-        {processing ? 'Logging in...' : 'Sign In'}
-      </button>
-    </form>
-  );
+  public async down() {
+    await Schema.dropIfExists('posts');
+  }
 }
 ```
 
 ---
 
-## 10. HTTP Audio/Video Streaming (HTTP 206 Partial Content)
+## Running Migrations
 
-BirFramework includes first-class support for HTTP 206 Range requests via `ctx.fileStream()`:
+Execute all pending migrations:
+
+```bash
+npx birframework migrate
+```
+
+Roll back the last migration batch:
+
+```bash
+npx birframework migrate:rollback
+```
+
+Reset all tables and re-run migrations from scratch:
+
+```bash
+npx birframework migrate:fresh
+```
+
+---
+
+## Available Blueprint Column Types
+
+| Method | Type | Description |
+| --- | --- | --- |
+| `table.id()` | Auto-incrementing Integer | Primary key |
+| `table.string(name, length?)` | `VARCHAR` | Short text column |
+| `table.text(name)` | `TEXT` | Multiline content column |
+| `table.integer(name)` | `INTEGER` | Integer numeric column |
+| `table.boolean(name)` | `BOOLEAN` | Boolean true/false column |
+| `table.timestamps()` | `DATETIME` | Adds `created_at` & `updated_at` |
+
+
+Source: https://birjs.com/docs/models
+
+# Active Record ORM
+
+BirJS provides an intuitive Active Record ORM inspired by Eloquent, allowing you to interact with database tables as expressive TypeScript classes.
+
+---
+
+## Defining a Model
+
+Create model classes extending `Model`:
+
+```ts
+// app/models/User.ts
+import { Model } from 'birframework';
+import { Post } from './Post.ts';
+
+export class User extends Model {
+  // Table name (defaults to snake_case plural of class name: 'users')
+  public static table = 'users';
+
+  // Primary key (defaults to 'id')
+  public static primaryKey = 'id';
+
+  // Relationships
+  public posts() {
+    return this.hasMany(Post, 'user_id');
+  }
+}
+```
+
+---
+
+## CRUD Operations
+
+### Inserting Records
+
+```ts
+const user = await User.create({
+  name: 'Ferdi Sahin',
+  email: 'ferdi@birjs.com',
+  role: 'admin',
+});
+```
+
+### Finding & Querying
+
+```ts
+// Find by primary key
+const user = await User.find(1);
+
+// Where clauses & chaining
+const admins = await User.where('role', 'admin')
+  .where('is_active', true)
+  .orderBy('created_at', 'DESC')
+  .get();
+
+// First matching record
+const user = await User.where('email', 'ferdi@birjs.com').first();
+```
+
+### Updating Records
+
+```ts
+const user = await User.find(1);
+if (user) {
+  user.name = 'Updated Name';
+  await user.save();
+}
+```
+
+### Deleting Records
+
+```ts
+const user = await User.find(1);
+if (user) {
+  await user.delete();
+}
+```
+
+---
+
+## Model Lifecycle Hooks
+
+BirJS models fire lifecycle hooks allowing you to tap into the model's lifecycle: `creating`, `created`, `saving`, `saved`, `deleting`, and `deleted`.
+
+### Instance Method Hooks
+
+You can define lifecycle methods directly on your Model class:
 
 ```typescript
-import { HttpContext } from 'birframework';
-import { join } from 'node:path';
-import { existsSync } from 'node:fs';
-
-export class MediaController {
-  async stream(ctx: HttpContext) {
-    const filename = ctx.params.file;
-    const filePath = join(process.cwd(), 'storage/media', filename);
-
-    if (!existsSync(filePath)) {
-      return ctx.json({ error: 'File not found' }, 404);
+export class Article extends Model {
+  // Automatically generate slugs before record creation
+  public beforeCreate() {
+    if (!this.attributes['slug']) {
+      this.attributes['slug'] = String(this.attributes['title'])
+        .toLowerCase()
+        .replace(/\s+/g, '-');
     }
+  }
 
-    // Automatically handles Range headers, Content-Range, Accept-Ranges, and chunked piping!
-    return ctx.fileStream(filePath, {
-      contentType: 'audio/wav',
-      cacheControl: 'public, max-age=31536000, immutable',
+  public afterCreate() {
+    console.log(`Article #${this.id} created successfully!`);
+  }
+}
+```
+
+### Static Hook Listeners
+
+```typescript
+User.saving((user) => {
+  // Hash passwords or format data before saving
+});
+
+User.created(async (user) => {
+  // Dispatch welcome email or notifications
+});
+```
+
+---
+
+## Soft Deletes
+
+BirJS supports non-destructive deletions using the `softDeletes` property:
+
+```typescript
+export class Post extends Model {
+  static override softDeletes = true;
+}
+```
+
+### How Soft Deletes Work
+
+When `softDeletes` is enabled:
+- Calling `post.delete()` sets `deleted_at` to the current timestamp instead of removing the row from the database.
+- Standard queries (`Post.all()`, `Post.find()`, `Post.where()`) automatically exclude soft-deleted records.
+
+```typescript
+const post = await Post.find(1);
+await post.delete(); // Soft-deleted (deleted_at set)
+
+console.log(post.trashed()); // true
+
+// Will return null because record is trashed:
+const normal = await Post.find(1);
+
+// Query including soft-deleted records:
+const allWithDeleted = await Post.withTrashed().where('author_id', 5).get();
+
+// Query only soft-deleted records:
+const trashedOnly = await Post.onlyTrashed().get();
+
+// Restore a soft-deleted record:
+await post.restore();
+
+// Permanently remove from database:
+await post.forceDelete();
+```
+
+---
+
+## Pagination
+
+Easily paginate results in your controllers:
+
+```ts
+// Returns LengthAwarePaginator with items and page metadata
+const paginatedUsers = await User.paginate({ page: 1, perPage: 15 });
+
+console.log(paginatedUsers.meta.total);        // Total count
+console.log(paginatedUsers.meta.currentPage);  // 1
+console.log(paginatedUsers.data);         // Current page items
+```
+
+---
+
+## Atomic Counters (`increment` & `decrement`)
+
+Update balances, stock counts, or retry counters atomically in SQL without race conditions:
+
+```ts
+await User.where('id', '=', userId).increment('credits', 50);
+await Product.where('id', '=', productId).decrement('stock', 1);
+```
+
+---
+
+## Idempotent Upserts (`firstOrCreate` & `updateOrCreate`)
+
+```ts
+// Find by email, or create with default balance if missing
+const account = await Account.firstOrCreate(
+  { email: 'customer@example.com' },
+  { balance: 0, plan: 'starter' }
+);
+
+// Update existing record or create a new one
+await Setting.updateOrCreate(
+  { key: 'billing.currency' },
+  { value: 'USD' }
+);
+```
+
+---
+
+## Chunking Large Datasets (`chunk`)
+
+Process thousands of invoices or orders in bounded memory batches:
+
+```ts
+await Invoice.where('status', '=', 'unpaid').chunk(100, async (invoices) => {
+  for (const invoice of invoices) {
+    await sendReminder(invoice);
+  }
+});
+```
+
+---
+
+## Many-to-Many Relationships (`belongsToMany`)
+
+Define pivot-table relationships with `attach()`, `detach()`, `sync()`, and `get()`:
+
+```ts
+export class User extends Model {
+  public roles() {
+    return this.belongsToMany(Role, 'role_user', 'user_id', 'role_id');
+  }
+}
+
+const user = await User.find(1);
+await user?.roles().attach([1, 2]);
+const roles = await user?.roles().get();
+await user?.roles().sync([2, 3]);
+```
+
+
+Source: https://birjs.com/docs/overview
+
+# Overview
+
+BirJS is a TypeScript and Node.js web framework with HTTP routing, controllers, middleware, dependency injection, validation, database models, migrations, background jobs, scheduling, mail, and storage.
+
+## Application flow
+
+A route selects a handler. Middleware runs around that handler. Controllers read and validate the request, call application services or models, and return JSON, a redirect, or a rendered page.
+
+## Rendering profiles
+
+The Inertia profile uses Preact pages with server rendering and browser hydration. Its client Link and router helpers request page data without a full document navigation. The server-rendered profile returns TSX/JSX HTML through ctx.render.
+
+## Database and services
+
+SQLite uses Node's built-in node:sqlite. PostgreSQL and MySQL use optional pg and mysql2 packages. Queue workers and schedulers run as separate processes. Cache and session storage choices determine whether state is process-local or shared.
+
+## Deployment
+
+Run the application as a persistent Node.js process or export its serverless handler. Persistent processes retain in-memory state while running. Serverless instances can restart independently, so shared state requires suitable external storage.
+
+Start with [Installation](/docs/installation), then read [Directory structure](/docs/directory-structure) and [Routing](/docs/routing).
+
+
+Source: https://birjs.com/docs/providers
+
+# Service Providers & Plugins
+
+Service Providers are the central place for configuring and bootstrapping applications in BirJS. If you are familiar with Laravel's `ServiceProvider`, BirJS brings the exact same clean, modular architecture to modern TypeScript and Node.js.
+
+---
+
+## What is a Service Provider?
+
+Service Providers allow you to encapsulate related logic (registering container bindings, setting up third-party SDKs, defining view globals, configuring event listeners, or hooking into request lifecycles) into reusable, self-contained classes.
+
+Each Service Provider follows a two-phase lifecycle:
+
+1. **`register()`**: Use this method to bind things into the Service Container (`app.container.singleton()` or `app.container.bind()`). In this method, you should **never** attempt to use services provided by other providers, because they may not have been registered yet.
+2. **`boot()`**: Called after **all** providers have executed their `register()` methods. Here you can safely access any service, register view shared data, or initialize listeners.
+
+---
+
+## Creating a Service Provider
+
+You can quickly scaffold a new Service Provider using the Bir CLI:
+
+```bash
+bir make:provider PaymentServiceProvider
+```
+
+This generates `app/providers/PaymentServiceProvider.ts`:
+
+```typescript
+import { ServiceProvider } from 'birframework';
+import type { Application } from 'birframework';
+import { StripeGateway } from '../services/StripeGateway.js';
+
+export class PaymentServiceProvider extends ServiceProvider {
+  /**
+   * Register container bindings.
+   */
+  public register(): void {
+    this.app.container.singleton('payment.gateway', () => {
+      const apiKey = process.env.STRIPE_SECRET_KEY || '';
+      return new StripeGateway(apiKey);
+    });
+  }
+
+  /**
+   * Bootstrap services after all providers are registered.
+   */
+  public boot(): void {
+    // You can share data with views, attach events, etc.
+    console.log('[PaymentServiceProvider] Booted successfully.');
+  }
+}
+```
+
+---
+
+## Registering Providers in Your Application
+
+You can register Service Providers directly on your `Application` instance:
+
+```typescript
+// app.ts or bootstrap/app.ts
+import { Application } from 'birframework';
+import { PaymentServiceProvider } from './app/providers/PaymentServiceProvider.js';
+
+const app = new Application();
+
+// Register the provider
+app.register(PaymentServiceProvider);
+
+export default app;
+```
+
+### Accessing Registered Services from Container
+
+Anywhere in your controllers or middleware:
+
+```typescript
+// app/controllers/CheckoutController.ts
+import type { Context } from 'birframework';
+import { StripeGateway } from '../services/StripeGateway.js';
+
+export class CheckoutController {
+  async process(ctx: Context) {
+    const gateway = app.container.make<StripeGateway>('payment.gateway');
+    const result = await gateway.charge((await ctx.body()).amount);
+    return ctx.json({ success: true, result });
+  }
+}
+```
+
+---
+
+## Functional Plugins (Micro-Modules)
+
+If you have lightweight logic or want to publish a third-party npm package for BirJS, you can use **functional plugins**:
+
+```typescript
+import type { Application } from 'birframework';
+
+export function myAnalyticsPlugin(app: Application, options: { trackingId: string }) {
+  // Hook into router or add global middleware
+  app.use(async (ctx, next) => {
+    ctx.header('X-Tracking-ID', options.trackingId);
+    await next();
+  });
+}
+```
+
+Registering a functional plugin:
+
+```typescript
+app.register(myAnalyticsPlugin, { trackingId: 'GA-999999' });
+```
+
+---
+
+## Provider lifecycle
+
+Use `register()` for container bindings and `boot()` for initialization after providers have registered. The provider receives `this.app`, with access to its container, router, and middleware registration.
+
+The controller example above assumes you export your Application instance from a bootstrap module and import it as `app`. Keep the listening entry separate when importing the application into tests.
+
+
+Source: https://birjs.com/docs/queues
+
+# Background Queues
+
+Offload time-consuming tasks — such as sending emails, image resizing, or AI processing — to background queue workers.
+
+---
+
+## Defining a Job
+
+Generate a new job class using the CLI:
+
+```bash
+npx birframework make:job SendWelcomeEmailJob
+```
+
+Implement the `handle()` method:
+
+```ts
+// app/jobs/SendWelcomeEmailJob.ts
+import { Job } from 'birframework';
+import { Mail } from 'birframework';
+
+export class SendWelcomeEmailJob extends Job {
+  constructor(public user: { name: string; email: string }) {
+    super();
+  }
+
+  public async handle() {
+    await Mail.to(this.user.email).raw('<p>Welcome to BirJS.</p>', {
+      subject: 'Welcome to BirJS',
     });
   }
 }
@@ -550,36 +2490,985 @@ export class MediaController {
 
 ---
 
-## 11. Command-Line Interface (CLI Reference)
+## Dispatching Jobs
 
-BirFramework CLI (`bir`) accelerates development:
+Dispatch jobs from your controllers or services:
 
-| Command | Description |
-| :--- | :--- |
-| `bir new <project-name>` | Scaffolds a new BirFramework application |
-| `bir serve` | Starts the high-speed local dev server with HMR |
-| `bir make:controller <Name>` | Generates a new Controller in `app/controllers/` |
-| `bir make:model <Name> [-m]` | Generates an ActiveRecord Model (and optional migration) |
-| `bir make:migration <Name>` | Generates a new migration file in `database/migrations/` |
-| `bir make:middleware <Name>` | Generates a new HTTP Middleware in `app/middleware/` |
-| `bir make:job <Name>` | Generates a new asynchronous Queue Job |
-| `bir migrate` | Runs all pending database migrations |
-| `bir queue:work` | Starts the background queue worker process |
-| `bir schedule:work` | Starts the task scheduler daemon |
-| `bir route:list` | Displays the formatted routing table in the console |
-| `bir pail` | Launches interactive real-time log monitoring |
+```ts
+import { dispatch } from 'birframework';
+import { SendWelcomeEmailJob } from '../jobs/SendWelcomeEmailJob.ts';
+
+// Dispatch immediately to default queue
+await dispatch(new SendWelcomeEmailJob(user));
+
+// Dispatch with delay
+await dispatch(new SendWelcomeEmailJob(user).delay(60));
+```
 
 ---
 
-## 12. Golden Rules & Negative Constraints for AI
+## Running the Queue Worker
 
-When generating code for BirFramework, you MUST follow these critical rules:
+Start processing queued jobs in the background:
 
-1. ❌ **NEVER write monolithic `routes/web.ts` files**: Route files must only wire URLs to Controller actions. Keep business logic strictly in Controllers and Models.
-2. ❌ **NEVER import `node:sqlite` directly**: Always use `Schema.create(...)`, `Blueprint`, and `Model` classes.
-3. ❌ **NEVER import `{ session }`**: The export is `sessionMiddleware()` and `setSessionStore()`.
-4. ❌ **NEVER import from `'react'` in page components**: Use Preact (`preact/hooks`) or framework-provided inertia wrappers.
-5. ❌ **NEVER forget `static fillable` on Models**: Mass assignment using `Model.create(...)` drops attributes not declared in `static fillable`.
-6. ❌ **NEVER emit flash or reload state in SSR that causes hydration mismatch**: Defer browser-only reads (like `localStorage`) to `useEffect()`.
-7. ✅ **ALWAYS implement persistent layouts**: Set `Page.layout = (page) => <Layout>{page}</Layout>` so navigation remains smooth without flicker.
-8. ✅ **ALWAYS return `ctx.json(...)`, `ctx.redirect(...)`, or `ctx.inertia(...)`** from Controller actions.
+```bash
+npx birframework queue:work
+```
+
+The worker continuously polls the queue table, executes job `handle()` methods, and manages retry attempts with retries on failures.
+
+---
+
+## Failed Jobs & Retry Management
+
+When a job exceeds its maximum retry attempts (`tries`), it is automatically recorded in the `_failed_jobs` table instead of being discarded:
+
+```bash
+# List all failed jobs with timestamps and IDs
+npx bir queue:failed
+
+# Retry a specific failed job or all failed jobs
+npx bir queue:retry 42
+npx bir queue:retry all
+
+# Clear the failed jobs table
+npx bir queue:flush
+```
+
+## Register jobs in the worker process
+
+Create `app/jobs/index.ts` (or `.js`) and register each job class. The CLI worker imports this file before processing persisted jobs.
+
+```ts
+import { Queue } from 'birframework';
+import { SendWelcomeEmailJob } from './SendWelcomeEmailJob.js';
+
+Queue.register(SendWelcomeEmailJob);
+```
+
+Job properties are persisted as JSON. Use serializable values and resolve database records inside `handle()` when fresh data is needed. Delay values are seconds.
+
+
+Source: https://birjs.com/docs/resources
+
+# API Resources & JSON Transformation
+
+When building modern APIs, you often need an abstraction layer that sits between your database models and the JSON responses actually returned to users or frontend applications.
+
+BirJS's **JsonResource** provides a clean, expressive transformation layer inspired by Eloquent API Resources, enabling precise control over field exposure, relationships, pagination, and conditional attributes.
+
+---
+
+## 1. Creating a Resource
+
+To create a resource, extend `JsonResource` and implement the `toArray()` method:
+
+```typescript
+import { JsonResource, type Context } from 'birframework';
+import type { User } from '../models/User.js';
+
+export class UserResource extends JsonResource<User> {
+  public toArray(ctx?: Context) {
+    return {
+      id: this.resource.id,
+      name: this.resource.name,
+      email: this.resource.email,
+      created_at: this.resource.created_at,
+    };
+  }
+}
+```
+
+---
+
+## 2. Using Resources in Routes and Controllers
+
+You can transform a single model or a collection of models:
+
+### Single Model Transformation
+
+```typescript
+import { Route } from 'birframework';
+import { User } from '../models/User.js';
+import { UserResource } from '../resources/UserResource.js';
+
+Route.get('/api/users/:id', async (ctx) => {
+  const user = await User.find(ctx.params.id);
+  if (!user) return ctx.json({ error: 'User not found' }, 404);
+
+  return UserResource.make(user);
+});
+```
+
+By default, single resources are wrapped inside a top-level `data` key:
+
+```json
+{
+  "data": {
+    "id": 1,
+    "name": "Jane Doe",
+    "email": "jane@example.com",
+    "created_at": "2026-11-23T10:00:00.000Z"
+  }
+}
+```
+
+### Resource Collections
+
+To transform an array or collection of models, use the static `collection()` method:
+
+```typescript
+Route.get('/api/users', async (ctx) => {
+  const users = await User.all();
+  return UserResource.collection(users);
+});
+```
+
+```json
+{
+  "data": [
+    { "id": 1, "name": "Jane Doe", "email": "jane@example.com" },
+    { "id": 2, "name": "John Smith", "email": "john@example.com" }
+  ]
+}
+```
+
+---
+
+## 3. Preserving Paginator Metadata
+
+When passing a `LengthAwarePaginator` (returned by `Model.paginate()`) to `collection()`, BirJS automatically transforms the items while preserving total counts, current page, and pagination links:
+
+```typescript
+Route.get('/api/users', async (ctx) => {
+  const page = Number(ctx.query.page) || 1;
+  const paginatedUsers = await User.paginate({ page, perPage: 15 });
+
+  return UserResource.collection(paginatedUsers);
+});
+```
+
+Response:
+
+```json
+{
+  "data": [
+    { "id": 1, "name": "Jane Doe", "email": "jane@example.com" }
+  ],
+  "meta": {
+    "total": 50,
+    "perPage": 15,
+    "currentPage": 1,
+    "lastPage": 4,
+    "from": 1,
+    "to": 15
+  },
+  "links": {
+    "first": "?page=1",
+    "last": "?page=4",
+    "prev": null,
+    "next": "?page=2"
+  }
+}
+```
+
+---
+
+## 4. Conditional Attributes
+
+BirJS provides `when()` and `whenNotNull()` helpers inside `JsonResource` to include attributes only when specific conditions are met (e.g. admin privileges or non-empty relationships):
+
+```typescript
+export class UserResource extends JsonResource<User> {
+  public toArray(ctx?: Context) {
+    const isAdmin = ctx?.session?.get('is_admin') === true;
+
+    return {
+      id: this.resource.id,
+      name: this.resource.name,
+      email: this.resource.email,
+
+      // Only included if isAdmin is true
+      secret_token: this.when(isAdmin, this.resource.secret_token),
+
+      // Only included if phone is not null/undefined
+      phone: this.whenNotNull(this.resource.phone),
+    };
+  }
+}
+```
+
+---
+
+## 5. Adding Top-Level Metadata
+
+Attach additional root-level metadata (such as status codes, copyright, or runtime metrics) using the `.additional()` chain:
+
+```typescript
+return UserResource.make(user).additional({
+  status: 'success',
+  meta: {
+    cached: false,
+    version: '1.0',
+  },
+});
+```
+
+```json
+{
+  "data": {
+    "id": 1,
+    "name": "Jane Doe"
+  },
+  "status": "success",
+  "meta": {
+    "cached": false,
+    "version": "1.0"
+  }
+}
+```
+
+---
+
+## 6. Disabling Data Wrapping
+
+If you prefer flat JSON output without the top-level `data` key, call `withoutWrapping()` on the resource class:
+
+```typescript
+UserResource.withoutWrapping();
+return UserResource.make(user);
+```
+
+Output:
+
+```json
+{
+  "id": 1,
+  "name": "Jane Doe",
+  "email": "jane@example.com"
+}
+```
+
+
+Source: https://birjs.com/docs/routing
+
+# Routing & Parameters
+
+BirJS features an intuitive, expressive router inspired by Laravel, engineered for sub-millisecond route dispatching.
+
+---
+
+## Basic Route Definition
+
+Define routes in `routes/web.ts` (for HTML views) or `routes/api.ts` (for REST endpoints):
+
+```ts
+import { Route, auth } from 'birframework';
+
+// Basic GET route returning JSON
+Route.get('/ping', (ctx) => {
+  return ctx.json({ status: 'pong', time: Date.now() });
+});
+
+// Basic POST route
+Route.post('/contact', async (ctx) => {
+  const body = await ctx.body();
+  return ctx.json({ success: true, message: 'Message received' });
+});
+```
+
+---
+
+## Route Parameters
+
+Capture dynamic parameters in URLs using the `:param` syntax:
+
+```ts
+// Mandatory route parameter
+Route.get('/users/:id', async (ctx) => {
+  const userId = ctx.params.id;
+  return ctx.json({ id: userId });
+});
+
+// Multiple parameters
+Route.get('/posts/:slug/comments/:commentId', (ctx) => {
+  const { slug, commentId } = ctx.params;
+  return ctx.json({ slug, commentId });
+});
+```
+
+---
+
+## Named Routes
+
+Name routes for identification in route listings and application tooling:
+
+```ts
+Route.get('/users/profile', (ctx) => {
+  return ctx.render('profile');
+}).name('user.profile');
+
+// Use the registered URL when linking to this route.
+```
+
+---
+
+## Route Groups & Prefixes
+
+Organize related endpoints with route prefixes and shared middleware:
+
+```ts
+Route.group({ prefix: '/api/v1', middleware: [auth()] }, () => {
+  Route.get('/me', (ctx) => ctx.json(ctx.user));
+  Route.get('/orders', (ctx) => ctx.json([]));
+});
+```
+
+---
+
+## HTTP Verbs Supported
+
+| Method | Helper Method | Example |
+| --- | --- | --- |
+| `GET` | `Route.get(path, handler)` | Fetch data or render page |
+| `POST` | `Route.post(path, handler)` | Create new resource |
+| `PUT` | `Route.put(path, handler)` | Replace existing resource |
+| `PATCH` | `Route.patch(path, handler)` | Partially update resource |
+| `DELETE` | `Route.delete(path, handler)` | Remove resource |
+
+
+Source: https://birjs.com/docs/scheduler
+
+# Task Scheduler
+
+Register tasks and start the scheduler in the same process. The CLI schedule:work and schedule:run commands do not automatically import your application's schedule definitions.
+
+## Application entry point
+
+```ts
+// app/console/scheduler.ts
+import { Schedule } from 'birframework';
+
+Schedule.call(async () => {
+  console.log('Scheduled check');
+}, 'Scheduled check').everyMinute();
+
+await Schedule.work();
+```
+
+```bash
+node --import tsx app/console/scheduler.ts
+```
+
+Use `Schedule.work({ once: true })` to run due tasks once. In a JavaScript project omit the tsx loader and use a .js file.
+
+## Frequencies
+
+Supported helpers are everySecond(), everyMinute(), everyFiveMinutes(), everyTenMinutes(), everyThirtyMinutes(), hourly(), daily(), and dailyAt('14:30'). Interval helpers measure elapsed time since the previous execution. dailyAt checks the local process time.
+
+## Queue jobs
+
+```ts
+import { Schedule } from 'birframework';
+import { BackupJob } from '../jobs/BackupJob.js';
+
+Schedule.job(new BackupJob()).dailyAt('02:00');
+```
+
+Schedule.job dispatches to the queue. Register the class in app/jobs/index.ts and run a queue worker to execute it.
+
+## Prevent overlap
+
+```ts
+Schedule.call(async () => {
+  await synchronizeCatalog();
+}, 'Synchronize catalog').everyFiveMinutes().withoutOverlapping(3600);
+```
+
+withoutOverlapping uses exclusive files under storage/framework/locks. Processes coordinate only when sharing the lock directory. A task exceeding the lock TTL can overlap a later execution. Keep descriptions stable and distinct for tasks that need independent locks.
+
+
+Source: https://birjs.com/docs/security
+
+# Security
+
+BirJS provides session signing, CSRF middleware, password hashing, rate limiting, encryption, and authorization helpers. Register the middleware required by your application explicitly.
+
+## Application key
+
+```bash
+npx bir key:generate
+```
+
+Keep APP_KEY private and stable across workers and deployments. Session signing can use a temporary process secret when the key is missing, which invalidates sessions after restarts. Crypt and SignedUrl require a configured key.
+
+## Sessions and CSRF
+
+```ts
+import { sessionMiddleware, csrf, csrfToken, Route } from 'birframework';
+
+app.use(sessionMiddleware());
+app.use(csrf());
+
+Route.get('/profile', (ctx) => ctx.inertia('Profile', {
+  csrfToken: csrfToken(ctx),
+}));
+```
+
+Register sessions before CSRF. The csrf middleware checks state-changing requests on routes where it runs. Read-only GET, HEAD, and OPTIONS requests are exempt.
+
+```tsx
+export function ProfileForm({ csrfToken }: { csrfToken: string }) {
+  return <form method="POST" action="/profile">
+    <input type="hidden" name="_token" value={csrfToken} />
+    <input name="name" />
+    <button type="submit">Save</button>
+  </form>;
+}
+```
+
+Fetch requests can send `X-CSRF-TOKEN` or `X-XSRF-TOKEN`. The body field is `_token`. Obtain it from server-provided props or an explicitly rendered meta tag.
+
+## Rate limiting
+
+```ts
+import { Route, rateLimit } from 'birframework';
+
+Route.post('/login', loginHandler).middleware(rateLimit({ max: 5, windowMs: 60000 }));
+```
+
+The built-in limiter is process-local. Proxy headers are trusted only when configured. Use an appropriate shared limit at your infrastructure layer when running multiple instances.
+
+## Mass assignment and SQL
+
+```ts
+import { Model } from 'birframework';
+
+export class User extends Model {
+  static table = 'users';
+  static fillable = ['name', 'email'];
+}
+```
+
+Use validated fields and an explicit fillable allowlist. Query builder values use bindings. Raw SQL passed to DB.raw or DB.execute remains the application's responsibility. Pass values separately as parameters.
+
+## Security headers
+
+Application registers securityHeaders by default. The default response headers include X-Content-Type-Options nosniff, X-Frame-Options SAMEORIGIN, Referrer-Policy strict-origin-when-cross-origin, and X-XSS-Protection 0.
+
+## Encryption and signed URLs
+
+```ts
+import { Crypt, SignedUrl, signed, Route } from 'birframework';
+
+const encrypted = Crypt.encrypt({ apiKey: 'example' });
+const credentials = Crypt.decrypt<{ apiKey: string }>(encrypted);
+const url = SignedUrl.sign('/invoices/1042/pdf', 1800);
+Route.get('/invoices/:id/pdf', downloadHandler).middleware(signed());
+```
+
+## Authorization
+
+```ts
+import { Gate } from 'birframework';
+
+Gate.define('cancel-invoice', (user, invoice) => user?.id === invoice.userId);
+await Gate.authorize('cancel-invoice', user, invoice);
+```
+
+## Webhook signatures
+
+Read the original request bytes with `await ctx.rawBody()`. Verify the received signature using the provider's exact signing format and a timing-safe comparison before processing the event. Calculating an HMAC alone does not authenticate a webhook.
+
+
+Source: https://birjs.com/docs/storage
+
+# File Storage
+
+BirJS provides an expressive file storage abstraction layer for local disks and cloud drivers.
+
+---
+
+## Basic File Operations
+
+Use the `Storage` facade to store, retrieve, and delete files:
+
+```ts
+import { Storage } from 'birframework';
+
+// Write content to a file
+await Storage.put('avatars/user-1.jpg', fileBuffer);
+
+// Check if a file exists
+if (await Storage.exists('avatars/user-1.jpg')) {
+  // Read file contents
+  const content = await Storage.get('avatars/user-1.jpg');
+}
+
+// Delete a file
+await Storage.delete('avatars/user-1.jpg');
+```
+
+---
+
+## Multipart File Uploads
+
+BirJS natively parses `multipart/form-data` uploads with zero external dependencies. In your controllers, access uploaded files via `ctx.file('field_name')`:
+
+```tsx
+export function AvatarForm({ csrfToken }: { csrfToken: string }) {
+  return <form action="/profile/avatar" method="POST" encType="multipart/form-data">
+    <input type="hidden" name="_token" value={csrfToken} />
+    <input type="file" name="avatar" accept="image/*" required />
+    <button type="submit">Upload Avatar</button>
+  </form>;
+}
+```
+
+Pass the current CSRF token from the controller to the page.
+
+
+```typescript
+// app/controllers/ProfileController.ts
+import { Route } from 'birframework';
+
+export class ProfileController {
+  public async uploadAvatar(ctx) {
+    const file = await ctx.file('avatar');
+
+    if (!file || !file.isValid()) {
+      return ctx.json({ error: 'Please choose a valid file' }, 422);
+    }
+
+    // Inspect file metadata
+    console.log(file.originalName); // "photo.png"
+    console.log(file.mimeType);     // "image/png"
+    console.log(file.extension());    // "png"
+    console.log(file.size);         // Size in bytes
+
+    // 1. Store with auto-generated unique filename:
+    const storedPath = await file.store('avatars');
+    // -> "avatars/a7f8b9...png" in storage/app/avatars/
+
+    // 2. Or store on the public web disk with a custom name:
+    const customPath = await file.storeAs('avatars', `user-${ctx.user?.id}.png`, 'public');
+
+    return ctx.json({ success: true, path: storedPath });
+  }
+}
+```
+
+---
+
+## Storage Directory Structure
+
+By default, files are stored under the `storage/app/` directory:
+
+```
+storage/
+├── app/
+│   ├── public/          # Publicly accessible static assets
+│   └── private/         # Private files & documents
+├── logs/                # Application error logs
+└── database.sqlite      # Default SQLite database
+```
+
+---
+
+## Mailing & Email System
+
+BirJS provides a clean email delivery API modeled directly on Laravel Mailables:
+
+### 1. Generating a Mailable Class
+
+Use the CLI generator:
+
+```bash
+bir make:mail WelcomeMail
+```
+
+This generates `app/mail/WelcomeMail.ts`:
+
+```typescript
+import { Mailable } from 'birframework';
+
+export class WelcomeMail extends Mailable {
+  constructor(public user: { name: string; email: string }) {
+    super();
+    this.subject('Welcome to BirJS!')
+        .from('hello@birjs.com', 'BirJS Team');
+  }
+
+  public async content(): Promise<string> {
+    // Renders views/emails/welcome.tsx with data
+    return this.view('emails/welcome', { user: this.user });
+  }
+}
+```
+
+### 2. Sending Emails
+
+Send emails from anywhere in your application:
+
+```typescript
+import { Mail } from 'birframework';
+import { WelcomeMail } from './mail/WelcomeMail.js';
+
+// Send a class-based Mailable:
+await Mail.to('jane@example.com').send(new WelcomeMail(user));
+
+// Or send a quick raw HTML email:
+await Mail.to('jane@example.com').raw('<h1>Your verification code is 123456</h1>', {
+  subject: 'Verify your account'
+});
+```
+
+### 3. Testing with `Mail.fake()`
+
+Verify emails are sent in automated tests without actually delivering to SMTP:
+
+```typescript
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { Mail } from 'birframework';
+
+test('registration sends welcome email', async () => {
+  Mail.fake();
+
+  await registerUserAction({ email: 'test@example.com' });
+
+  const sent = Mail.sent();
+  assert.strictEqual(sent.length, 1);
+  assert.strictEqual(sent[0].to, 'test@example.com');
+
+  Mail.restore();
+});
+```
+
+### 4. Production Mail Drivers (`Resend` & `SMTP`) & Attachments
+
+BirJS ships with zero-dependency **Resend API** and **raw SMTP (TCP/TLS)** drivers, plus `.attach()` support for PDF invoices:
+
+```typescript
+import { Mail, Mailable } from 'birframework';
+
+// Configure automatically from .env (MAIL_MAILER=resend|smtp|log)
+Mail.configureFromEnv();
+
+// Or configure explicitly:
+Mail.useResend(process.env.RESEND_API_KEY!);
+// Mail.useSmtp({ host: 'smtp.example.com', port: 465, user: '...', pass: '...', secure: true });
+
+class InvoiceMail extends Mailable {
+  content() {
+    return '<p>Your invoice PDF is attached.</p>';
+  }
+}
+
+await Mail.to('customer@example.com').send(
+  new InvoiceMail()
+    .subject('Invoice #1042')
+    .attach({ filename: 'invoice-1042.pdf', content: pdfBuffer, contentType: 'application/pdf' })
+);
+```
+
+
+
+Source: https://birjs.com/docs/testing
+
+# HTTP Testing & Test Runner
+
+BirJS includes a built-in HTTP testing assistant inspired by Laravel and Pest. You can write expressive, fluid integration and feature tests with zero third-party testing bloat.
+
+---
+
+## 1. Running Tests (`bir test`)
+
+Run your entire test suite from the terminal with a single command:
+
+```bash
+npx birframework test
+```
+
+You can also filter tests by file name:
+
+```bash
+npx birframework test auth
+npx birframework test upload
+```
+
+---
+
+## 2. The `createTestClient` Assistant
+
+Use `createTestClient(app)` to send requests through your application without managing manual network ports:
+
+```typescript
+import { test, describe, before, after } from 'node:test';
+import { Application, createTestClient, type TestClient } from 'birframework';
+import { app } from '../bootstrap.js';
+
+describe('Authentication Feature Tests', () => {
+  let client: TestClient;
+
+  before(() => { client = createTestClient(app); });
+
+  after(async () => {
+    await client?.close();
+  });
+
+  test('guests can view login page', async () => {
+    const res = await client.get('/login');
+
+    res.assertOk()
+       .assertSee('Sign In')
+       .assertDontSee('Dashboard');
+  });
+
+  test('valid login redirects to dashboard', async () => {
+    const res = await client.post('/login', {
+      email: 'user@birjs.com',
+      password: 'password123',
+    });
+
+    res.assertRedirect('/dashboard');
+  });
+});
+```
+
+---
+
+## 3. Available Response Assertions
+
+The `TestResponse` returned by `client.get()`, `client.post()`, etc. provides a rich set of chainable assertions:
+
+### Status Assertions
+
+```typescript
+res.assertOk();              // Status 200
+res.assertCreated();         // Status 201
+res.assertNotFound();        // Status 404
+res.assertForbidden();       // Status 403
+res.assertUnauthorized();    // Status 401
+res.assertUnprocessable();   // Status 422
+res.assertStatus(code);      // Custom status check
+```
+
+### Redirect Assertions
+
+```typescript
+// Assert response was a redirect (301, 302, 307, 308)
+res.assertRedirect();
+
+// Assert response redirected to an exact path
+res.assertRedirect('/dashboard');
+```
+
+### Content & JSON Assertions
+
+```typescript
+// Assert response text includes / excludes substring
+res.assertSee('Welcome');
+res.assertDontSee('Error occurred');
+
+// Assert JSON body matches expected subset
+res.assertJson({ success: true, count: 5 });
+
+// Retrieve parsed bodies directly
+const data = res.json();
+const html = res.text();
+```
+
+---
+
+## 4. Simulating Authenticated Requests (`actingAs`)
+
+Simulate logged-in user requests without repeating login forms:
+
+```typescript
+test('authenticated user can view protected dashboard', async () => {
+  client = createTestClient(app);
+
+  const res = await client.actingAs(user).get('/dashboard');
+  res.assertOk().assertSee('Welcome, ' + user.name);
+});
+```
+
+The bootstrap module in these examples exports an Application with routes and middleware registered, without calling listen(). Configure a test database and seed the user before testing login. Include a CSRF token when the tested route uses CSRF middleware.
+
+
+Source: https://birjs.com/docs/validation
+
+# Request Validation
+
+BirJS includes a zero-dependency schema validation engine featuring Laravel-style pipe validation rules.
+
+---
+
+## Basic Validation
+
+Call `ctx.validate(rules)` inside any controller action or route closure:
+
+```ts
+import { Route } from 'birframework';
+
+Route.post('/register', async (ctx) => {
+  const data = await ctx.validate({
+    name: 'required|min:3|max:50',
+    email: 'required|email',
+    password: 'required|min:8',
+    age: 'numeric|min:18',
+  });
+
+  // `data` contains fields selected by the validation rules.
+  return ctx.json({ status: 'ok', user: data });
+});
+```
+
+---
+
+## Form Request Classes
+
+For complex validation scenarios or to keep controllers thin and focused, use **Form Requests**:
+
+```bash
+npx birframework make:request StoreUserRequest
+```
+
+This generates `app/requests/StoreUserRequest.ts`:
+
+```typescript
+import { FormRequest, type ValidationRules } from 'birframework';
+
+export class StoreUserRequest extends FormRequest<{ name: string; email: string }> {
+  /**
+   * Determine if the user is authorized to perform this action.
+   */
+  public override async authorize(): Promise<boolean> {
+    return this.ctx.session?.has('user_id') === true;
+  }
+
+  /**
+   * Mutate or prepare inputs prior to validation.
+   */
+  public override async prepareForValidation(): Promise<void> {
+    const body = (await this.ctx.body()) || {};
+    if (body.email) {
+      body.email = body.email.trim().toLowerCase();
+    }
+  }
+
+  /**
+   * Get the validation rules.
+   */
+  public override rules(): ValidationRules {
+    return {
+      name: 'required|min:3',
+      email: 'required|email',
+    };
+  }
+}
+```
+
+### Using Form Requests in Controllers
+
+Use `ctx.validateWith(RequestClass)`:
+
+```typescript
+export class UserController {
+  public async store(ctx: Context) {
+    // 1. Checks authorize() -> throws 403 Forbidden if false
+    // 2. Runs prepareForValidation()
+    // 3. Runs rules() -> throws 422 Unprocessable if invalid
+    // 4. Returns strictly typed validated data:
+    const validated = await ctx.validateWith(StoreUserRequest);
+
+    const user = await User.create(validated);
+    return ctx.json({ user }, 201);
+  }
+}
+```
+
+---
+
+## Error Handling
+
+When validation fails, BirJS automatically stops request execution:
+- **API / JSON Requests**: Returns a `422 Unprocessable Content` response with structured error messages.
+- **Web Form Requests**: With an active session and an HTML Accept header, flashes errors and redirects to a same-origin form URL. Without a session, returns JSON errors.
+
+Example JSON error response:
+
+```json
+{
+  "message": "The given data was invalid.",
+  "errors": {
+    "email": ["The email must be a valid email address."],
+    "password": ["The password must be at least 8 characters."]
+  }
+}
+```
+
+---
+
+## Available Validation Rules
+
+| Rule | Description | Example |
+| --- | --- | --- |
+| `required` | Field must be present and not empty | `'title': 'required'` |
+| `email` | Must be a valid email address | `'email': 'required\|email'` |
+| `min:n` | Minimum string length or numeric value | `'password': 'min:8'` |
+| `max:n` | Maximum string length or numeric value | `'username': 'max:20'` |
+| `numeric` | Value must be a valid number | `'price': 'numeric'` |
+| `boolean` | Must be true, false, 0, or 1 | `'terms': 'required\|boolean'` |
+| `in:a,b,c` | Value must be in the specified list | `'status': 'in:draft,published'` |
+
+
+Source: https://birjs.com/docs/views
+
+# Views and Page Rendering
+
+BirJS renders Preact components written in TSX or JSX. Choose the Inertia profile for client navigation and interactive pages, or the server-rendered profile for request-by-request HTML rendering.
+
+## Inertia pages
+
+Place page components in `views/pages/`. Controllers provide serializable props with `ctx.inertia()`.
+
+```ts
+Route.get('/', (ctx) => ctx.inertia('Welcome', { title: 'Welcome' }));
+```
+
+```tsx
+// views/pages/Welcome.tsx
+export default function Welcome({ title }: { title: string }) {
+  return <main><h1>{title}</h1></main>;
+}
+```
+
+Use the generated `Link` component from `resources/js/bir-inertia` for client navigation. A normal HTML anchor performs browser navigation.
+
+## Server-rendered views
+
+Place named views directly under `views/` in the server-rendered profile. Return them with `ctx.render()`.
+
+```ts
+Route.get('/', (ctx) => ctx.render('Welcome', { title: 'Welcome' }));
+```
+
+A server-rendered view uses the same TSX/JSX component syntax. Use the generated layout to include the document structure and assets.
+
+## Generating a view
+
+```bash
+npx bir make:view Welcome
+```
+
+The generator detects the project language and whether `views/pages/` exists. It creates a `.tsx` or `.jsx` component in the appropriate directory.
+
+## Layouts and reusable components
+
+Keep shared page structure in `views/layouts/` and interface elements in `views/components/`. Pass content as props and children. See [Components](/docs/components) and [Inertia](/docs/inertia) for examples.
+
+## Rendering data
+
+Use JSX expressions, JavaScript conditionals, and array mapping. JSX text expressions escape user text. Render Markdown through an explicitly configured parser and sanitize untrusted HTML before inserting it into a page.

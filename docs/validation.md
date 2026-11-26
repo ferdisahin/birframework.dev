@@ -12,14 +12,14 @@ Call `ctx.validate(rules)` inside any controller action or route closure:
 import { Route } from 'birframework';
 
 Route.post('/register', async (ctx) => {
-  const data = ctx.validate({
+  const data = await ctx.validate({
     name: 'required|min:3|max:50',
     email: 'required|email',
     password: 'required|min:8',
     age: 'numeric|min:18',
   });
 
-  // `data` contains only validated and sanitized fields
+  // `data` contains fields selected by the validation rules.
   return ctx.json({ status: 'ok', user: data });
 });
 ```
@@ -75,7 +75,7 @@ Use `ctx.validateWith(RequestClass)`:
 
 ```typescript
 export class UserController {
-  public async store(ctx: RequestContext) {
+  public async store(ctx: Context) {
     // 1. Checks authorize() -> throws 403 Forbidden if false
     // 2. Runs prepareForValidation()
     // 3. Runs rules() -> throws 422 Unprocessable if invalid
@@ -94,7 +94,7 @@ export class UserController {
 
 When validation fails, BirJS automatically stops request execution:
 - **API / JSON Requests**: Returns a `422 Unprocessable Content` response with structured error messages.
-- **Web Form Requests**: Flashes error messages to the session and redirects back to the previous form URL.
+- **Web Form Requests**: With an active session and an HTML Accept header, flashes errors and redirects to a same-origin form URL. Without a session, returns JSON errors.
 
 Example JSON error response:
 

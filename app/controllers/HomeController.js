@@ -4,7 +4,7 @@ export class HomeController {
   async index(ctx) {
     const title = 'BirJS — Full-Stack TypeScript Framework';
     const description =
-      'Laravel backend ergonomics paired with Unified Preact + Inertia + SSR and sub-millisecond V8 speed.';
+      'Build full-stack TypeScript apps on Node.js with routing, database models, and server-rendered pages.';
     return ctx.inertia(
       'Welcome',
       {

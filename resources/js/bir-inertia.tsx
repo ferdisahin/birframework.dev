@@ -1,5 +1,5 @@
 import { createContext, h, render, hydrate } from 'preact';
-import { useContext, useEffect, useState } from 'preact/hooks';
+import { useContext, useEffect, useRef, useState } from 'preact/hooks';
 
 export interface PageData<T = Record<string, any>> {
   component: string;
@@ -144,6 +144,20 @@ export function Link({
   );
 }
 
+function scrollToFragment(hash: string): boolean {
+  if (!hash) return false;
+  let name: string;
+  try {
+    name = decodeURIComponent(hash.slice(1));
+  } catch {
+    return false;
+  }
+  const element = document.getElementById(name);
+  if (!element) return false;
+  element.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  return true;
+}
+
 export function useForm<T extends Record<string, any>>(initialValues: T) {
   const [data, setDataState] = useState<T>(initialValues);
   const [errors, setErrors] = useState<Partial<Record<keyof T, string>>>({});
@@ -234,6 +248,7 @@ export async function createBirApp({
 
   function AppShell() {
     const [page, setPage] = useState<PageData>(initialPage);
+    const currentPage = useRef(initialPage);
     const [Component, setComponent] = useState<any>(() => InitialComponent);
     const [navigating, setNavigating] = useState(false);
 
@@ -286,16 +301,26 @@ export async function createBirApp({
 
           const nextPage: PageData = await res.json();
           const mod = await resolve(nextPage.component);
+          currentPage.current = nextPage;
           setComponent(() => mod.default);
           setPage(nextPage);
 
+          const hash = new URL(url, window.location.href).hash;
+          const destination = new URL(nextPage.url, window.location.href);
+          if (hash) destination.hash = hash;
           if (options.replace) {
-            window.history.replaceState(nextPage, '', nextPage.url);
+            window.history.replaceState(nextPage, '', destination.href);
           } else {
-            window.history.pushState(nextPage, '', nextPage.url);
+            window.history.pushState(nextPage, '', destination.href);
           }
           if (!options.preserveScroll) {
-            window.scrollTo({ top: 0 });
+            if (hash) {
+              requestAnimationFrame(() => {
+                if (!scrollToFragment(hash)) window.scrollTo({ top: 0 });
+              });
+            } else {
+              window.scrollTo({ top: 0 });
+            }
           }
         } finally {
           setNavigating(false);
@@ -304,19 +329,48 @@ export async function createBirApp({
       };
 
       const onPopState = async (event: PopStateEvent) => {
+        const current = new URL(currentPage.current.url, window.location.href);
+        const samePage = current.pathname === window.location.pathname && current.search === window.location.search;
+        if (samePage && !event.state?.component) {
+          window.history.replaceState(currentPage.current, '');
+          if (window.location.hash) scrollToFragment(window.location.hash);
+          return;
+        }
         if (event.state?.component) {
           const mod = await resolve(event.state.component);
+          currentPage.current = event.state;
           setComponent(() => mod.default);
           setPage(event.state);
+          if (window.location.hash) requestAnimationFrame(() => scrollToFragment(window.location.hash));
         } else {
-          await activeVisit?.(window.location.pathname + window.location.search, { replace: true });
+          await activeVisit?.(window.location.href, { replace: true });
         }
       };
 
-      window.history.replaceState(initialPage, '', initialPage.url);
+      // Keep the browser URL: the server never receives its fragment.
+      window.history.replaceState(initialPage, '');
+      if (window.location.hash) requestAnimationFrame(() => scrollToFragment(window.location.hash));
+      const onInternalLink = (event: MouseEvent) => {
+        if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        const anchor = event.target instanceof Element ? event.target.closest('a[href]') : null;
+        if (!(anchor instanceof HTMLAnchorElement) || anchor.hasAttribute('download') || (anchor.target && anchor.target !== '_self') || anchor.hasAttribute('data-native')) return;
+        const destination = new URL(anchor.href);
+        if (destination.origin !== window.location.origin || destination.pathname.startsWith('/api/')) return;
+        const samePage = destination.pathname === window.location.pathname && destination.search === window.location.search;
+        if (samePage && destination.hash) {
+          if (!scrollToFragment(destination.hash)) return;
+          event.preventDefault();
+          if (window.location.hash !== destination.hash) window.history.pushState(currentPage.current, '', destination.href);
+          return;
+        }
+        event.preventDefault();
+        void activeVisit?.(destination.href);
+      };
+      document.addEventListener('click', onInternalLink);
       window.addEventListener('popstate', onPopState);
       return () => {
         window.removeEventListener('popstate', onPopState);
+        document.removeEventListener('click', onInternalLink);
       };
     }, []);
 

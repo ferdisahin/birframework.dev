@@ -33,10 +33,7 @@ import { Mail } from 'birframework';
 
 export class SendWelcomeEmail {
   public async handle(event: UserRegistered): Promise<void> {
-    await Mail.to(event.user.email).send({
-      subject: 'Welcome to BirJS!',
-      html: `<h1>Hello, ${event.user.name}!</h1><p>Thanks for joining us.</p>`,
-    });
+    await Mail.to(event.user.email).raw('<p>Thanks for joining us.</p>', { subject: 'Welcome to BirJS!' });
   }
 }
 
@@ -160,16 +157,18 @@ Secure private channels using channel authorization rules:
 ```typescript
 // Authorize access to user-specific private channel:
 Broadcast.channel('private-user.{id}', (client, params) => {
-  return client.user?.id === params?.id;
+  return String(client.user?.id) === params?.id;
 });
 ```
 
 ### Client-Side Integration
 
-In your frontend templates or companion scripts, connect using standard WebSocket or Server-Sent Events (SSE):
+In your client-side components or browser modules, connect using the WebSocket protocol:
 
 ```javascript
-const ws = new WebSocket(`ws://${location.host}/ws`);
+const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+const ws = new WebSocket(`${protocol}//${location.host}/ws`);
+ws.onopen = () => ws.send(JSON.stringify({ event: 'subscribe', channel: 'orders' }));
 
 ws.onmessage = (event) => {
   const { channel, event: eventName, data } = JSON.parse(event.data);

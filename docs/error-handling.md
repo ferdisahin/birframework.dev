@@ -19,7 +19,7 @@ In development (`NODE_ENV !== 'production'`), when an unhandled exception occurs
 
 ```
 ┌────────────────────────────────────────────────────────┐
-│ BirJS v0.4.0  •  GET /posts/my-slug  •  500 ERR │
+│ BirJS development  •  GET /posts/my-slug  •  500 ERR │
 ├────────────────────────────────────────────────────────┤
 │ TypeError: Cannot read properties of undefined         │
 │ app/controllers/PostController.ts:42                   │
@@ -53,7 +53,7 @@ If an exception occurs during an API request (`Accept: application/json` or path
 
 In production environments, detailed stack traces, file paths, and code snippets are **strictly masked** to protect sensitive infrastructure data:
 
-- **Browser Requests**: Renders `views/errors/500.html` if present in your project, or falls back to BirJS's minimal, production-safe 500 error page.
+- **Browser Requests**: Renders `views/errors/500.tsx` if present in your project, or falls back to BirJS's minimal, production-safe 500 error page.
 - **API Requests**: Returns `{ "error": "Internal Server Error", "message": "Server Error" }` with HTTP status `500`.
 
 ---
@@ -63,7 +63,7 @@ In production environments, detailed stack traces, file paths, and code snippets
 When an incoming request matches no registered route:
 
 1. **Browser Requests (`text/html`)**:
-   - Automatically searches for `views/errors/404.html`.
+   - Automatically searches for `views/errors/404.tsx`.
    - If not found, renders BirJS's built-in dark-themed 404 page displaying the requested path and a link back to the homepage.
 2. **API Requests (`application/json` or `/api/*`)**:
    - Responds with standard 404 JSON:

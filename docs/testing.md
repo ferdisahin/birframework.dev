@@ -26,20 +26,20 @@ npx birframework test upload
 Use `createTestClient(app)` to send requests through your application without managing manual network ports:
 
 ```typescript
-import { test, describe, after } from 'node:test';
+import { test, describe, before, after } from 'node:test';
 import { Application, createTestClient, type TestClient } from 'birframework';
-import { app } from '../app.js';
+import { app } from '../bootstrap.js';
 
 describe('Authentication Feature Tests', () => {
   let client: TestClient;
+
+  before(() => { client = createTestClient(app); });
 
   after(async () => {
     await client?.close();
   });
 
   test('guests can view login page', async () => {
-    client = createTestClient(app);
-
     const res = await client.get('/login');
 
     res.assertOk()
@@ -48,8 +48,6 @@ describe('Authentication Feature Tests', () => {
   });
 
   test('valid login redirects to dashboard', async () => {
-    client = createTestClient(app);
-
     const res = await client.post('/login', {
       email: 'user@birjs.com',
       password: 'password123',
@@ -117,3 +115,5 @@ test('authenticated user can view protected dashboard', async () => {
   res.assertOk().assertSee('Welcome, ' + user.name);
 });
 ```
+
+The bootstrap module in these examples exports an Application with routes and middleware registered, without calling listen(). Configure a test database and seed the user before testing login. Include a CSRF token when the tested route uses CSRF middleware.

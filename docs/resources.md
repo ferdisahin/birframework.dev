@@ -11,11 +11,11 @@ BirJS's **JsonResource** provides a clean, expressive transformation layer inspi
 To create a resource, extend `JsonResource` and implement the `toArray()` method:
 
 ```typescript
-import { JsonResource, type RequestContext } from 'birframework';
+import { JsonResource, type Context } from 'birframework';
 import type { User } from '../models/User.js';
 
 export class UserResource extends JsonResource<User> {
-  public toArray(ctx?: RequestContext) {
+  public toArray(ctx?: Context) {
     return {
       id: this.resource.id,
       name: this.resource.name,
@@ -41,7 +41,7 @@ import { UserResource } from '../resources/UserResource.js';
 
 Route.get('/api/users/:id', async (ctx) => {
   const user = await User.find(ctx.params.id);
-  if (!user) return ctx.notFound({ message: 'User not found' });
+  if (!user) return ctx.json({ error: 'User not found' }, 404);
 
   return UserResource.make(user);
 });
@@ -89,7 +89,7 @@ When passing a `LengthAwarePaginator` (returned by `Model.paginate()`) to `colle
 ```typescript
 Route.get('/api/users', async (ctx) => {
   const page = Number(ctx.query.page) || 1;
-  const paginatedUsers = await User.paginate(page, 15);
+  const paginatedUsers = await User.paginate({ page, perPage: 15 });
 
   return UserResource.collection(paginatedUsers);
 });
@@ -104,9 +104,9 @@ Response:
   ],
   "meta": {
     "total": 50,
-    "per_page": 15,
-    "current_page": 1,
-    "last_page": 4,
+    "perPage": 15,
+    "currentPage": 1,
+    "lastPage": 4,
     "from": 1,
     "to": 15
   },
@@ -127,7 +127,7 @@ BirJS provides `when()` and `whenNotNull()` helpers inside `JsonResource` to inc
 
 ```typescript
 export class UserResource extends JsonResource<User> {
-  public toArray(ctx?: RequestContext) {
+  public toArray(ctx?: Context) {
     const isAdmin = ctx?.session?.get('is_admin') === true;
 
     return {
@@ -179,10 +179,11 @@ return UserResource.make(user).additional({
 
 ## 6. Disabling Data Wrapping
 
-If you prefer flat JSON output without the top-level `data` key, call `withoutWrapping()` on the resource instance:
+If you prefer flat JSON output without the top-level `data` key, call `withoutWrapping()` on the resource class:
 
 ```typescript
-return UserResource.make(user).withoutWrapping();
+UserResource.withoutWrapping();
+return UserResource.make(user);
 ```
 
 Output:

@@ -81,8 +81,8 @@ import { StripeGateway } from '../services/StripeGateway.js';
 
 export class CheckoutController {
   async process(ctx: Context) {
-    const gateway = ctx.app.container.make<StripeGateway>('payment.gateway');
-    const result = await gateway.charge(ctx.input('amount'));
+    const gateway = app.container.make<StripeGateway>('payment.gateway');
+    const result = await gateway.charge((await ctx.body()).amount);
     return ctx.json({ success: true, result });
   }
 }
@@ -100,7 +100,7 @@ import type { Application } from 'birframework';
 export function myAnalyticsPlugin(app: Application, options: { trackingId: string }) {
   // Hook into router or add global middleware
   app.use(async (ctx, next) => {
-    ctx.set('X-Tracking-ID', options.trackingId);
+    ctx.header('X-Tracking-ID', options.trackingId);
     await next();
   });
 }
@@ -109,30 +109,13 @@ export function myAnalyticsPlugin(app: Application, options: { trackingId: strin
 Registering a functional plugin:
 
 ```typescript
-app.plugin(myAnalyticsPlugin, { trackingId: 'GA-999999' });
+app.register(myAnalyticsPlugin, { trackingId: 'GA-999999' });
 ```
 
 ---
 
-## Built-In Provider Lifecycle Hooks
+## Provider lifecycle
 
-Service providers have full access to:
-* `this.app`: The main `Application` instance.
-* `this.app.container`: Dependency injection and inversion-of-control container.
-* `this.app.router`: Route definitions and groups.
-* `this.app.use()`: Global middleware registration.
+Use `register()` for container bindings and `boot()` for initialization after providers have registered. The provider receives `this.app`, with access to its container, router, and middleware registration.
 
-```typescript
-export class ViewServiceProvider extends ServiceProvider {
-  public register(): void {
-    // Register custom helper
-  }
-
-  public boot(): void {
-    // Attach default response headers or listen for events
-    this.app.on('app:ready', () => {
-      console.log('App is completely ready to receive traffic');
-    });
-  }
-}
-```
+The controller example above assumes you export your Application instance from a bootstrap module and import it as `app`. Keep the listening entry separate when importing the application into tests.

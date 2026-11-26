@@ -15,10 +15,10 @@ import { Post } from './Post.ts';
 
 export class User extends Model {
   // Table name (defaults to snake_case plural of class name: 'users')
-  protected static table = 'users';
+  public static table = 'users';
 
   // Primary key (defaults to 'id')
-  protected static primaryKey = 'id';
+  public static primaryKey = 'id';
 
   // Relationships
   public posts() {
@@ -165,8 +165,8 @@ Easily paginate results in your controllers:
 // Returns LengthAwarePaginator with items and page metadata
 const paginatedUsers = await User.paginate({ page: 1, perPage: 15 });
 
-console.log(paginatedUsers.total);        // Total count
-console.log(paginatedUsers.currentPage);  // 1
+console.log(paginatedUsers.meta.total);        // Total count
+console.log(paginatedUsers.meta.currentPage);  // 1
 console.log(paginatedUsers.data);         // Current page items
 ```
 

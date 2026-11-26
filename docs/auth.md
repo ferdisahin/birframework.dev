@@ -16,8 +16,8 @@ This single command automatically scaffolds:
 - `app/models/User.ts` (Active Record User model)
 - `database/migrations/*_create_users_table.ts` (Schema migration)
 - `app/controllers/AuthController.ts` (Login, Register, and Logout actions)
-- `views/auth/login.html` & `views/auth/register.html` (Modern Tailwind UI forms)
-- `views/dashboard.html` (Protected member dashboard)
+- `views/auth/login.tsx` & `views/auth/register.tsx` (Modern Tailwind UI forms)
+- `views/dashboard.tsx` (Protected member dashboard)
 - Automatically wires authentication routes into `routes/web.ts`
 
 Run your migrations and test your new auth system:
@@ -33,7 +33,7 @@ Navigate to `http://localhost:3000/login` to see your authentication UI in actio
 
 ## Password Hashing
 
-Use `Hash` for one-way secure password hashing backed by modern SHA-256 / scrypt primitives:
+Use `Hash` for scrypt password hashing. API tokens use a separate SHA-256 digest.
 
 ```ts
 import { Hash } from 'birframework';
@@ -53,18 +53,19 @@ Authenticate incoming login credentials in a controller action:
 
 ```ts
 import { Auth } from 'birframework';
+import { User } from '../models/User.js';
 
 export class AuthController {
   public async login(ctx) {
-    const { email, password } = ctx.validate({
+    const { email, password } = await ctx.validate({
       email: 'required|email',
       password: 'required',
     });
 
-    const success = await Auth.attempt(ctx, { email, password });
+    const success = await Auth.attempt(ctx, { email, password }, User);
 
     if (!success) {
-      return ctx.unauthorized({ error: 'Invalid credentials' });
+      return ctx.json({ error: 'Invalid credentials' }, 401);
     }
 
     return ctx.redirect('/dashboard');
@@ -133,17 +134,17 @@ Tokens are prefixed with `bir_pat_` and hashed with SHA-256 before storage in th
 Use the built-in `auth()` and `hasAbility()` middlewares to guard your API routes:
 
 ```typescript
-import { Route, auth, hasAbility } from 'birframework';
+import { Route, Auth, auth, hasAbility } from 'birframework';
 
 // Authenticate any valid Bearer token:
-Route.get('/api/user', [auth()], async (ctx) => {
-  return ctx.json(ctx.user);
-});
+Route.get('/api/user', async (ctx) => {
+  return ctx.json(await Auth.user(ctx, User));
+}).middleware(auth());
 
 // Guard route by specific token ability:
-Route.post('/api/servers/deploy', [auth(), hasAbility('servers:deploy')], async (ctx) => {
+Route.post('/api/servers/deploy', async (ctx) => {
   return ctx.json({ status: 'Deploying server...' });
-});
+}).middleware(auth(), hasAbility('servers:deploy'));
 ```
 
 Clients authenticate simply by sending the standard `Authorization` header:

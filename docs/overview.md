@@ -1,44 +1,21 @@
-# Overview & Philosophy
+# Overview
 
-BirJS was engineered to solve the chronic fragmentation and cognitive fatigue in the modern Node.js and TypeScript ecosystem.
+BirJS is a TypeScript and Node.js web framework with HTTP routing, controllers, middleware, dependency injection, validation, database models, migrations, background jobs, scheduling, mail, and storage.
 
----
+## Application flow
 
-## The Node.js Dilemma
+A route selects a handler. Middleware runs around that handler. Controllers read and validate the request, call application services or models, and return JSON, a redirect, or a rendered page.
 
-For over a decade, building a production-ready web application or API in Node.js has required stitching together an uncurated collection of disparate libraries:
-- One library for routing (`express` or `fastify`)
-- Another for database queries and models (`prisma` or `typeorm`)
-- Another for validation (`zod` or `joi`)
-- Another for background queue processing (`bullmq`)
-- Another for scheduled cron jobs (`node-cron`)
-- Another for email delivery (`nodemailer`)
-- Another for views and template rendering
+## Rendering profiles
 
-This "Frankenstein" approach produces significant maintenance overhead, version mismatch risks, breaking upgrade spirals, and dozens of boilerplate configuration files before writing a single line of business logic.
+The Inertia profile uses Preact pages with server rendering and browser hydration. Its client Link and router helpers request page data without a full document navigation. The server-rendered profile returns TSX/JSX HTML through ctx.render.
 
----
+## Database and services
 
-## The BirJS Solution
+SQLite uses Node's built-in node:sqlite. PostgreSQL and MySQL use optional pg and mysql2 packages. Queue workers and schedulers run as separate processes. Cache and session storage choices determine whether state is process-local or shared.
 
-BirJS adopts the time-tested architectural principles and developer experience of **Laravel**, and adapts them natively for high-performance, persistent-memory TypeScript runtimes.
+## Deployment
 
-### Key Pillars
+Run the application as a persistent Node.js process or export its serverless handler. Persistent processes retain in-memory state while running. Serverless instances can restart independently, so shared state requires suitable external storage.
 
-- **Persistent Memory Runtime**: Unlike PHP-FPM which boots from scratch on every request, BirJS remains warm in memory. Incoming requests are routed and handled in sub-millisecond dispatch cycles (0ms – 2ms).
-- **Batteries-Included Architecture**: Out-of-the-box routing, controllers, dependency injection, validation, database migrations, active record models, queues, scheduler, mail, and storage.
-- **Zero-Dependency Philosophy**: Leverages modern Node.js built-ins (`node:sqlite`, `node:crypto`, `node:http`, `node:fs`) whenever possible, eliminating hundreds of transitive `node_modules` vulnerabilities.
-- **Unified Preact + Inertia + SSR**: Server-rendered SEO metadata and persistent `.tsx` layouts paired with SPA-speed navigation via `X-Bir-Inertia` JSON responses.
-
----
-
-## Framework Comparison
-
-| Capability | BirJS | Express.js | Next.js / Nuxt |
-| --- | --- | --- | --- |
-| **Architecture** | Full-Stack MVC | Minimal Router | React/Vue Hybrid |
-| **ORM & Migrations** | Built-in Active Record | Manual Setup | External (Prisma) |
-| **Background Queues** | Built-in Queue Engine | None | Serverless / External |
-| **Task Scheduler** | Native Cron Engine | None | External Cron |
-| **View Engine** | Preact + Inertia + SSR / Blade | None | JSX / Vue |
-| **Cold Boot Latency** | Persistent (~0ms) | Persistent | Serverless Cold Starts |
+Start with [Installation](/docs/installation), then read [Directory structure](/docs/directory-structure) and [Routing](/docs/routing).
